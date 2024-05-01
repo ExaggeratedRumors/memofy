@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TaskItemText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMaxTextSize">@dimen/text_min_small</item>
+        <item name="autoSizeMinTextSize">@dimen/text_max_small</item>
+    </style>
+
+</resources>
