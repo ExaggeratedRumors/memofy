@@ -1,6 +1,6 @@
 package com.ertools.memofy.model
 
-data class Task (
+data class TaskDTO (
     val id: Int,
     val title: String,
     val createdAt: String,

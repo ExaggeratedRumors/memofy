@@ -1,13 +1,17 @@
 package com.ertools.memofy.ui.task_list
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ertools.memofy.model.TaskDTO
+import com.ertools.memofy.model.TaskRepository
 
 class TaskListViewModel : ViewModel() {
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is task list Fragment"
+    private var tasksRepository = TaskRepository().apply {
+        this.fillData()
     }
+    var tasksList = MutableLiveData<List<TaskDTO>>()
 
-    val text: LiveData<String> = _text
+    init {
+        tasksList.value = tasksRepository.tasks
+    }
 }
