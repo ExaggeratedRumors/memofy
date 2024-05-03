@@ -37,7 +37,7 @@ class TaskListAdapter(
         }
 
         if(task.status == 1) {
-            view.itemTaskCardView.setBackgroundColor(context.getColor(R.color.purple_200))
+            view.itemTaskCardView.setBackgroundColor(context.getColor(R.color.on_secondary_variant))
         }
     }
 

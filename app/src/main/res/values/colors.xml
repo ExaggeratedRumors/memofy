@@ -3,9 +3,10 @@
     <color name="primary">#FFD763</color>
     <color name="on_primary">#FFFFFFFF</color>
     <color name="primary_alt">#BD8E06</color>
-    <color name="on_primary_alt">#FFFFFFFF</color>
+    <color name="on_primary_variant">#FFFFFFFF</color>
     <color name="secondary">#6C5A27</color>
     <color name="on_secondary">#FFFFFFFF</color>
+    <color name="on_secondary_variant">#A93CE6</color>
     <color name="surface">#80FFFFFF</color>
     <color name="on_surface">#F66262</color>
     <color name="surface_alt">#33FFFFFF</color>

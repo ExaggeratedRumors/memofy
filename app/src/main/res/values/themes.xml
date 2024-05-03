@@ -14,6 +14,7 @@
         <!-- Surface color. -->
         <item name="colorSurface">@color/surface</item>
         <item name="colorOnSurface">@color/on_surface</item>
+
         <!-- Background color. -->
         <item name="android:windowBackground">@color/background</item>
         <item name="colorOnBackground">@color/on_background</item>
