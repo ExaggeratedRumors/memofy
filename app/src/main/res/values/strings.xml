@@ -12,4 +12,5 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_task_list">Tasks</string>
     <string name="item_task_icon">Task icon</string>
+    <string name="app_bar_button_cd">Add task</string>
 </resources>
