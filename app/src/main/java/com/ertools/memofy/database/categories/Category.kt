@@ -1,4 +1,4 @@
-package com.ertools.memofy.database
+package com.ertools.memofy.database.categories
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

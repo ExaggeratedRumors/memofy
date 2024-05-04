@@ -1,4 +1,4 @@
-package com.ertools.memofy.database
+package com.ertools.memofy.database.tasks
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -13,6 +13,6 @@ data class Task (
     val description: String?,
     val status: Int?,
     val notification: Boolean?,
-    val category: String?,
+    val category: Int?,
     val attachment: String?
 )

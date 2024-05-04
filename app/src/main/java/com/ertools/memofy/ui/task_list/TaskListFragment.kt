@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ertools.memofy.databinding.FragmentTaskListBinding
+import com.ertools.memofy.model.MemofyApplication
 
 class TaskListFragment : Fragment() {
     private var _binding: FragmentTaskListBinding? = null
@@ -21,7 +22,10 @@ class TaskListFragment : Fragment() {
         _binding = FragmentTaskListBinding.inflate(inflater, container, false)
         binding.taskListRecycler.layoutManager = LinearLayoutManager(requireContext())
 
-        val taskListViewModel = ViewModelProvider(this)[TaskListViewModel::class.java]
+        val taskRepository = (requireContext().applicationContext as MemofyApplication).taskRepository
+        val taskListViewModel = ViewModelProvider(
+            this, TaskListViewModelFactory(taskRepository)
+        )[TaskListViewModel::class.java]
         taskListViewModel.tasksList.observe(viewLifecycleOwner) {
             val taskListAdapter = TaskListAdapter(requireContext(), it)
             binding.taskListRecycler.adapter = taskListAdapter

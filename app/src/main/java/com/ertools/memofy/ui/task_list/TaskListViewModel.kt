@@ -1,17 +1,33 @@
 package com.ertools.memofy.ui.task_list
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ertools.memofy.model.TaskDTO
-import com.ertools.memofy.model.TaskRepository
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.ertools.memofy.database.MemofyDatabase
+import com.ertools.memofy.database.categories.CategoryRepository
+import com.ertools.memofy.database.tasks.Task
+import com.ertools.memofy.database.tasks.TaskRepository
+import kotlinx.coroutines.launch
 
-class TaskListViewModel : ViewModel() {
-    private var tasksRepository = TaskRepository().apply {
-        this.fillData()
+class TaskListViewModel(
+    private val taskRepository: TaskRepository
+) : ViewModel() {
+    val tasksList = taskRepository.tasks.asLiveData()
+
+    fun insertTask(task: Task) = viewModelScope.launch {
+        taskRepository.insert(task)
     }
-    var tasksList = MutableLiveData<List<TaskDTO>>()
+}
 
-    init {
-        tasksList.value = tasksRepository.tasks
+class TaskListViewModelFactory(private val taskRepository: TaskRepository)
+    : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(TaskListViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return TaskListViewModel(taskRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

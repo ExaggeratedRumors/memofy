@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ertools.memofy.R
+import com.ertools.memofy.database.tasks.Task
 import com.ertools.memofy.databinding.ItemTaskListBinding
-import com.ertools.memofy.model.TaskDTO
 import com.google.android.material.snackbar.Snackbar
 
 class TaskListAdapter(
     private val context: Context,
-    private val tasks: List<TaskDTO>
+    private val tasks: List<Task>
 ) : RecyclerView.Adapter<TaskListAdapter.ItemTaskListHolder>() {
 
     inner class ItemTaskListHolder(var view: ItemTaskListBinding)
@@ -25,15 +25,15 @@ class TaskListAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemTaskListHolder, position: Int) {
-        val task: TaskDTO = tasks[position]
+        val task: Task = tasks[position]
         val view = holder.view
 
         view.itemTaskIcon.setImageResource(R.drawable.ic_task)
         view.itemTaskName.text = task.title
-        view.itemTaskCategory.text = task.category
+        view.itemTaskCategory.text = task.category.toString()
         view.itemTaskTime.text = task.finishedAt
         view.itemTaskCardView.setOnClickListener {
-            Snackbar.make(it, task.description, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(it, task.description?: "", Snackbar.LENGTH_SHORT).show()
         }
 
         if(task.status == 1) {
