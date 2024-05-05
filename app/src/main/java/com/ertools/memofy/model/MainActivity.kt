@@ -1,4 +1,4 @@
-package com.ertools.memofy
+package com.ertools.memofy.model
 
 import android.os.Bundle
 import android.view.Menu
@@ -9,10 +9,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.ertools.memofy.database.MemofyDatabase
-import com.ertools.memofy.database.tasks.Task
+import com.ertools.memofy.R
 import com.ertools.memofy.databinding.ActivityMainBinding
-import com.ertools.memofy.model.MemofyApplication
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -29,21 +27,21 @@ class MainActivity : AppCompatActivity() {
 
 
         /** Button configuration **/
-        binding.appBarMain.appBarButton.setOnClickListener {
-            /*(application as MemofyApplication).taskRepository.insert(
-                Task(
-                    null,
-                    "Task 1",
-                    "Description 1",
-                    "null",
-                    "null",
-                    0,
-                    false,
-                    0,
-                    "null"
-                )
-            )*/
-        }
+//        binding.appBarMain.appBarButton.setOnClickListener {
+//            /*(application as MemofyApplication).taskRepository.insert(
+//                Task(
+//                    null,
+//                    "Task 1",
+//                    "Description 1",
+//                    "null",
+//                    "null",
+//                    0,
+//                    false,
+//                    0,
+//                    "null"
+//                )
+//            )*/
+//        }
 
 
         /** App bar configuration **/
