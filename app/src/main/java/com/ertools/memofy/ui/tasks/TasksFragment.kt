@@ -25,8 +25,8 @@ class TasksFragment : Fragment() {
 
         val taskRepository = (requireContext().applicationContext as MemofyApplication).taskRepository
         val taskListViewModel = ViewModelProvider(
-            this, TaskListViewModelFactory(taskRepository)
-        )[TaskListViewModel::class.java]
+            this, TasksViewModelFactory(taskRepository)
+        )[TasksViewModel::class.java]
         taskListViewModel.tasksList.observe(viewLifecycleOwner) {
             val tasksAdapter = TasksAdapter(requireContext(), it)
             binding.tasksRecycler.adapter = tasksAdapter

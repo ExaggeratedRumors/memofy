@@ -8,7 +8,7 @@ import com.ertools.memofy.database.tasks.Task
 import com.ertools.memofy.database.tasks.TaskRepository
 import kotlinx.coroutines.launch
 
-class TaskListViewModel(
+class TasksViewModel(
     private val taskRepository: TaskRepository
 ) : ViewModel() {
     val tasksList = taskRepository.tasks.asLiveData()
@@ -18,13 +18,13 @@ class TaskListViewModel(
     }
 }
 
-class TaskListViewModelFactory(private val taskRepository: TaskRepository)
+class TasksViewModelFactory(private val taskRepository: TaskRepository)
     : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(TaskListViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(TasksViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return TaskListViewModel(taskRepository) as T
+            return TasksViewModel(taskRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

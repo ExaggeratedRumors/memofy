@@ -26,6 +26,7 @@
             android:hint="@string/task_title_hint"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:counterTextAppearance="@style/TaskItemText"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="@id/task_vertical_guideline"
@@ -104,23 +105,23 @@
         <DatePicker
             android:id="@+id/task_date_input"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:datePickerMode="spinner"
             android:calendarViewShown="false"
             app:layout_constraintTop_toBottomOf="@id/task_category_layout"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/task_time_input"
+            app:layout_constraintRight_toLeftOf="@id/task_time_input"
+            app:layout_constraintBottom_toTopOf="@id/task_save_button"
             />
 
         <TimePicker
             android:id="@+id/task_time_input"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:timePickerMode="spinner"
-            app:layout_constraintTop_toBottomOf="@id/task_date_input"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/task_category_layout"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/task_date_input"
             app:layout_constraintBottom_toTopOf="@id/task_save_button"
             />
 
