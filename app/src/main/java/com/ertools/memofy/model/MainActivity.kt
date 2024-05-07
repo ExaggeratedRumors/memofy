@@ -25,32 +25,13 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.appBarToolbar)
 
-
-        /** Button configuration **/
-//        binding.appBarMain.appBarButton.setOnClickListener {
-//            /*(application as MemofyApplication).taskRepository.insert(
-//                Task(
-//                    null,
-//                    "Task 1",
-//                    "Description 1",
-//                    "null",
-//                    "null",
-//                    0,
-//                    false,
-//                    0,
-//                    "null"
-//                )
-//            )*/
-//        }
-
-
         /** App bar configuration **/
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_task_list, R.id.nav_slideshow
+                R.id.nav_home, R.id.nav_tasks, R.id.nav_categories
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

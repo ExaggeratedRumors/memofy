@@ -1,5 +1,8 @@
 <resources>
+    <!-- Core -->
     <string name="app_name">memofy</string>
+
+    <!-- Navigation -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -7,9 +10,17 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Menu items -->
     <string name="menu_home">Home</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_task_list">Tasks</string>
-    <string name="item_task_icon">Task icon</string>
+    <string name="menu_categories">Categories</string>
+    <string name="menu_tasks">Tasks</string>
+
+    <!-- Content descriptions -->
     <string name="app_bar_button_cd">Add task</string>
+    <string name="task_icon_cd">Task</string>
+    <string name="task_image_cd">Task image</string>
+    <string name="task_title_hint">Task title</string>
+    <string name="task_date_hint">Date</string>
+    <string name="task_save_button">Save</string>
+    <string name="task_notification_text">Notification</string>
 </resources>

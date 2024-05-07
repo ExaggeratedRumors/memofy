@@ -1,4 +1,4 @@
-package com.ertools.memofy.ui.task_list
+package com.ertools.memofy.ui.tasks
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

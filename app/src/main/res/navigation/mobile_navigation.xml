@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_task_list"
-        android:name="com.ertools.memofy.ui.task_list.TaskListFragment"
-        android:label="@string/menu_task_list"
-        tools:layout="@layout/fragment_task_list" />
+        android:id="@+id/nav_tasks"
+        android:name="com.ertools.memofy.ui.tasks.TasksFragment"
+        android:label="@string/menu_tasks"
+        tools:layout="@layout/fragment_tasks" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.ertools.memofy.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_categories"
+        android:name="com.ertools.memofy.ui.categories.CategoriesFragment"
+        android:label="@string/menu_categories"
+        tools:layout="@layout/fragment_categories" />
 </navigation>
