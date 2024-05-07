@@ -76,6 +76,7 @@ class TaskFragment : Fragment() {
                 category,
                 "null"
             )
+            tasksViewModel.insertTask(task)
         }
     }
 
