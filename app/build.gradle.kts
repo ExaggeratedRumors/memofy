@@ -43,6 +43,8 @@ dependencies {
     /** Core **/
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.activity:activity-ktx:1.9.0")
+    implementation("androidx.fragment:fragment-ktx:1.7.0")
 
     /** Lifecicle **/
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
