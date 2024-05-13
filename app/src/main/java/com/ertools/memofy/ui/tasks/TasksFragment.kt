@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ertools.memofy.R
 import com.ertools.memofy.database.tasks.Task
 import com.ertools.memofy.databinding.FragmentTasksBinding
 import com.ertools.memofy.model.MemofyApplication
+import com.ertools.memofy.ui.task.TaskFragment
 
 class TasksFragment : Fragment() {
     private var _binding: FragmentTasksBinding? = null
@@ -24,17 +27,27 @@ class TasksFragment : Fragment() {
         binding.tasksRecycler.layoutManager = LinearLayoutManager(requireContext())
 
         val taskRepository = (requireContext().applicationContext as MemofyApplication).taskRepository
-        val taskListViewModel = ViewModelProvider(
+        val tasksViewModel = ViewModelProvider(
             this, TasksViewModelFactory(taskRepository)
         )[TasksViewModel::class.java]
-        taskListViewModel.tasksList.observe(viewLifecycleOwner) {
+
+        configureTasksAdapter(tasksViewModel)
+        configureAddTaskButton(tasksViewModel)
+        return binding.root
+    }
+
+    private fun configureTasksAdapter(tasksViewModel: TasksViewModel) {
+        tasksViewModel.tasksList.observe(viewLifecycleOwner) {
             val tasksAdapter = TasksAdapter(requireContext(), it)
             binding.tasksRecycler.adapter = tasksAdapter
         }
+    }
 
-        /** Button configuration **/
+    private fun configureAddTaskButton(tasksViewModel: TasksViewModel) {
         binding.tasksAddButton.setOnClickListener {
-            taskListViewModel.insertTask(
+            it.findNavController().navigate(R.id.nav_task)
+
+            /*tasksViewModel.insertTask(
                 Task(
                     null,
                     "Task 123",
@@ -46,10 +59,8 @@ class TasksFragment : Fragment() {
                     0,
                     "null"
                 )
-            )
+            )*/
         }
-
-        return binding.root
     }
 
     override fun onDestroyView() {

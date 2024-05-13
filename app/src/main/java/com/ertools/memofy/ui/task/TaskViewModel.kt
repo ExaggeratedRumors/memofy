@@ -7,10 +7,11 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.ertools.memofy.database.tasks.Task
 import com.ertools.memofy.utils.Utils
 
-class TaskViewModel {
+class TaskViewModel : ViewModel() {
     private val _selectedFileUri = MutableLiveData<Uri?>()
     val selectedFileUri: LiveData<Uri?> = _selectedFileUri
 
@@ -22,7 +23,6 @@ class TaskViewModel {
                 //doSomeOperations()
             }
         }
-
 
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)

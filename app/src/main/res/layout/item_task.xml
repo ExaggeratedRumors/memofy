@@ -26,7 +26,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_task"
+                app:srcCompat="@drawable/ic_task"
                 android:contentDescription="@string/task_icon_cd" />
 
             <TextView

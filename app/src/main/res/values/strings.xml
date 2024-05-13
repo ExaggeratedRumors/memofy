@@ -26,4 +26,5 @@
     <string name="task_description_hint">Description</string>
     <string name="task_page_title">Add task</string>
     <string name="task_category_hint">Category</string>
+    <string name="menu_task">Task</string>
 </resources>

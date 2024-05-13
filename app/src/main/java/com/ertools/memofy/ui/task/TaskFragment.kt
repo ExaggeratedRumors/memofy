@@ -34,9 +34,10 @@ class TaskFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTaskBinding.inflate(inflater, container, false)
+        val taskViewModel: TaskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
         configureCategory()
         configureTimePicker()
-        configureAttachButton()
+        configureAttachButton(taskViewModel)
         configureSaveButton()
         return binding.root
     }
@@ -57,10 +58,11 @@ class TaskFragment : Fragment() {
         autoCompleteTextView.setAdapter(adapter)
     }
 
-    private fun configureAttachButton() {
+    private fun configureAttachButton(taskViewModel: TaskViewModel) {
         binding.taskAttachButton.setOnClickListener {
             Toast.makeText(requireContext(), "Attach file", Toast.LENGTH_SHORT).show()
         }
+        taskViewModel.selectFile(this)
     }
 
     private fun configureSaveButton() {
