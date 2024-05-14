@@ -1,5 +1,6 @@
 package com.ertools.memofy.ui.task
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -75,6 +76,15 @@ class TaskFragment : Fragment() {
         taskViewModel.configureSelectFileLauncher(this)
         binding.taskAttachButton.setOnClickListener {
             taskViewModel.selectFile()
+        }
+
+        taskViewModel.selectedFileUri.observe(viewLifecycleOwner) {
+            if(it != null) {
+                binding.taskAttachButton.backgroundTintList = ColorStateList.valueOf(
+                    resources.getColor(R.color.success_button, null)
+                )
+                binding.taskAttachButton.setImageResource(R.drawable.ic_menu_gallery)
+            }
         }
     }
 
