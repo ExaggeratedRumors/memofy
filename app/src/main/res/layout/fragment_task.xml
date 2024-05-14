@@ -14,7 +14,7 @@
         android:layout_marginHorizontal="16dp"
         >
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/task_vertical_guideline"
+            android:id="@+id/task_right_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="@id/task_vertical_guideline"
+            app:layout_constraintRight_toRightOf="@id/task_right_guideline"
             app:layout_constraintBottom_toTopOf="@id/task_description_input"
             >
 
@@ -46,7 +46,7 @@
             android:layout_height="0dp"
             android:gravity="center|bottom"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/task_vertical_guideline"
+            app:layout_constraintLeft_toRightOf="@id/task_right_guideline"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toTopOf="@id/task_notification_switch"
             />
@@ -58,7 +58,7 @@
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@id/task_notification_text"
             app:layout_constraintBottom_toTopOf="@id/task_description_input"
-            app:layout_constraintLeft_toRightOf="@id/task_vertical_guideline"
+            app:layout_constraintLeft_toRightOf="@id/task_right_guideline"
             app:layout_constraintRight_toRightOf="parent"
             />
 

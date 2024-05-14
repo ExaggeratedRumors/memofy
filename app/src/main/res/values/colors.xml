@@ -8,8 +8,8 @@
     <color name="on_secondary">#FFFFFFFF</color>
     <color name="on_secondary_variant">#A93CE6</color>
     <color name="surface">#FFFFFF</color>
-    <color name="on_surface">#F66262</color>
-    <color name="surface_alt">#33FFFFFF</color>
+    <color name="on_surface">#302D2D</color>
+    <color name="surface_alt">#F8EAEA</color>
     <color name="background">#FFFFFF</color>
     <color name="on_background">#FFF6D0</color>
     <color name="success_button">#00FF00</color>
