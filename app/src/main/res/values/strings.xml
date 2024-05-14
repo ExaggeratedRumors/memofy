@@ -14,6 +14,8 @@
     <string name="menu_home">Home</string>
     <string name="menu_categories">Categories</string>
     <string name="menu_tasks">Tasks</string>
+    <string name="menu_task">Create new task</string>
+    <string name="menu_category">Create new category</string>
 
     <!-- Direction -->
     <string name="direction_task">TaskFragment</string>
