@@ -8,6 +8,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ertools.memofy.databinding.FragmentCategoriesBinding
+import com.ertools.memofy.model.MemofyApplication
+import com.ertools.memofy.ui.tasks.TasksViewModel
+import com.ertools.memofy.ui.tasks.TasksViewModelFactory
 
 class CategoriesFragment : Fragment() {
 
@@ -20,8 +23,10 @@ class CategoriesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val categoriesViewModel =
-            ViewModelProvider(this).get(CategoriesViewModel::class.java)
+        val categoryRepository = (requireContext().applicationContext as MemofyApplication).categoryRepository
+        val categoriesViewModel = ViewModelProvider(
+            this, CategoriesViewModelFactory(categoryRepository)
+        )[CategoriesViewModel::class.java]
 
         _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
         val root: View = binding.root

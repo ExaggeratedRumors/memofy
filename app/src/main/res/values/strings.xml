@@ -15,6 +15,12 @@
     <string name="menu_categories">Categories</string>
     <string name="menu_tasks">Tasks</string>
 
+    <!-- Direction -->
+    <string name="direction_task">TaskFragment</string>
+    <string name="direction_tasks">TasksFragment</string>
+    <string name="direction_categories">CategoriesFragment</string>
+    <string name="direction_category">CategoryFragment</string>
+
     <!-- Content descriptions -->
     <string name="app_bar_button_cd">Add task</string>
     <string name="task_icon_cd">Task</string>
@@ -26,5 +32,4 @@
     <string name="task_description_hint">Description</string>
     <string name="task_page_title">Add task</string>
     <string name="task_category_hint">Category</string>
-    <string name="menu_task">Task</string>
 </resources>

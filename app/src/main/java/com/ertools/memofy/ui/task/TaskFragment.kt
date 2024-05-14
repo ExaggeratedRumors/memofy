@@ -11,8 +11,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.ertools.memofy.R
 import com.ertools.memofy.database.tasks.Task
 import com.ertools.memofy.databinding.FragmentTaskBinding
+import com.ertools.memofy.model.MemofyApplication
 import com.ertools.memofy.ui.categories.CategoriesViewModel
+import com.ertools.memofy.ui.categories.CategoriesViewModelFactory
 import com.ertools.memofy.ui.tasks.TasksViewModel
+import com.ertools.memofy.ui.tasks.TasksViewModelFactory
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZoneOffset
@@ -21,12 +24,6 @@ import java.time.format.DateTimeFormatter
 class TaskFragment : Fragment() {
     private var _binding: FragmentTaskBinding? = null
     private val binding get() = _binding!!
-    private val tasksViewModel by lazy {
-        ViewModelProvider(this)[TasksViewModel::class.java]
-    }
-    private val categoriesViewModel by lazy {
-        ViewModelProvider(this)[CategoriesViewModel::class.java]
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,10 +32,26 @@ class TaskFragment : Fragment() {
     ): View {
         _binding = FragmentTaskBinding.inflate(inflater, container, false)
         val taskViewModel: TaskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
-        configureCategory()
+
+        val taskRepository = (requireContext().applicationContext as MemofyApplication).taskRepository
+        val tasksViewModel by lazy {
+            ViewModelProvider(
+                this, TasksViewModelFactory(taskRepository)
+            )[TasksViewModel::class.java]
+        }
+
+        val categoryRepository = (requireContext().applicationContext as MemofyApplication).categoryRepository
+        val categoriesViewModel by lazy {
+            ViewModelProvider(
+                this, CategoriesViewModelFactory(categoryRepository)
+            )[CategoriesViewModel::class.java]
+        }
+
+        configureCategory(categoriesViewModel)
         configureTimePicker()
         configureAttachButton(taskViewModel)
-        configureSaveButton()
+        configureSaveButton(taskViewModel, tasksViewModel, categoriesViewModel)
+
         return binding.root
     }
 
@@ -47,7 +60,7 @@ class TaskFragment : Fragment() {
         timePicker.setIs24HourView(true)
     }
 
-    private fun configureCategory() {
+    private fun configureCategory(categoriesViewModel: CategoriesViewModel) {
         val categories = categoriesViewModel.categoriesList.value ?: return
         val adapter = ArrayAdapter(
             requireContext(),
@@ -59,13 +72,17 @@ class TaskFragment : Fragment() {
     }
 
     private fun configureAttachButton(taskViewModel: TaskViewModel) {
+        taskViewModel.configureSelectFileLauncher(this)
         binding.taskAttachButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Attach file", Toast.LENGTH_SHORT).show()
+            taskViewModel.selectFile()
         }
-        taskViewModel.selectFile(this)
     }
 
-    private fun configureSaveButton() {
+    private fun configureSaveButton(
+        taskViewModel: TaskViewModel,
+        tasksViewModel: TasksViewModel,
+        categoriesViewModel: CategoriesViewModel
+    ) {
         val categories = categoriesViewModel.categoriesList.value
         binding.taskSaveButton.setOnClickListener {
             val title = binding.taskTitleInput.editText?.text.toString()
@@ -103,7 +120,7 @@ class TaskFragment : Fragment() {
                 0,
                 switch,
                 category,
-                "null"
+                taskViewModel.selectedFileUri.value.toString()
             )
 
             tasksViewModel.insertTask(task)

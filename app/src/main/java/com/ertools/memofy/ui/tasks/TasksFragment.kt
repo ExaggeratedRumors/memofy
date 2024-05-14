@@ -6,13 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ertools.memofy.R
-import com.ertools.memofy.database.tasks.Task
 import com.ertools.memofy.databinding.FragmentTasksBinding
 import com.ertools.memofy.model.MemofyApplication
-import com.ertools.memofy.ui.task.TaskFragment
 
 class TasksFragment : Fragment() {
     private var _binding: FragmentTasksBinding? = null
@@ -32,7 +30,7 @@ class TasksFragment : Fragment() {
         )[TasksViewModel::class.java]
 
         configureTasksAdapter(tasksViewModel)
-        configureAddTaskButton(tasksViewModel)
+        configureAddTaskButton()
         return binding.root
     }
 
@@ -43,23 +41,9 @@ class TasksFragment : Fragment() {
         }
     }
 
-    private fun configureAddTaskButton(tasksViewModel: TasksViewModel) {
+    private fun configureAddTaskButton() {
         binding.tasksAddButton.setOnClickListener {
-            it.findNavController().navigate(R.id.nav_task)
-
-            /*tasksViewModel.insertTask(
-                Task(
-                    null,
-                    "Task 123",
-                    "Description 1",
-                    "null",
-                    "null",
-                    0,
-                    false,
-                    0,
-                    "null"
-                )
-            )*/
+            findNavController().navigate(R.id.action_nav_tasks_to_nav_task)
         }
     }
 
