@@ -122,10 +122,11 @@ class TaskFragment : Fragment() {
         }?.id
         val switch = binding.taskNotificationSwitch.isChecked
         val day = binding.taskDateInput.dayOfMonth
-        val month = binding.taskDateInput.month
+        val month = "%02d".format(binding.taskDateInput.month)
         val year = binding.taskDateInput.year
         val hour = binding.taskTimeInput.hour
         val minute = binding.taskTimeInput.minute
+        println("TEST: $day-$month-$year $hour:$minute")
         val timestamp = LocalDate.parse(
             "$day-$month-$year $hour:$minute",
             DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
