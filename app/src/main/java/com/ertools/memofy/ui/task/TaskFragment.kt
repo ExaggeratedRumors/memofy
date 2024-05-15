@@ -23,6 +23,7 @@ import com.ertools.memofy.ui.categories.CategoriesViewModel
 import com.ertools.memofy.ui.categories.CategoriesViewModelFactory
 import com.ertools.memofy.ui.tasks.TasksViewModel
 import com.ertools.memofy.ui.tasks.TasksViewModelFactory
+import com.ertools.memofy.utils.timestampToTime
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZoneOffset
@@ -45,11 +46,12 @@ class TaskFragment : Fragment() {
         taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
 
         val taskRepository = (requireContext().applicationContext as MemofyApplication).taskRepository
+        val categoryRepository = (requireContext().applicationContext as MemofyApplication).categoryRepository
+
         tasksViewModel = ViewModelProvider(
-            this, TasksViewModelFactory(taskRepository)
+            this, TasksViewModelFactory(taskRepository, categoryRepository)
         )[TasksViewModel::class.java]
 
-        val categoryRepository = (requireContext().applicationContext as MemofyApplication).categoryRepository
         categoriesViewModel = ViewModelProvider(
             this, CategoriesViewModelFactory(categoryRepository)
         )[CategoriesViewModel::class.java]
@@ -87,7 +89,7 @@ class TaskFragment : Fragment() {
     }
 
     private fun configureCategory() {
-        val categories = categoriesViewModel.categoriesList.value ?: return
+        val categories = categoriesViewModel.categories.value ?: return
         val adapter = ArrayAdapter(
             requireContext(),
             R.layout.item_dropdown_menu,
@@ -106,7 +108,7 @@ class TaskFragment : Fragment() {
         taskViewModel.selectedFileUri.observe(viewLifecycleOwner) {
             if(it != null) {
                 binding.taskAttachButton.backgroundTintList = ColorStateList.valueOf(
-                    resources.getColor(R.color.success_button, null)
+                    resources.getColor(R.color.success, null)
                 )
                 binding.taskAttachButton.setImageResource(R.drawable.ic_menu_gallery)
             }
@@ -114,22 +116,21 @@ class TaskFragment : Fragment() {
     }
 
     private fun saveTask(): Boolean {
-        val categories = categoriesViewModel.categoriesList.value
+        val categories = categoriesViewModel.categories.value
         val title = binding.taskTitleInput.editText?.text.toString()
         val description = binding.taskDescriptionInput.editText?.text.toString()
         val category = categories?.first {
             it.name == binding.taskCategoryInput.text.toString()
         }?.id
         val switch = binding.taskNotificationSwitch.isChecked
-        val day = binding.taskDateInput.dayOfMonth
+        val day = "%02d".format(binding.taskDateInput.dayOfMonth)
         val month = "%02d".format(binding.taskDateInput.month)
-        val year = binding.taskDateInput.year
-        val hour = binding.taskTimeInput.hour
-        val minute = binding.taskTimeInput.minute
-        println("TEST: $day-$month-$year $hour:$minute")
+        val year = "%04d".format(binding.taskDateInput.year)
+        val hour = "%02d".format(binding.taskTimeInput.hour)
+        val minute = "%02d".format(binding.taskTimeInput.minute)
+        val date = "$day-$month-$year $hour:$minute"
         val timestamp = LocalDate.parse(
-            "$day-$month-$year $hour:$minute",
-            DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+            date, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
         ).atStartOfDay(ZoneId.of(ZoneOffset.UTC.id)).toInstant().toEpochMilli()
 
         if(timestamp < System.currentTimeMillis()) {
@@ -143,10 +144,9 @@ class TaskFragment : Fragment() {
         }
 
         val task = Task(
-            0,
             title,
-            "null",
-            "null",
+            timestampToTime(System.currentTimeMillis()),
+            date,
             description,
             0,
             switch,

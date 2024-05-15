@@ -19,4 +19,8 @@ interface CategoryDAO {
     suspend fun clear()
     @Query("select * from categories")
     fun select(): Flow<List<Category>>
+    @Query("select * from categories where id = :id")
+    fun selectById(id: Int): Flow<Category>
+    @Query("select count(*) from categories")
+    fun count(): Int
 }

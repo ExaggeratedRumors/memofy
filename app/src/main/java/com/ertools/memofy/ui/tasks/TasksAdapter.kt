@@ -3,6 +3,7 @@ package com.ertools.memofy.ui.tasks
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.ertools.memofy.R
 import com.ertools.memofy.database.tasks.Task
@@ -11,7 +12,8 @@ import com.google.android.material.snackbar.Snackbar
 
 class TasksAdapter(
     private val context: Context,
-    private val tasks: List<Task>
+    private val tasks: List<Task>,
+    private val tasksViewModel: TasksViewModel
 ) : RecyclerView.Adapter<TasksAdapter.ItemTaskListHolder>() {
 
     inner class ItemTaskListHolder(var view: ItemTaskBinding)
@@ -30,7 +32,18 @@ class TasksAdapter(
 
         view.taskIcon.setImageResource(R.drawable.ic_task)
         view.taskName.text = task.title
-        view.taskCategory.text = task.category.toString()
+
+        println("TEST3: ${tasksViewModel.categories.value}")
+        println("TEST4: ${tasksViewModel.tasks.value}")
+        println("TEST: ${task.category}, ${tasksViewModel.getCategory(task.category)}")
+
+        if(task.category != null) tasksViewModel.getCategory(task.category).let {
+            view.taskCategory.text = it?.name
+            view.taskCategory.setTextColor(
+                context.resources.getColor(it?.resourceColor?: R.color.on_surface, null)
+            )
+        }
+
         view.taskTime.text = task.finishedAt
         view.taskCardView.setOnClickListener {
             Snackbar.make(it, task.description?: "", Snackbar.LENGTH_SHORT).show()

@@ -19,4 +19,6 @@ interface TaskDAO {
     suspend fun clear()
     @Query("select * from tasks")
     fun select(): Flow<List<Task>>
+    @Query("select count(*) from tasks")
+    fun count(): Int
 }

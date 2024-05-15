@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
 class MemofyApplication : Application() {
-    val applicationScope = CoroutineScope(SupervisorJob())
+    private val applicationScope = CoroutineScope(SupervisorJob())
     val database by lazy { MemofyDatabase.getInstance(this, applicationScope) }
     val taskRepository by lazy { TaskRepository(database.taskDAO()) }
     val categoryRepository by lazy { CategoryRepository(database.categoryDAO()) }

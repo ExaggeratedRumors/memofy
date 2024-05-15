@@ -10,4 +10,9 @@ class CategoryRepository(private val categoryDao: CategoryDAO) {
     suspend fun insert(category: Category) {
         categoryDao.insert(category)
     }
+
+    @WorkerThread
+    fun get(id: Int): Flow<Category> {
+        return categoryDao.selectById(id)
+    }
 }

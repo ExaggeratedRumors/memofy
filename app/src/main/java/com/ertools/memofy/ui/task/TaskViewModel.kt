@@ -36,11 +36,5 @@ class TaskViewModel : ViewModel() {
             type = "*/*"
         }
         selectFileLauncher?.launch(intent)
-
-//        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-//        intent.addCategory(Intent.CATEGORY_OPENABLE)
-//        intent.type = "*/*"
-//
-//        fragment.startActivityForResult(intent, Utils.PICK_FILE_REQUEST_CODE)
     }
 }

@@ -5,8 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName="tasks")
 data class Task (
-    @PrimaryKey(autoGenerate = true)
-    val id: Int?,
     val title: String?,
     val createdAt: String?,
     val finishedAt: String?,
@@ -15,4 +13,7 @@ data class Task (
     val notification: Boolean?,
     val category: Int?,
     val attachment: String?
-)
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}

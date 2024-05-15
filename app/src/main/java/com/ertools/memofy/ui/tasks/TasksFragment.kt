@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ertools.memofy.R
 import com.ertools.memofy.databinding.FragmentTasksBinding
 import com.ertools.memofy.model.MemofyApplication
+import kotlinx.coroutines.flow.collect
 
 class TasksFragment : Fragment() {
     private var _binding: FragmentTasksBinding? = null
@@ -25,8 +27,9 @@ class TasksFragment : Fragment() {
         binding.tasksRecycler.layoutManager = LinearLayoutManager(requireContext())
 
         val taskRepository = (requireContext().applicationContext as MemofyApplication).taskRepository
+        val categoryRepository = (requireContext().applicationContext as MemofyApplication).categoryRepository
         val tasksViewModel = ViewModelProvider(
-            this, TasksViewModelFactory(taskRepository)
+            this, TasksViewModelFactory(taskRepository, categoryRepository)
         )[TasksViewModel::class.java]
 
         configureTasksAdapter(tasksViewModel)
@@ -35,8 +38,12 @@ class TasksFragment : Fragment() {
     }
 
     private fun configureTasksAdapter(tasksViewModel: TasksViewModel) {
-        tasksViewModel.tasksList.observe(viewLifecycleOwner) {
-            val tasksAdapter = TasksAdapter(requireContext(), it)
+        tasksViewModel.tasks.observe(viewLifecycleOwner) {
+            val tasksAdapter = TasksAdapter(
+                requireContext(),
+                it,
+                tasksViewModel
+            )
             binding.tasksRecycler.adapter = tasksAdapter
         }
     }
