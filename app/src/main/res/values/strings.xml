@@ -35,4 +35,5 @@
     <string name="task_category_hint">Category</string>
     <string name="action_save">Save</string>
     <string name="action_search">Search</string>
+    <string name="template">Template</string>
 </resources>

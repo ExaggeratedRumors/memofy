@@ -5,4 +5,4 @@
     android:padding="16dp"
     android:gravity="center"
     android:maxLines="1"
-    android:textAppearance="@style/TaskItemText" />
+    android:textAppearance="@style/MediumText" />

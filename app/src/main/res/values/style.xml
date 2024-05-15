@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="TaskItemText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
-        <item name="autoSizeTextType">uniform</item>
-        <item name="autoSizeMaxTextSize">@dimen/text_min_small</item>
-        <item name="autoSizeMinTextSize">@dimen/text_max_small</item>
+    <style name="SmallText" parent="TextAppearance.AppCompat.Small">
+        <item name="android:autoSizeTextType">uniform</item>
+        <item name="android:autoSizeMinTextSize">@dimen/text_min_small</item>
+        <item name="android:autoSizeMaxTextSize">@dimen/text_max_small</item>
+        <item name="android:textColor">@color/on_surface</item>
     </style>
+
+    <style name="MediumText" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:autoSizeTextType">uniform</item>
+        <item name="android:autoSizeMinTextSize">@dimen/text_min_medium</item>
+        <item name="android:autoSizeMaxTextSize">@dimen/text_max_medium</item>
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+
+    <style name="BigText" parent="TextAppearance.AppCompat.Large">
+        <item name="android:autoSizeTextType">uniform</item>
+        <item name="android:autoSizeMinTextSize">@dimen/text_min_big</item>
+        <item name="android:autoSizeMaxTextSize">@dimen/text_max_big</item>
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+
 
 </resources>
