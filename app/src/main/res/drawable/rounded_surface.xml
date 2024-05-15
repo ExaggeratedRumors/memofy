@@ -10,8 +10,8 @@
         android:bottomRightRadius="50dp"/>
 
     <gradient
-        android:startColor="@color/surface_alt"
-        android:endColor="@color/surface_alt"
+        android:startColor="@color/surface"
+        android:endColor="@color/surface"
         android:angle="120"/>
 
 </shape>

@@ -37,7 +37,7 @@ class TasksAdapter(
         }
 
         if(task.status == 1) {
-            view.taskCardView.setBackgroundColor(context.getColor(R.color.on_secondary_variant))
+            view.taskCardView.setBackgroundColor(context.getColor(R.color.primary_variant))
         }
     }
 
