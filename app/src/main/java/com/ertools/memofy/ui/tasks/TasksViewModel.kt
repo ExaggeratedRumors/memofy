@@ -1,10 +1,12 @@
 package com.ertools.memofy.ui.tasks
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.ertools.memofy.database.categories.Category
 import com.ertools.memofy.database.categories.CategoryRepository
 import com.ertools.memofy.database.tasks.Task
 import com.ertools.memofy.database.tasks.TaskRepository
@@ -14,11 +16,19 @@ class TasksViewModel(
     private val taskRepository: TaskRepository,
     private val categoryRepository: CategoryRepository
 ) : ViewModel() {
-    val tasks = taskRepository.tasks.asLiveData()
+    private val selectedCategory = MutableLiveData<String?>()
     val categories = categoryRepository.categories.asLiveData()
+    val tasks = selectedCategory.switchMap {
+        if(it == null) taskRepository.tasks.asLiveData()
+        else taskRepository.selectByCategory(it).asLiveData()
+    }
 
     fun insertTask(task: Task) = viewModelScope.launch {
         taskRepository.insert(task)
+    }
+
+    fun changeSelectedCategory(category: String?) {
+        selectedCategory.value = category
     }
 }
 

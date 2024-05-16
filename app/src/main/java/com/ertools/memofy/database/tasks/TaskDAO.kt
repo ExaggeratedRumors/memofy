@@ -17,8 +17,10 @@ interface TaskDAO {
     suspend fun update(task: Task)
     @Query("delete from tasks")
     suspend fun clear()
-    @Query("select * from tasks")
+    @Query("select * from tasks order by finishedAt asc")
     fun select(): Flow<List<Task>>
     @Query("select count(*) from tasks")
     fun count(): Int
+    @Query("select * from tasks where category = :category order by finishedAt asc")
+    fun selectByCategory(category: String): Flow<List<Task>>
 }

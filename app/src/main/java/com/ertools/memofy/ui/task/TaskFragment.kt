@@ -67,7 +67,6 @@ class TaskFragment : Fragment() {
     private fun configureMenu() {
         requireActivity().addMenuProvider(object: MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menu.findItem(R.id.action_search).isVisible = false
                 menu.findItem(R.id.action_settings).isVisible = false
                 menuInflater.inflate(R.menu.form, menu)
             }

@@ -38,6 +38,6 @@
     <string name="template">Unknown</string>
     <string name="app_category_button_cd">Add category</string>
     <string name="task_attachments_text">Attachments</string>
-    <string name="action_filter">Everything</string>
+    <string name="action_filter">Filter</string>
     <string name="menu_category_filter_cd">Filter category</string>
 </resources>
