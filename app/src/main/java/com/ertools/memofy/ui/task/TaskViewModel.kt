@@ -4,14 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ertools.memofy.database.tasks.Task
-import com.ertools.memofy.utils.Utils
 
 class TaskViewModel : ViewModel() {
     private val _selectedFileUri = MutableLiveData<Uri?>()

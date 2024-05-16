@@ -17,20 +17,6 @@ class TasksViewModel(
     val tasks = taskRepository.tasks.asLiveData()
     val categories = categoryRepository.categories.asLiveData()
 
-    fun getCategory(id: Int?): Category? {
-        if(id == null) return null
-        val p = categoryRepository.get(id).asLiveData().value
-        println("TEST: Request $id, got: ${p?.id}")
-        return p
-    }
-
-    fun getCategoryByName(name: String?): Category? {
-        if(name == null) return null
-        val p = categoryRepository.getByName(name).asLiveData().value
-        println("TEST: Request $name, got: ${p?.name}")
-        return p
-    }
-
     fun insertTask(task: Task) = viewModelScope.launch {
         taskRepository.insert(task)
     }

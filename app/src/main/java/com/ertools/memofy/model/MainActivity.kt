@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ertools.memofy.R
 import com.ertools.memofy.databinding.ActivityMainBinding
+import com.ertools.memofy.utils.Utils
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        this.deleteDatabase(Utils.DATABASE_NAME)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

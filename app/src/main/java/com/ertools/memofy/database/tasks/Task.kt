@@ -11,7 +11,7 @@ data class Task (
     val description: String?,
     val status: Int?,
     val notification: Boolean?,
-    val category: Int?,
+    val category: String?,
     val attachment: String?
 ) {
     @PrimaryKey(autoGenerate = true)

@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.MultiAutoCompleteTextView
 import android.widget.Toast
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -89,14 +90,16 @@ class TaskFragment : Fragment() {
     }
 
     private fun configureCategory() {
-        val categories = categoriesViewModel.categories.value ?: return
-        val adapter = ArrayAdapter(
-            requireContext(),
-            R.layout.item_dropdown_menu,
-            categories.toMutableList()
-        )
-        val autoCompleteTextView = binding.taskCategoryInput
-        autoCompleteTextView.setAdapter(adapter)
+        tasksViewModel.categories.observe(viewLifecycleOwner) {
+            val names = it.map { category -> category.name }.toMutableList()
+            val adapter = ArrayAdapter(
+                requireContext(),
+                R.layout.item_dropdown_menu,
+                names
+            )
+            val autoCompleteTextView = binding.taskCategoryInput
+            autoCompleteTextView.setAdapter(adapter)
+        }
     }
 
     private fun configureAttachButton() {
@@ -116,12 +119,9 @@ class TaskFragment : Fragment() {
     }
 
     private fun saveTask(): Boolean {
-        val categories = categoriesViewModel.categories.value
         val title = binding.taskTitleInput.editText?.text.toString()
         val description = binding.taskDescriptionInput.editText?.text.toString()
-        val category = categories?.first {
-            it.name == binding.taskCategoryInput.text.toString()
-        }?.id
+        val category = binding.taskCategoryInput.text.toString()
         val switch = binding.taskNotificationSwitch.isChecked
         val day = "%02d".format(binding.taskDateInput.dayOfMonth)
         val month = "%02d".format(binding.taskDateInput.month)
@@ -130,9 +130,6 @@ class TaskFragment : Fragment() {
         val minute = "%02d".format(binding.taskTimeInput.minute)
         val date = "$day-$month-$year $hour:$minute"
 
-
-        val cat = tasksViewModel.getCategoryByName(binding.taskCategoryInput.text.toString())
-        println("TEST10: $cat")
         val timestamp = LocalDate.parse(
             date, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
         ).atStartOfDay(ZoneId.of(ZoneOffset.UTC.id)).toInstant().toEpochMilli()
