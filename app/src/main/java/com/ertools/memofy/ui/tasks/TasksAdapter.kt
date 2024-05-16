@@ -3,18 +3,18 @@ package com.ertools.memofy.ui.tasks
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.ertools.memofy.R
+import com.ertools.memofy.database.categories.Category
 import com.ertools.memofy.database.tasks.Task
 import com.ertools.memofy.databinding.ItemTaskBinding
 import com.google.android.material.snackbar.Snackbar
 
 class TasksAdapter(
-    private val context: Context,
-    private val tasks: List<Task>,
-    private val tasksViewModel: TasksViewModel
+    private val context: Context
 ) : RecyclerView.Adapter<TasksAdapter.ItemTaskListHolder>() {
+    private var tasks: List<Task> = emptyList()
+    private var categories: List<Category> = emptyList()
 
     inner class ItemTaskListHolder(var view: ItemTaskBinding)
         : RecyclerView.ViewHolder(view.root)
@@ -33,14 +33,11 @@ class TasksAdapter(
         view.taskIcon.setImageResource(R.drawable.ic_task)
         view.taskName.text = task.title
 
-        println("TEST3: ${tasksViewModel.categories.value}")
-        println("TEST4: ${tasksViewModel.tasks.value}")
-        println("TEST: ${task.category}, ${tasksViewModel.getCategory(task.category)}")
 
-        if(task.category != null) tasksViewModel.getCategory(task.category).let {
-            view.taskCategory.text = it?.name
+        categories.firstOrNull { it.id == task.category }?.let {
+            view.taskCategory.text = it.name
             view.taskCategory.setTextColor(
-                context.resources.getColor(it?.resourceColor?: R.color.on_surface, null)
+                context.resources.getColor(it.resourceColor?: R.color.on_surface, null)
             )
         }
 
@@ -52,6 +49,16 @@ class TasksAdapter(
         if(task.status == 1) {
             view.taskCardView.setBackgroundColor(context.getColor(R.color.primary_variant))
         }
+    }
+
+    fun submitTasks(newTasks: List<Task>) {
+        tasks = newTasks
+        notifyDataSetChanged()
+    }
+
+    fun submitCategories(newCategories: List<Category>) {
+        categories = newCategories
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

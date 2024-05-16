@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
@@ -21,6 +22,10 @@ interface CategoryDAO {
     fun select(): Flow<List<Category>>
     @Query("select * from categories where id = :id")
     fun selectById(id: Int): Flow<Category>
+    @Transaction
+    @Query("select * from categories where name = :name")
+    fun selectByName(name: String): Flow<Category>
+
     @Query("select count(*) from categories")
     fun count(): Int
 }

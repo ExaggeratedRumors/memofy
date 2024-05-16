@@ -38,13 +38,13 @@ class TasksFragment : Fragment() {
     }
 
     private fun configureTasksAdapter(tasksViewModel: TasksViewModel) {
+        val tasksAdapter = TasksAdapter(requireContext())
+        binding.tasksRecycler.adapter = tasksAdapter
         tasksViewModel.tasks.observe(viewLifecycleOwner) {
-            val tasksAdapter = TasksAdapter(
-                requireContext(),
-                it,
-                tasksViewModel
-            )
-            binding.tasksRecycler.adapter = tasksAdapter
+            tasksAdapter.submitTasks(it)
+        }
+        tasksViewModel.categories.observe(viewLifecycleOwner) {
+            tasksAdapter.submitCategories(it)
         }
     }
 

@@ -129,6 +129,10 @@ class TaskFragment : Fragment() {
         val hour = "%02d".format(binding.taskTimeInput.hour)
         val minute = "%02d".format(binding.taskTimeInput.minute)
         val date = "$day-$month-$year $hour:$minute"
+
+
+        val cat = tasksViewModel.getCategoryByName(binding.taskCategoryInput.text.toString())
+        println("TEST10: $cat")
         val timestamp = LocalDate.parse(
             date, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
         ).atStartOfDay(ZoneId.of(ZoneOffset.UTC.id)).toInstant().toEpochMilli()

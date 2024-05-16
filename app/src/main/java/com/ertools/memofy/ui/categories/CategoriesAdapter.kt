@@ -27,7 +27,6 @@ class CategoriesAdapter(
     override fun onBindViewHolder(holder: ItemCategoryHolder, position: Int) {
         val category: Category = categories[position]
         val view = holder.view
-        println("TEST5: ${categories}")
 
         view.categoryName.text = category.name
         if(category.resourceColor != null)

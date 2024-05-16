@@ -15,4 +15,9 @@ class CategoryRepository(private val categoryDao: CategoryDAO) {
     fun get(id: Int): Flow<Category> {
         return categoryDao.selectById(id)
     }
+
+    @WorkerThread
+    fun getByName(name: String): Flow<Category> {
+        return categoryDao.selectByName(name)
+    }
 }
