@@ -1,3 +1,10 @@
+# TODO
+- menu filtrowania
+- recycler view attatchmentów
+- checkbox przy tasku
+
+
+
 Aplikacja realizuje funkcjonalność listy zadań do wykonania. Użytkownik ma możliwość tworzenia,
 usuwania i edycji zadań zgodnie z poniższymi wymaganiami. Utworzone zadania przechowywane są w
 bazie danych w pamięci urządzenia. Aplikacja informuje o zbliżającym się terminie wykonania zadania

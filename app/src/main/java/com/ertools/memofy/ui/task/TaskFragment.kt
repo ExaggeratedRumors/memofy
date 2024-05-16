@@ -113,7 +113,7 @@ class TaskFragment : Fragment() {
                 binding.taskAttachButton.backgroundTintList = ColorStateList.valueOf(
                     resources.getColor(R.color.success, null)
                 )
-                binding.taskAttachButton.setImageResource(R.drawable.ic_menu_gallery)
+                binding.taskAttachButton.setImageResource(R.drawable.ic_attachment_horizontal)
             }
         }
     }
