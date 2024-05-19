@@ -7,4 +7,7 @@ object Utils {
 
     /** Codes **/
     const val PICK_FILE_REQUEST_CODE = 100
+
+    /** Externals **/
+    const val ATTACHMENTS_DIRECTORY = "attachments"
 }
