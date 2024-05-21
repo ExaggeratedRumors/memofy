@@ -1,9 +1,8 @@
 package com.ertools.memofy.model
 
 import android.app.Application
-import com.ertools.memofy.database.MemofyDatabase
-import com.ertools.memofy.database.categories.CategoryRepository
-import com.ertools.memofy.database.tasks.TaskRepository
+import com.ertools.memofy.model.categories.CategoryRepository
+import com.ertools.memofy.model.tasks.TaskRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 

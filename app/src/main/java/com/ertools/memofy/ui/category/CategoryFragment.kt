@@ -1,6 +1,5 @@
-package com.ertools.memofy.ui.task
+package com.ertools.memofy.ui.category
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -8,7 +7,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -16,25 +14,23 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ertools.memofy.R
+import com.ertools.memofy.databinding.FragmentCategoryBinding
 import com.ertools.memofy.model.tasks.Task
 import com.ertools.memofy.databinding.FragmentTaskBinding
 import com.ertools.memofy.model.MemofyApplication
 import com.ertools.memofy.ui.categories.CategoriesViewModel
 import com.ertools.memofy.ui.categories.CategoriesViewModelFactory
-import com.ertools.memofy.ui.tasks.TasksViewModel
-import com.ertools.memofy.ui.tasks.TasksViewModelFactory
 import com.ertools.memofy.utils.timestampToTime
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-class TaskFragment : Fragment() {
-    private var _binding: FragmentTaskBinding? = null
+class CategoryFragment : Fragment() {
+    private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var taskViewModel: TaskViewModel
-    private lateinit var tasksViewModel: TasksViewModel
+    private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var categoriesViewModel: CategoriesViewModel
 
     override fun onCreateView(
@@ -42,24 +38,15 @@ class TaskFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTaskBinding.inflate(inflater, container, false)
-        taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
+        _binding = FragmentCategoryBinding.inflate(inflater, container, false)
+        categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
 
-        val taskRepository = (requireContext().applicationContext as MemofyApplication).taskRepository
         val categoryRepository = (requireContext().applicationContext as MemofyApplication).categoryRepository
-
-        tasksViewModel = ViewModelProvider(
-            this, TasksViewModelFactory(taskRepository, categoryRepository)
-        )[TasksViewModel::class.java]
-
         categoriesViewModel = ViewModelProvider(
             this, CategoriesViewModelFactory(categoryRepository)
         )[CategoriesViewModel::class.java]
 
         configureMenu()
-        configureCategory()
-        configureTimePicker()
-        configureAttachButton()
         return binding.root
     }
 
@@ -74,7 +61,7 @@ class TaskFragment : Fragment() {
                 return when(menuItem.itemId) {
                     R.id.action_save -> {
                         Toast.makeText(requireContext(), "Save", Toast.LENGTH_SHORT).show()
-                        saveTask()
+                        saveCategory()
                     }
                     else -> false
                 }
@@ -82,42 +69,8 @@ class TaskFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-    private fun configureTimePicker() {
-        val timePicker = binding.taskTimeInput
-        timePicker.setIs24HourView(true)
-    }
-
-    private fun configureCategory() {
-        tasksViewModel.categories.observe(viewLifecycleOwner) {
-            val names = it.map { category -> category.name }.toMutableList()
-            val adapter = ArrayAdapter(
-                requireContext(),
-                R.layout.item_dropdown_menu,
-                names
-            )
-            val autoCompleteTextView = binding.taskCategoryInput
-            autoCompleteTextView.setAdapter(adapter)
-        }
-    }
-
-    private fun configureAttachButton() {
-        taskViewModel.configureSelectFileLauncher(this)
-        binding.taskAttachButton.setOnClickListener {
-            taskViewModel.selectFile()
-        }
-
-        taskViewModel.selectedFileUri.observe(viewLifecycleOwner) {
-            if(it != null) {
-                binding.taskAttachButton.backgroundTintList = ColorStateList.valueOf(
-                    resources.getColor(R.color.success, null)
-                )
-                binding.taskAttachButton.setImageResource(R.drawable.ic_attachment_horizontal)
-            }
-        }
-    }
-
-    private fun saveTask(): Boolean {
-        val title = binding.taskTitleInput.editText?.text.toString()
+    private fun saveCategory(): Boolean {
+        val name = binding.taskTitleInput.editText?.text.toString()
         val description = binding.taskDescriptionInput.editText?.text.toString()
         val category = binding.taskCategoryInput.text.toString()
         val switch = binding.taskNotificationSwitch.isChecked

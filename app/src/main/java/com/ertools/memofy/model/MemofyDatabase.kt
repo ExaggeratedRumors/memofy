@@ -1,4 +1,4 @@
-package com.ertools.memofy.database
+package com.ertools.memofy.model
 
 import android.content.Context
 import androidx.room.Database
@@ -6,10 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ertools.memofy.R
-import com.ertools.memofy.database.categories.Category
-import com.ertools.memofy.database.categories.CategoryDAO
-import com.ertools.memofy.database.tasks.Task
-import com.ertools.memofy.database.tasks.TaskDAO
+import com.ertools.memofy.model.categories.Category
+import com.ertools.memofy.model.categories.CategoryDAO
+import com.ertools.memofy.model.tasks.Task
+import com.ertools.memofy.model.tasks.TaskDAO
 import com.ertools.memofy.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

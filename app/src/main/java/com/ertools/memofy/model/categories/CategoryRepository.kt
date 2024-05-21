@@ -1,4 +1,4 @@
-package com.ertools.memofy.database.categories
+package com.ertools.memofy.model.categories
 
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.flow.Flow

@@ -1,4 +1,4 @@
-package com.ertools.memofy.database.tasks
+package com.ertools.memofy.model.tasks
 
 import androidx.room.Dao
 import androidx.room.Insert

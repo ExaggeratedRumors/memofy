@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ertools.memofy.R
-import com.ertools.memofy.database.categories.Category
-import com.ertools.memofy.database.tasks.Task
+import com.ertools.memofy.model.categories.Category
+import com.ertools.memofy.model.tasks.Task
 import com.ertools.memofy.databinding.ItemTaskBinding
 import com.google.android.material.snackbar.Snackbar
 

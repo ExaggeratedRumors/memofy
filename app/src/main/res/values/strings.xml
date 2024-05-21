@@ -40,4 +40,7 @@
     <string name="task_attachments_text">Attachments</string>
     <string name="action_filter">Filter</string>
     <string name="menu_category_filter_cd">Filter category</string>
+    <string name="category_title_hint">Category name</string>
+    <string name="category_color_label">Category color</string>
+    <string name="category_color_button">Pick color</string>
 </resources>

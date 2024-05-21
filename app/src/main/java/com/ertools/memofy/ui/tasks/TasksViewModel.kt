@@ -1,15 +1,14 @@
 package com.ertools.memofy.ui.tasks
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.ertools.memofy.database.categories.CategoryRepository
-import com.ertools.memofy.database.tasks.Task
-import com.ertools.memofy.database.tasks.TaskRepository
+import com.ertools.memofy.model.categories.CategoryRepository
+import com.ertools.memofy.model.tasks.Task
+import com.ertools.memofy.model.tasks.TaskRepository
 import kotlinx.coroutines.launch
 
 class TasksViewModel(
