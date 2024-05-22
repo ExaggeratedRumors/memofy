@@ -1,6 +1,7 @@
 package com.ertools.memofy.ui.tasks
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +37,9 @@ class TasksAdapter(
 
         categories.firstOrNull { it.name == task.category }?.let {
             view.taskCategory.text = it.name
-            view.taskCategory.setTextColor(it.resourceColor!!)
+            view.taskCategoryLayout.backgroundTintList = ColorStateList.valueOf(
+                it.color!!
+            )
         }
 
         view.taskTime.text = task.finishedAt

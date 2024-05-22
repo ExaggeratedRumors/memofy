@@ -28,8 +28,8 @@ class CategoriesAdapter(
         val view = holder.view
 
         view.categoryName.text = category.name
-        if(category.resourceColor != null)
-            view.categoryName.setTextColor(category.resourceColor)
+        if(category.color != null)
+            view.categoryName.setTextColor(category.color)
         //view.categoryName.setTextColor(context.resources.getColor(category.resourceColor, null))
 
         view.categoryCardView.setOnClickListener {

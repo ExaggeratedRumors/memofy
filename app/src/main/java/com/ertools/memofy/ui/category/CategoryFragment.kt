@@ -116,7 +116,6 @@ class CategoryFragment : Fragment() {
     private fun saveCategory(): Boolean {
         val title = binding.categoryTitleInput.editText?.text.toString()
         val color = getColor()
-        println("Color: $color")
 
         if(title.isEmpty()) {
             Toast.makeText(requireContext(), "Invalid title", Toast.LENGTH_SHORT).show()
