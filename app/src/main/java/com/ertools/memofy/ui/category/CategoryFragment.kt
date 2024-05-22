@@ -1,5 +1,6 @@
 package com.ertools.memofy.ui.category
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -7,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.core.view.MenuProvider
 import androidx.databinding.Bindable
@@ -28,9 +30,6 @@ class CategoryFragment : Fragment() {
 
     private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var categoriesViewModel: CategoriesViewModel
-    val selectedColorText = MutableLiveData<String>()
-    val selectedColor = MutableLiveData<Int>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,16 +70,53 @@ class CategoryFragment : Fragment() {
 
     private fun configureColorPicker() {
         binding.categoryColorRed.colorPickerName.text = "R"
+        binding.categoryColorRed.colorPickerBar.setOnSeekBarChangeListener(
+            object: SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    binding.categoryColorPreview.setBackgroundColor(getColor())
+                    binding.categoryColorRed.colorPickerValue.text = progress.toString()
+                }
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            }
+        )
+
         binding.categoryColorGreen.colorPickerName.text = "G"
+        binding.categoryColorGreen.colorPickerBar.setOnSeekBarChangeListener(
+            object: SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    binding.categoryColorPreview.setBackgroundColor(getColor())
+                    binding.categoryColorGreen.colorPickerValue.text = progress.toString()
+                }
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            }
+        )
+
         binding.categoryColorBlue.colorPickerName.text = "B"
+        binding.categoryColorBlue.colorPickerBar.setOnSeekBarChangeListener(
+            object: SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    binding.categoryColorPreview.setBackgroundColor(getColor())
+                    binding.categoryColorBlue.colorPickerValue.text = progress.toString()
+                }
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            }
+        )
+    }
+
+    private fun getColor(): Int {
+        val red = binding.categoryColorRed.colorPickerBar.progress
+        val green = binding.categoryColorGreen.colorPickerBar.progress
+        val blue = binding.categoryColorBlue.colorPickerBar.progress
+        return Color.parseColor(String.format("#%02X%02X%02X", red, green, blue))
     }
 
     private fun saveCategory(): Boolean {
         val title = binding.categoryTitleInput.editText?.text.toString()
-        val red = binding.categoryColorRed.colorPickerValue.text.toString().toInt()
-        val green = binding.categoryColorGreen.colorPickerValue.text.toString().toInt()
-        val blue = binding.categoryColorBlue.colorPickerValue.text.toString().toInt()
-        val color = android.graphics.Color.rgb(red, green, blue)
+        val color = getColor()
+        println("Color: $color")
 
         if(title.isEmpty()) {
             Toast.makeText(requireContext(), "Invalid title", Toast.LENGTH_SHORT).show()

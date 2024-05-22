@@ -29,7 +29,8 @@ class CategoriesAdapter(
 
         view.categoryName.text = category.name
         if(category.resourceColor != null)
-            view.categoryName.setTextColor(context.resources.getColor(category.resourceColor, null))
+            view.categoryName.setTextColor(category.resourceColor)
+        //view.categoryName.setTextColor(context.resources.getColor(category.resourceColor, null))
 
         view.categoryCardView.setOnClickListener {
             Snackbar.make(it, category.name?: "", Snackbar.LENGTH_SHORT).show()

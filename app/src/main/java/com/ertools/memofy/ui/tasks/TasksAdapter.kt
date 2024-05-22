@@ -36,9 +36,7 @@ class TasksAdapter(
 
         categories.firstOrNull { it.name == task.category }?.let {
             view.taskCategory.text = it.name
-            view.taskCategory.setTextColor(
-                context.resources.getColor(it.resourceColor?: R.color.on_surface, null)
-            )
+            view.taskCategory.setTextColor(it.resourceColor!!)
         }
 
         view.taskTime.text = task.finishedAt

@@ -170,8 +170,8 @@ abstract class MemofyDatabase : RoomDatabase() {
 
         suspend fun populateDatabase(categoryDao: CategoryDAO) {
             categoryDao.clear()
-            categoryDao.insert(Category("Work", R.color.success))
-            categoryDao.insert(Category("Study", R.color.failure))
+            categoryDao.insert(Category("Work", -7077888))
+            categoryDao.insert(Category("Study", -16711936))
         }
     }
 }
