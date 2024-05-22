@@ -23,6 +23,7 @@ import com.ertools.memofy.ui.categories.CategoriesViewModel
 import com.ertools.memofy.ui.categories.CategoriesViewModelFactory
 import com.ertools.memofy.ui.tasks.TasksViewModel
 import com.ertools.memofy.ui.tasks.TasksViewModelFactory
+import com.ertools.memofy.utils.serializable
 import com.ertools.memofy.utils.timestampToTime
 import java.time.LocalDate
 import java.time.ZoneId
@@ -36,12 +37,14 @@ class TaskFragment : Fragment() {
     private lateinit var taskViewModel: TaskViewModel
     private lateinit var tasksViewModel: TasksViewModel
     private lateinit var categoriesViewModel: CategoriesViewModel
+    private var task: Task? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        task = arguments?.serializable<Task>("task")
         _binding = FragmentTaskBinding.inflate(inflater, container, false)
         taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
 
@@ -60,6 +63,7 @@ class TaskFragment : Fragment() {
         configureCategory()
         configureTimePicker()
         configureAttachButton()
+        if(task != null) fillDataFromTask()
         return binding.root
     }
 
@@ -73,7 +77,6 @@ class TaskFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when(menuItem.itemId) {
                     R.id.action_save -> {
-                        Toast.makeText(requireContext(), "Save", Toast.LENGTH_SHORT).show()
                         saveTask()
                     }
                     else -> false
@@ -122,14 +125,14 @@ class TaskFragment : Fragment() {
         val category = binding.taskCategoryInput.text.toString()
         val switch = binding.taskNotificationSwitch.isChecked
         val day = "%02d".format(binding.taskDateInput.dayOfMonth)
-        val month = "%02d".format(binding.taskDateInput.month)
+        val month = "%02d".format(binding.taskDateInput.month + 1)
         val year = "%04d".format(binding.taskDateInput.year)
         val hour = "%02d".format(binding.taskTimeInput.hour)
         val minute = "%02d".format(binding.taskTimeInput.minute)
-        val date = "$day-$month-$year $hour:$minute"
+        val date = "$year-$month-$day $hour:$minute"
 
         val timestamp = LocalDate.parse(
-            date, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+            date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
         ).atStartOfDay(ZoneId.of(ZoneOffset.UTC.id)).toInstant().toEpochMilli()
 
         if(timestamp < System.currentTimeMillis()) {
@@ -158,4 +161,22 @@ class TaskFragment : Fragment() {
         return true
     }
 
+    private fun fillDataFromTask() {
+        if(task == null) return
+        binding.taskTitleInput.editText?.setText(task?.title)
+        binding.taskDescriptionInput.editText?.setText(task?.description)
+        binding.taskCategoryInput.setText(task?.category)
+        binding.taskNotificationSwitch.isChecked = task?.notification ?: false
+
+        /** Fill time **/
+        if(task?.finishedAt == null || task?.finishedAt!!.length < 10) return
+        binding.taskDateInput.updateDate(
+            task?.finishedAt?.substring(0, 4)?.toInt() ?: 0,
+            (task?.finishedAt?.substring(6, 7)?.toInt() ?: 1) - 1,
+            task?.finishedAt?.substring(9, 10)?.toInt() ?: 0
+        )
+        if(task?.finishedAt == null || task?.finishedAt!!.length < 16) return
+        binding.taskTimeInput.hour = task?.finishedAt?.substring(11, 13)?.toInt() ?: 0
+        binding.taskTimeInput.minute = task?.finishedAt?.substring(14, 16)?.toInt() ?: 0
+    }
 }

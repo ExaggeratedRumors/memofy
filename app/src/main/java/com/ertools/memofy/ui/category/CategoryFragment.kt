@@ -59,7 +59,6 @@ class CategoryFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when(menuItem.itemId) {
                     R.id.action_save -> {
-                        Toast.makeText(requireContext(), "Save", Toast.LENGTH_SHORT).show()
                         saveCategory()
                     }
                     else -> false

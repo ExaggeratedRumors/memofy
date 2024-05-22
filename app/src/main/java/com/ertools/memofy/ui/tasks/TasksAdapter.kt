@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.ertools.memofy.R
 import com.ertools.memofy.model.categories.Category
@@ -44,7 +47,8 @@ class TasksAdapter(
 
         view.taskTime.text = task.finishedAt
         view.taskCardView.setOnClickListener {
-            Snackbar.make(it, task.description?: "", Snackbar.LENGTH_SHORT).show()
+            val bundle = bundleOf("task" to task)
+            findNavController(view.root).navigate(R.id.action_nav_tasks_to_nav_task, bundle)
         }
 
         if(task.status == 1) {
