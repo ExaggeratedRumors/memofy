@@ -43,4 +43,6 @@
     <string name="category_title_hint">Category name</string>
     <string name="category_color_label">Category color</string>
     <string name="category_color_button">Pick color</string>
+    <string name="item_color_name_template">C</string>
+    <string name="item_color_value_template">0</string>
 </resources>

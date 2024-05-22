@@ -9,22 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.MenuProvider
+import androidx.databinding.Bindable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ertools.memofy.R
 import com.ertools.memofy.databinding.FragmentCategoryBinding
-import com.ertools.memofy.model.tasks.Task
-import com.ertools.memofy.databinding.FragmentTaskBinding
 import com.ertools.memofy.model.MemofyApplication
+import com.ertools.memofy.model.categories.Category
 import com.ertools.memofy.ui.categories.CategoriesViewModel
 import com.ertools.memofy.ui.categories.CategoriesViewModelFactory
-import com.ertools.memofy.utils.timestampToTime
-import java.time.LocalDate
-import java.time.ZoneId
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 
 class CategoryFragment : Fragment() {
     private var _binding: FragmentCategoryBinding? = null
@@ -32,6 +28,9 @@ class CategoryFragment : Fragment() {
 
     private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var categoriesViewModel: CategoriesViewModel
+    val selectedColorText = MutableLiveData<String>()
+    val selectedColor = MutableLiveData<Int>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +46,7 @@ class CategoryFragment : Fragment() {
         )[CategoriesViewModel::class.java]
 
         configureMenu()
+        configureColorPicker()
         return binding.root
     }
 
@@ -69,46 +69,29 @@ class CategoryFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
+    private fun configureColorPicker() {
+        binding.categoryColorRed.colorPickerName.text = "R"
+        binding.categoryColorGreen.colorPickerName.text = "G"
+        binding.categoryColorBlue.colorPickerName.text = "B"
+    }
+
     private fun saveCategory(): Boolean {
-        val name = binding.taskTitleInput.editText?.text.toString()
-        val description = binding.taskDescriptionInput.editText?.text.toString()
-        val category = binding.taskCategoryInput.text.toString()
-        val switch = binding.taskNotificationSwitch.isChecked
-        val day = "%02d".format(binding.taskDateInput.dayOfMonth)
-        val month = "%02d".format(binding.taskDateInput.month)
-        val year = "%04d".format(binding.taskDateInput.year)
-        val hour = "%02d".format(binding.taskTimeInput.hour)
-        val minute = "%02d".format(binding.taskTimeInput.minute)
-        val date = "$day-$month-$year $hour:$minute"
-
-        val timestamp = LocalDate.parse(
-            date, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
-        ).atStartOfDay(ZoneId.of(ZoneOffset.UTC.id)).toInstant().toEpochMilli()
-
-        if(timestamp < System.currentTimeMillis()) {
-            Toast.makeText(requireContext(), "Invalid date", Toast.LENGTH_SHORT).show()
-            return false
-        }
+        val title = binding.categoryTitleInput.editText?.text.toString()
+        val red = binding.categoryColorRed.colorPickerValue.text.toString().toInt()
+        val green = binding.categoryColorGreen.colorPickerValue.text.toString().toInt()
+        val blue = binding.categoryColorBlue.colorPickerValue.text.toString().toInt()
+        val color = android.graphics.Color.rgb(red, green, blue)
 
         if(title.isEmpty()) {
             Toast.makeText(requireContext(), "Invalid title", Toast.LENGTH_SHORT).show()
             return false
         }
-
-        val task = Task(
+        val category = Category(
             title,
-            timestampToTime(System.currentTimeMillis()),
-            date,
-            description,
-            0,
-            switch,
-            category,
-            taskViewModel.selectedFileUri.value.toString()
+            color
         )
-
-        tasksViewModel.insertTask(task)
-        findNavController().navigate(R.id.action_nav_task_to_nav_tasks)
+        categoriesViewModel.insertCategory(category)
+        findNavController().navigate(R.id.action_nav_category_to_nav_categories)
         return true
     }
-
 }

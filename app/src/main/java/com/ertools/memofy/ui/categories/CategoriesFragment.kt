@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ertools.memofy.R
 import com.ertools.memofy.databinding.FragmentCategoriesBinding
 import com.ertools.memofy.model.MemofyApplication
 
@@ -43,7 +45,7 @@ class CategoriesFragment : Fragment() {
 
     private fun configureAddCategoryButton() {
         binding.categoriesAddButton.setOnClickListener {
-            //findNavController().navigate(R.id.action_nav_tasks_to_nav_task)
+            findNavController().navigate(R.id.action_nav_categories_to_nav_category)
         }
     }
 

@@ -1,118 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".ui.category.CategoryFragment"
     >
 
-        <Space
-            android:id="@+id/category_space_1"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/category_surface"
-            />
+    <data>
+        <variable
+            name="viewModel"
+            type="com.ertools.memofy.ui.category.CategoryViewModel" />
+    </data>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/category_surface"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:background="@drawable/rounded_surface"
-            app:layout_constraintTop_toBottomOf="@id/category_surface"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/category_surface"
-            >
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/category_title_input"
-                android:hint="@string/category_title_hint"
-                android:layout_marginVertical="@dimen/form_margin"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:counterTextAppearance="@style/MediumText"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+            <Space
+                android:id="@+id/category_space_1"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/category_color_label"
+                app:layout_constraintBottom_toTopOf="@id/category_surface"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/category_surface"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="@drawable/rounded_surface"
+                app:layout_constraintTop_toBottomOf="@id/category_space_1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/category_space_2"
                 >
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:backgroundTint="@color/surface"
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_y1"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_y2"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.75"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/category_color_label"
-                android:text="@string/category_color_label"
-                android:textAppearance="@style/MediumText"
-                android:padding="@dimen/form_padding"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/category_title_input"
-                app:layout_constraintBottom_toTopOf="@+id/category_color_preview"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/category_title_input"
+                    android:hint="@string/category_title_hint"
+                    android:layout_marginVertical="@dimen/form_margin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:counterTextAppearance="@style/MediumText"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/category_color_label"
+                    >
 
-            <View
-                android:id="@+id/category_color_preview"
-                android:layout_marginVertical="@dimen/form_margin"
-                android:layout_width="@dimen/category_color_preview_size"
-                android:layout_height="@dimen/category_color_preview_size"
-                app:layout_constraintTop_toBottomOf="@id/category_color_label"
-                app:layout_constraintBottom_toTopOf="@+id/category_color_button"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="@color/surface"
+                        />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/category_color_button"
-                android:text="@string/category_color_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/category_color_preview"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/guideline_y1"
-                app:layout_constraintRight_toLeftOf="@id/guideline_y2"
-                />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_y1"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.25"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/category_color_label"
+                    android:text="@string/category_color_label"
+                    android:textAppearance="@style/MediumText"
+                    android:padding="@dimen/form_padding"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/category_title_input"
+                    app:layout_constraintBottom_toTopOf="@id/category_color_preview"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_y2"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.75"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                <View
+                    android:id="@+id/category_color_preview"
+                    android:layout_marginVertical="@dimen/form_margin"
+                    android:layout_width="@dimen/category_color_preview_size"
+                    android:layout_height="@dimen/category_color_preview_size"
+                    android:background="@color/primary"
+                    app:layout_constraintTop_toBottomOf="@id/category_color_label"
+                    app:layout_constraintBottom_toTopOf="@id/category_color_red"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    />
 
+                <include
+                    layout="@layout/item_color_picker"
+                    android:id="@+id/category_color_red"
+                    android:layout_marginVertical="@dimen/form_margin"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    app:layout_constraintTop_toBottomOf="@id/category_color_preview"
+                    app:layout_constraintBottom_toTopOf="@id/category_color_green"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <include
+                    layout="@layout/item_color_picker"
+                    android:id="@+id/category_color_green"
+                    android:layout_marginVertical="@dimen/form_margin"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    app:layout_constraintTop_toBottomOf="@id/category_color_red"
+                    app:layout_constraintBottom_toTopOf="@id/category_color_blue"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    />
 
-    <Space
-        android:id="@+id/category_space_2"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        app:layout_constraintTop_toBottomOf="@id/category_surface"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+                <include
+                    layout="@layout/item_color_picker"
+                    android:id="@+id/category_color_blue"
+                    android:layout_marginVertical="@dimen/form_margin"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    app:layout_constraintTop_toBottomOf="@id/category_color_green"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Space
+            android:id="@+id/category_space_2"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            app:layout_constraintTop_toBottomOf="@id/category_surface"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
