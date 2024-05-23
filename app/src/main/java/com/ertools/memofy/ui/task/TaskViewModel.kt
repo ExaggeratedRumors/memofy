@@ -10,6 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.switchMap
+import com.ertools.memofy.model.annexes.Annex
+import com.ertools.memofy.model.annexes.AnnexRepository
+import com.ertools.memofy.model.tasks.Task
+import com.ertools.memofy.model.tasks.TaskRepository
 import com.ertools.memofy.utils.Utils
 import java.io.BufferedInputStream
 import java.io.File
@@ -17,10 +23,22 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 
-class TaskViewModel : ViewModel() {
+class TaskViewModel(
+    private val annexRepository: AnnexRepository,
+): ViewModel() {
+    private val selectedTask = MutableLiveData<Task?>()
+    private val _selectedAnnexes =  selectedTask.switchMap {
+        if(it == null) MutableLiveData()
+        else annexRepository.getByTaskId(it.id!!).asLiveData()
+    }
+    val selectedAnnexes: LiveData<List<Annex>> = _selectedAnnexes
     private val _selectedFileUri = MutableLiveData<Uri?>()
     val selectedFileUri: LiveData<Uri?> = _selectedFileUri
     private var selectFileLauncher: ActivityResultLauncher<Intent>? = null
+
+    fun setTask(task: Task) {
+        selectedTask.value = task
+    }
 
     fun configureSelectFileLauncher(fragment: Fragment) {
         selectFileLauncher = fragment.registerForActivityResult(StartActivityForResult()) { result ->

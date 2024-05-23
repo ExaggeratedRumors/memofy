@@ -119,10 +119,23 @@ class TaskFragment : Fragment() {
         }
     }
 
+    private fun configureAttachments() {
+        binding.taskFilesRecycler
+        val uri = taskViewModel.selectedFileUri.value
+        if(uri != null) {
+            binding.taskAttachButton.backgroundTintList = ColorStateList.valueOf(
+                resources.getColor(R.color.success, null)
+            )
+            binding.taskAttachButton.setImageResource(R.drawable.ic_attachment_horizontal)
+        }
+    }
+
     private fun saveTask(): Boolean {
         val title = binding.taskTitleInput.editText?.text.toString()
         val description = binding.taskDescriptionInput.editText?.text.toString()
-        val category = binding.taskCategoryInput.text.toString()
+        val category = binding.taskCategoryInput.text.toString().let {
+            it.ifEmpty { null }
+        }
         val switch = binding.taskNotificationSwitch.isChecked
         val day = "%02d".format(binding.taskDateInput.dayOfMonth)
         val month = "%02d".format(binding.taskDateInput.month + 1)
