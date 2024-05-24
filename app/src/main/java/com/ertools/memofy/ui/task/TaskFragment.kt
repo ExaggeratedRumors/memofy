@@ -44,7 +44,6 @@ class TaskFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        task = arguments?.serializable<Task>("task")
         _binding = FragmentTaskBinding.inflate(inflater, container, false)
         taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
 
@@ -59,12 +58,34 @@ class TaskFragment : Fragment() {
             this, CategoriesViewModelFactory(categoryRepository)
         )[CategoriesViewModel::class.java]
 
+        fillDataByTask()
         configureMenu()
         configureCategory()
         configureTimePicker()
         configureAttachButton()
-        if(task != null) fillDataFromTask()
+        confitureAnnexes()
         return binding.root
+    }
+
+    private fun fillDataByTask() {
+        task = arguments?.serializable<Task>("task")
+        task?.let { taskViewModel.setTask(it) } ?: return
+
+        binding.taskTitleInput.editText?.setText(task?.title)
+        binding.taskDescriptionInput.editText?.setText(task?.description)
+        binding.taskCategoryInput.setText(task?.category)
+        binding.taskNotificationSwitch.isChecked = task?.notification ?: false
+
+        /** Fill time/data picker **/
+        if(task?.finishedAt == null || task?.finishedAt!!.length < 10) return
+        binding.taskDateInput.updateDate(
+            task?.finishedAt?.substring(0, 4)?.toInt() ?: 0,
+            (task?.finishedAt?.substring(6, 7)?.toInt() ?: 1) - 1,
+            task?.finishedAt?.substring(9, 10)?.toInt() ?: 0
+        )
+        if(task?.finishedAt == null || task?.finishedAt!!.length < 16) return
+        binding.taskTimeInput.hour = task?.finishedAt?.substring(11, 13)?.toInt() ?: 0
+        binding.taskTimeInput.minute = task?.finishedAt?.substring(14, 16)?.toInt() ?: 0
     }
 
     private fun configureMenu() {
@@ -109,8 +130,8 @@ class TaskFragment : Fragment() {
             taskViewModel.selectFile()
         }
 
-        taskViewModel.selectedFileUri.observe(viewLifecycleOwner) {
-            if(it != null) {
+        taskViewModel.selectedAnnexes.observe(viewLifecycleOwner) {
+            if(it.isNotEmpty()) {
                 binding.taskAttachButton.backgroundTintList = ColorStateList.valueOf(
                     resources.getColor(R.color.success, null)
                 )
@@ -119,14 +140,11 @@ class TaskFragment : Fragment() {
         }
     }
 
-    private fun configureAttachments() {
-        binding.taskFilesRecycler
-        val uri = taskViewModel.selectedFileUri.value
-        if(uri != null) {
-            binding.taskAttachButton.backgroundTintList = ColorStateList.valueOf(
-                resources.getColor(R.color.success, null)
-            )
-            binding.taskAttachButton.setImageResource(R.drawable.ic_attachment_horizontal)
+    private fun confitureAnnexes() {
+        val annexAdapter = AnnexAdapter(requireContext())
+        binding.taskFilesRecycler.adapter = annexAdapter
+        taskViewModel.selectedAnnexes.observe(viewLifecycleOwner) {
+            annexAdapter.submitAnnexes(it)
         }
     }
 
@@ -165,31 +183,12 @@ class TaskFragment : Fragment() {
             description,
             0,
             switch,
-            category,
-            taskViewModel.selectedFileUri.value.toString()
+            category
         )
 
+        taskViewModel.saveAnnexes()
         tasksViewModel.insertTask(task)
         findNavController().navigate(R.id.action_nav_task_to_nav_tasks)
         return true
-    }
-
-    private fun fillDataFromTask() {
-        if(task == null) return
-        binding.taskTitleInput.editText?.setText(task?.title)
-        binding.taskDescriptionInput.editText?.setText(task?.description)
-        binding.taskCategoryInput.setText(task?.category)
-        binding.taskNotificationSwitch.isChecked = task?.notification ?: false
-
-        /** Fill time **/
-        if(task?.finishedAt == null || task?.finishedAt!!.length < 10) return
-        binding.taskDateInput.updateDate(
-            task?.finishedAt?.substring(0, 4)?.toInt() ?: 0,
-            (task?.finishedAt?.substring(6, 7)?.toInt() ?: 1) - 1,
-            task?.finishedAt?.substring(9, 10)?.toInt() ?: 0
-        )
-        if(task?.finishedAt == null || task?.finishedAt!!.length < 16) return
-        binding.taskTimeInput.hour = task?.finishedAt?.substring(11, 13)?.toInt() ?: 0
-        binding.taskTimeInput.minute = task?.finishedAt?.substring(14, 16)?.toInt() ?: 0
     }
 }

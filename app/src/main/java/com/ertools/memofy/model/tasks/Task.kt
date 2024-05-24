@@ -12,8 +12,7 @@ data class Task (
     val description: String?,
     val status: Int?,
     val notification: Boolean?,
-    val category: String?,
-    val attachment: String?
+    val category: String?
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

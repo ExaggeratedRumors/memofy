@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName="annexes")
 data class Annex (
     val name: String?,
-    val sourcePath: Int?,
+    val sourcePath: String?,
     val taskId: Int?
 ) {
     @PrimaryKey(autoGenerate = true)

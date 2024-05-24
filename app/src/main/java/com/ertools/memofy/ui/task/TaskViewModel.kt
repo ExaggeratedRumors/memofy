@@ -1,7 +1,6 @@
 package com.ertools.memofy.ui.task
 
 import android.app.Activity
-import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
@@ -10,14 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import com.ertools.memofy.model.annexes.Annex
 import com.ertools.memofy.model.annexes.AnnexRepository
 import com.ertools.memofy.model.tasks.Task
-import com.ertools.memofy.model.tasks.TaskRepository
 import com.ertools.memofy.utils.Utils
-import java.io.BufferedInputStream
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -27,27 +24,35 @@ class TaskViewModel(
     private val annexRepository: AnnexRepository,
 ): ViewModel() {
     private val selectedTask = MutableLiveData<Task?>()
-    private val _selectedAnnexes =  selectedTask.switchMap {
-        if(it == null) MutableLiveData()
-        else annexRepository.getByTaskId(it.id!!).asLiveData()
-    }
-    val selectedAnnexes: LiveData<List<Annex>> = _selectedAnnexes
-    private val _selectedFileUri = MutableLiveData<Uri?>()
-    val selectedFileUri: LiveData<Uri?> = _selectedFileUri
-    private var selectFileLauncher: ActivityResultLauncher<Intent>? = null
+    private val _selectedAnnexes = MutableLiveData<ArrayList<Annex>>()
+    val selectedAnnexes: LiveData<ArrayList<Annex>> = _selectedAnnexes
+    private var filerLauncher: ActivityResultLauncher<Intent>? = null
 
-    fun setTask(task: Task) {
+    fun setTask(task: Task) = viewModelScope.launch {
         selectedTask.value = task
+        annexRepository.getByTaskId(task.id!!).collect { list ->
+            list.forEach { annex ->
+                _selectedAnnexes.value?.add(annex)
+            }
+        }
+    }
+
+    fun saveAnnexes() = viewModelScope.launch {
+        _selectedAnnexes.value?.forEach { annex ->
+            annexRepository.insert(annex)
+            saveFileToExternalStorage(Uri.parse(annex.sourcePath))
+        }
     }
 
     fun configureSelectFileLauncher(fragment: Fragment) {
-        selectFileLauncher = fragment.registerForActivityResult(StartActivityForResult()) { result ->
+        filerLauncher = fragment.registerForActivityResult(StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val selectedFileUri = data?.data
                 selectedFileUri?.let {
-                    _selectedFileUri.value = it
-                    saveFileToExternalStorage(it)
+                    _selectedAnnexes.value?.add(
+                        Annex(it.lastPathSegment, it.path, selectedTask.value?.id)
+                    )
                 }
             }
         }
@@ -58,7 +63,7 @@ class TaskViewModel(
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
         }
-        selectFileLauncher?.launch(intent)
+        filerLauncher?.launch(intent)
     }
 
     private fun saveFileToExternalStorage(uri: Uri) {

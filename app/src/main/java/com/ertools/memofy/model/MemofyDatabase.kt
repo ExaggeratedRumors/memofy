@@ -65,8 +65,7 @@ abstract class MemofyDatabase : RoomDatabase() {
                 "null",
                 0,
                 null,
-                "Work",
-                null
+                "Work"
             ))
             taskDao.insert(Task(
                 "Clean room",
@@ -75,8 +74,7 @@ abstract class MemofyDatabase : RoomDatabase() {
                 "Clear room",
                 0,
                 false,
-                "Work",
-                null
+                "Work"
             ))
             taskDao.insert(Task(
                 "Write CV",
@@ -85,8 +83,7 @@ abstract class MemofyDatabase : RoomDatabase() {
                 "Just send CV",
                 1,
                 false,
-                "Work",
-                null
+                "Work"
             ))
             taskDao.insert(Task(
                 "Buy milk",
@@ -95,8 +92,7 @@ abstract class MemofyDatabase : RoomDatabase() {
                 "Buy milk",
                 0,
                 false,
-                "Work",
-                null
+                "Work"
             ))
             taskDao.insert(Task(
                 "Buy bread",
@@ -105,8 +101,7 @@ abstract class MemofyDatabase : RoomDatabase() {
                 "Buy bread",
                 0,
                 false,
-                "Study",
-                null
+                "Study"
             ))
             taskDao.insert(Task(
                 "Buy eggs",
@@ -115,8 +110,7 @@ abstract class MemofyDatabase : RoomDatabase() {
                 "Buy eggs",
                 0,
                 false,
-                "Work",
-                null
+                "Work"
             ))
             taskDao.insert(Task(
                 "Buy butter",
@@ -125,8 +119,7 @@ abstract class MemofyDatabase : RoomDatabase() {
                 "Buy butter",
                 0,
                 false,
-                "Work",
-                null
+                "Work"
             ))
             taskDao.insert(Task(
                 "Buy cheese",
@@ -135,8 +128,7 @@ abstract class MemofyDatabase : RoomDatabase() {
                 "Buy cheese",
                 0,
                 false,
-                "Work",
-                null
+                "Work"
             ))
             taskDao.insert(Task(
                 "Buy ham",
@@ -145,8 +137,7 @@ abstract class MemofyDatabase : RoomDatabase() {
                 "Buy ham",
                 0,
                 false,
-                "Study",
-                null
+                "Study"
             ))
             taskDao.insert(Task(
                 "Buy sausage",
@@ -155,8 +146,7 @@ abstract class MemofyDatabase : RoomDatabase() {
                 "Buy sausage",
                 0,
                 false,
-                "Study",
-                null
+                "Study"
             ))
             taskDao.insert(Task(
                 "Buy bacon",
@@ -165,8 +155,7 @@ abstract class MemofyDatabase : RoomDatabase() {
                 "Buy bacon",
                 0,
                 false,
-                "Work",
-                null
+                "Work"
             ))
         }
 
