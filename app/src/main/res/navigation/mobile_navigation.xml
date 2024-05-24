@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_tasks" >
         <action
             android:id="@+id/action_nav_tasks_to_nav_task"
-            app:destination="@id/nav_task" />
+            app:destination="@id/nav_task"
+            app:popUpTo="@id/nav_tasks" />
+
     </fragment>
 
     <fragment
@@ -23,7 +25,8 @@
         >
         <action
             android:id="@+id/action_nav_task_to_nav_tasks"
-            app:destination="@id/nav_tasks" />
+            app:destination="@id/nav_tasks"
+            app:popUpTo="@id/nav_tasks" />
     </fragment>
 
     <fragment
@@ -33,20 +36,21 @@
         tools:layout="@layout/fragment_categories" >
         <action
             android:id="@+id/action_nav_categories_to_nav_category"
-            app:destination="@id/nav_category" />
-<!--            app:popUpTo="none"-->
+            app:destination="@id/nav_category"
+            app:popUpTo="@id/nav_categories" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_category"
         android:name="com.ertools.memofy.ui.category.CategoryFragment"
         android:label="@string/menu_category"
-        tools:layout="@layout/fragment_task"
+        tools:layout="@layout/fragment_category"
         >
         <action
             android:id="@+id/action_nav_category_to_nav_categories"
             app:destination="@id/nav_categories"
-            app:b ="false"/>
+            app:popUpTo="@id/nav_categories" />
+
     </fragment>
 
 </navigation>

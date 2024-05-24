@@ -24,7 +24,6 @@ class CategoriesFragment : Fragment() {
         _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
         binding.categoriesRecycler.layoutManager = LinearLayoutManager(requireContext())
 
-
         val categoryRepository = (requireContext().applicationContext as MemofyApplication).categoryRepository
         val categoriesViewModel = ViewModelProvider(
             this, CategoriesViewModelFactory(categoryRepository)

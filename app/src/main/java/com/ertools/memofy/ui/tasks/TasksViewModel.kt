@@ -26,6 +26,10 @@ class TasksViewModel(
         taskRepository.insert(task)
     }
 
+    fun updateTask(task: Task) = viewModelScope.launch {
+        taskRepository.update(task)
+    }
+
     fun changeSelectedCategory(category: String?) {
         selectedCategory.value = category
     }

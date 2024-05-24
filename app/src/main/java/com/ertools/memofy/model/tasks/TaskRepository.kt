@@ -12,6 +12,11 @@ class TaskRepository(private val taskDao: TaskDAO) {
     }
 
     @WorkerThread
+    suspend fun update(task: Task) {
+        taskDao.update(task)
+    }
+
+    @WorkerThread
     fun selectAll() = taskDao.select()
 
     @WorkerThread

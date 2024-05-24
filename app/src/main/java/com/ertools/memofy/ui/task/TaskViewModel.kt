@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.ertools.memofy.model.annexes.Annex
 import com.ertools.memofy.model.annexes.AnnexRepository
@@ -24,17 +25,25 @@ class TaskViewModel(
     private val annexRepository: AnnexRepository,
 ): ViewModel() {
     private val selectedTask = MutableLiveData<Task?>()
-    private val _selectedAnnexes = MutableLiveData<ArrayList<Annex>>()
-    val selectedAnnexes: LiveData<ArrayList<Annex>> = _selectedAnnexes
+    private val _selectedAnnexes: MutableLiveData<List<Annex>> by lazy {
+        MutableLiveData<List<Annex>>()
+    }
+    val annexes: LiveData<List<Annex>> = _selectedAnnexes
     private var filerLauncher: ActivityResultLauncher<Intent>? = null
+
+    init {
+        _selectedAnnexes.value = ArrayList()
+    }
 
     fun setTask(task: Task) = viewModelScope.launch {
         selectedTask.value = task
+        val annexes = ArrayList<Annex>()
         annexRepository.getByTaskId(task.id!!).collect { list ->
             list.forEach { annex ->
-                _selectedAnnexes.value?.add(annex)
+                annexes.add(annex)
             }
         }
+        _selectedAnnexes.setValue(annexes)
     }
 
     fun saveAnnexes() = viewModelScope.launch {
@@ -50,9 +59,9 @@ class TaskViewModel(
                 val data: Intent? = result.data
                 val selectedFileUri = data?.data
                 selectedFileUri?.let {
-                    _selectedAnnexes.value?.add(
-                        Annex(it.lastPathSegment, it.path, selectedTask.value?.id)
-                    )
+                    val annexes = _selectedAnnexes.value?.toMutableList()
+                    annexes?.add(Annex(it.lastPathSegment, it.path, selectedTask.value?.id))
+                    _selectedAnnexes.setValue(annexes)
                 }
             }
         }
@@ -84,5 +93,18 @@ class TaskViewModel(
         } catch (e: IOException) {
             e.printStackTrace()
         }
+    }
+}
+
+class TaskViewModelFactory(
+    private val annexRepository: AnnexRepository
+) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(TaskViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return TaskViewModel(annexRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

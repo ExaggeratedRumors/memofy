@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ertools.memofy.R
 import com.ertools.memofy.model.tasks.Task
 import com.ertools.memofy.databinding.FragmentTaskBinding
@@ -45,10 +46,14 @@ class TaskFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTaskBinding.inflate(inflater, container, false)
-        taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
 
         val taskRepository = (requireContext().applicationContext as MemofyApplication).taskRepository
         val categoryRepository = (requireContext().applicationContext as MemofyApplication).categoryRepository
+        val annexRepository = (requireContext().applicationContext as MemofyApplication).annexesRepository
+
+        taskViewModel = ViewModelProvider(
+                this, TaskViewModelFactory(annexRepository)
+        )[TaskViewModel::class.java]
 
         tasksViewModel = ViewModelProvider(
             this, TasksViewModelFactory(taskRepository, categoryRepository)
@@ -62,8 +67,8 @@ class TaskFragment : Fragment() {
         configureMenu()
         configureCategory()
         configureTimePicker()
-        configureAttachButton()
-        confitureAnnexes()
+        configureAnnexes()
+        configureAnnexes()
         return binding.root
     }
 
@@ -114,6 +119,7 @@ class TaskFragment : Fragment() {
     private fun configureCategory() {
         tasksViewModel.categories.observe(viewLifecycleOwner) {
             val names = it.map { category -> category.name }.toMutableList()
+            if(names.size > 0) binding.taskCategoryInput.setText(names[0], false)
             val adapter = ArrayAdapter(
                 requireContext(),
                 R.layout.item_dropdown_menu,
@@ -124,27 +130,31 @@ class TaskFragment : Fragment() {
         }
     }
 
-    private fun configureAttachButton() {
-        taskViewModel.configureSelectFileLauncher(this)
-        binding.taskAttachButton.setOnClickListener {
-            taskViewModel.selectFile()
-        }
-
-        taskViewModel.selectedAnnexes.observe(viewLifecycleOwner) {
+    private fun configureAnnexes() {
+        /** Recycler view **/
+        binding.taskFilesRecycler.layoutManager = LinearLayoutManager(requireContext())
+        taskViewModel.annexes.observe(viewLifecycleOwner) {
+            val annexAdapter = AnnexAdapter(requireContext(), it)
+            binding.taskFilesRecycler.adapter = annexAdapter
+            binding.taskFilesRecycler.isNestedScrollingEnabled = false
+            println("ANNEX TEST: ${it.size}/${annexAdapter.getItemCount()}")
             if(it.isNotEmpty()) {
                 binding.taskAttachButton.backgroundTintList = ColorStateList.valueOf(
                     resources.getColor(R.color.success, null)
                 )
                 binding.taskAttachButton.setImageResource(R.drawable.ic_attachment_horizontal)
+            } else {
+                binding.taskAttachButton.backgroundTintList = ColorStateList.valueOf(
+                    resources.getColor(R.color.primary, null)
+                )
+                binding.taskAttachButton.setImageResource(R.drawable.ic_attachment)
             }
         }
-    }
 
-    private fun confitureAnnexes() {
-        val annexAdapter = AnnexAdapter(requireContext())
-        binding.taskFilesRecycler.adapter = annexAdapter
-        taskViewModel.selectedAnnexes.observe(viewLifecycleOwner) {
-            annexAdapter.submitAnnexes(it)
+        /** Attach button **/
+        taskViewModel.configureSelectFileLauncher(this)
+        binding.taskAttachButton.setOnClickListener {
+            taskViewModel.selectFile()
         }
     }
 
@@ -176,7 +186,8 @@ class TaskFragment : Fragment() {
             return false
         }
 
-        val task = Task(
+        val isUpdate = task != null
+        task = Task(
             title,
             timestampToTime(System.currentTimeMillis()),
             date,
@@ -187,7 +198,9 @@ class TaskFragment : Fragment() {
         )
 
         taskViewModel.saveAnnexes()
-        tasksViewModel.insertTask(task)
+
+        if(isUpdate) tasksViewModel.updateTask(task!!)
+        else tasksViewModel.insertTask(task!!)
         findNavController().navigate(R.id.action_nav_task_to_nav_tasks)
         return true
     }

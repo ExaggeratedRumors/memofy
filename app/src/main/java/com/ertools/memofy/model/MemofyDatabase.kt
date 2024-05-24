@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ertools.memofy.R
+import com.ertools.memofy.model.annexes.Annex
 import com.ertools.memofy.model.annexes.AnnexDAO
 import com.ertools.memofy.model.categories.Category
 import com.ertools.memofy.model.categories.CategoryDAO
@@ -16,7 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities=[Task::class, Category::class], version=Utils.DATABASE_VERSION)
+@Database(entities=[Task::class, Category::class, Annex::class], version=Utils.DATABASE_VERSION)
 abstract class MemofyDatabase : RoomDatabase() {
     abstract fun taskDAO(): TaskDAO
     abstract fun categoryDAO(): CategoryDAO

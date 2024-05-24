@@ -8,9 +8,9 @@ import com.ertools.memofy.databinding.ItemAnnexBinding
 import com.ertools.memofy.model.annexes.Annex
 
 class AnnexAdapter(
-    private val context: Context
+    private val context: Context,
+    private var annexes: List<Annex>
 ) : RecyclerView.Adapter<AnnexAdapter.ItemAnnexHolder>() {
-    private var annexes: List<Annex> = emptyList()
 
     inner class ItemAnnexHolder(var view: ItemAnnexBinding)
         : RecyclerView.ViewHolder(view.root)
@@ -23,15 +23,11 @@ class AnnexAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemAnnexHolder, position: Int) {
+        println("ANNEX TEST, position: $position")
         val annex: Annex = annexes[position]
         val view = holder.view
 
         view.annexName.text = annex.name
-    }
-
-    fun submitAnnexes(newAnnex: List<Annex>) {
-        annexes = newAnnex
-        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
