@@ -10,6 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class CategoriesAdapter(
     private val context: Context,
+    private val viewModel: CategoriesViewModel,
     private val categories: List<Category>
 ) : RecyclerView.Adapter<CategoriesAdapter.ItemCategoryHolder>() {
 
@@ -28,12 +29,14 @@ class CategoriesAdapter(
         val view = holder.view
 
         view.categoryName.text = category.name
-        if(category.color != null)
-            view.categoryName.setTextColor(category.color)
-        //view.categoryName.setTextColor(context.resources.getColor(category.resourceColor, null))
+        if(category.color != null) view.categoryName.setTextColor(category.color)
 
         view.categoryCardView.setOnClickListener {
             Snackbar.make(it, category.name?: "", Snackbar.LENGTH_SHORT).show()
+        }
+
+        view.categoryDeleteButton.setOnClickListener {
+            viewModel.removeCategory(category)
         }
     }
 

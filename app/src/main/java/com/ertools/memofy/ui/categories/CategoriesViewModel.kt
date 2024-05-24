@@ -16,6 +16,10 @@ class CategoriesViewModel(
     fun insertCategory(category: Category) = viewModelScope.launch {
         categoryRepository.insert(category)
     }
+
+    fun removeCategory(category: Category) = viewModelScope.launch {
+        categoryRepository.delete(category)
+    }
 }
 
 class CategoriesViewModelFactory(private val categoryRepository: CategoryRepository)

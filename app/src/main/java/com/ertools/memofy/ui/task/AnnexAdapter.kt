@@ -9,6 +9,7 @@ import com.ertools.memofy.model.annexes.Annex
 
 class AnnexAdapter(
     private val context: Context,
+    private val viewModel: TaskViewModel,
     private var annexes: List<Annex>
 ) : RecyclerView.Adapter<AnnexAdapter.ItemAnnexHolder>() {
 
@@ -28,6 +29,10 @@ class AnnexAdapter(
         val view = holder.view
 
         view.annexName.text = annex.name
+
+        view.annexDeleteButton.setOnClickListener {
+            viewModel.cancelAnnex(annex)
+        }
     }
 
     override fun getItemCount(): Int {

@@ -134,10 +134,9 @@ class TaskFragment : Fragment() {
         /** Recycler view **/
         binding.taskFilesRecycler.layoutManager = LinearLayoutManager(requireContext())
         taskViewModel.annexes.observe(viewLifecycleOwner) {
-            val annexAdapter = AnnexAdapter(requireContext(), it)
+            val annexAdapter = AnnexAdapter(requireContext(), taskViewModel, it)
             binding.taskFilesRecycler.adapter = annexAdapter
             binding.taskFilesRecycler.isNestedScrollingEnabled = false
-            println("ANNEX TEST: ${it.size}/${annexAdapter.getItemCount()}")
             if(it.isNotEmpty()) {
                 binding.taskAttachButton.backgroundTintList = ColorStateList.valueOf(
                     resources.getColor(R.color.success, null)

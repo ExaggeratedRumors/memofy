@@ -12,6 +12,11 @@ class CategoryRepository(private val categoryDao: CategoryDAO) {
     }
 
     @WorkerThread
+    suspend fun delete(category: Category) {
+        categoryDao.delete(category.id!!)
+    }
+
+    @WorkerThread
     fun get(id: Int): Flow<Category> {
         return categoryDao.selectById(id)
     }

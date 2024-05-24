@@ -53,6 +53,10 @@ class TaskViewModel(
         }
     }
 
+    fun cancelAnnex(annex: Annex) {
+        _selectedAnnexes.value = _selectedAnnexes.value?.filter { it.id != annex.id }
+    }
+
     fun configureSelectFileLauncher(fragment: Fragment) {
         filerLauncher = fragment.registerForActivityResult(StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
