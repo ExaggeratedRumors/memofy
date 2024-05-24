@@ -30,6 +30,10 @@ class TasksViewModel(
         taskRepository.update(task)
     }
 
+    fun removeTask(task: Task) = viewModelScope.launch {
+        taskRepository.delete(task)
+    }
+
     fun changeSelectedCategory(category: String?) {
         selectedCategory.value = category
     }

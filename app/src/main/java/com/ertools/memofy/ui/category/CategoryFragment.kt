@@ -11,10 +11,8 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.core.view.MenuProvider
-import androidx.databinding.Bindable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ertools.memofy.R
@@ -53,7 +51,7 @@ class CategoryFragment : Fragment() {
         requireActivity().addMenuProvider(object: MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menu.findItem(R.id.action_settings).isVisible = false
-                menuInflater.inflate(R.menu.form, menu)
+                menuInflater.inflate(R.menu.new_form, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

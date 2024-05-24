@@ -97,14 +97,14 @@ class TaskFragment : Fragment() {
         requireActivity().addMenuProvider(object: MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menu.findItem(R.id.action_settings).isVisible = false
-                menuInflater.inflate(R.menu.form, menu)
+                if(task == null) menuInflater.inflate(R.menu.new_form, menu)
+                else menuInflater.inflate(R.menu.edit_form, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when(menuItem.itemId) {
-                    R.id.action_save -> {
-                        saveTask()
-                    }
+                    R.id.action_save -> saveTask()
+                    R.id.action_delete -> removeTask()
                     else -> false
                 }
             }
@@ -200,6 +200,12 @@ class TaskFragment : Fragment() {
 
         if(isUpdate) tasksViewModel.updateTask(task!!)
         else tasksViewModel.insertTask(task!!)
+        findNavController().navigate(R.id.action_nav_task_to_nav_tasks)
+        return true
+    }
+
+    private fun removeTask(): Boolean {
+        tasksViewModel.removeTask(task!!)
         findNavController().navigate(R.id.action_nav_task_to_nav_tasks)
         return true
     }
