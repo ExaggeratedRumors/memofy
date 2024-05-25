@@ -17,21 +17,21 @@
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/task_surface"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/surface"
             >
 
-
-            <ImageView
-                android:id="@+id/task_icon"
-                android:layout_width="@dimen/list_icon_width"
-                android:layout_height="match_parent"
+            <CheckBox
+                android:id="@+id/task_checkbox"
+                android:layout_width="@dimen/list_checkbox_size"
+                android:layout_height="@dimen/list_checkbox_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_task"
-                android:contentDescription="@string/task_icon_cd" />
+                />
 
             <TextView
                 android:id="@+id/task_name"
@@ -44,7 +44,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/task_icon"
+                app:layout_constraintStart_toEndOf="@+id/task_checkbox"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -56,7 +56,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/task_icon" />
+                app:layout_constraintStart_toEndOf="@+id/task_checkbox" />
 
             <LinearLayout
                 android:id="@+id/task_category_layout"

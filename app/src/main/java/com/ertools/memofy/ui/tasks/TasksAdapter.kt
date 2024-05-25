@@ -13,7 +13,8 @@ import com.ertools.memofy.model.categories.Category
 import com.ertools.memofy.model.tasks.Task
 
 class TasksAdapter(
-    private val context: Context
+    private val context: Context,
+    private val tasksViewModel: TasksViewModel
 ) : RecyclerView.Adapter<TasksAdapter.ItemTaskListHolder>() {
     private var tasks: List<Task> = emptyList()
     private var categories: List<Category> = emptyList()
@@ -29,13 +30,18 @@ class TasksAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemTaskListHolder, position: Int) {
-        val task: Task = tasks[position]
+        var task: Task = tasks[position]
         val view = holder.view
 
-        view.taskIcon.setImageResource(R.drawable.ic_task)
+        /* Labels */
         view.taskName.text = task.title
+        view.taskTime.text = task.finishedAt
+        view.taskCardView.setOnClickListener {
+            val bundle = bundleOf("task" to task)
+            findNavController(view.root).navigate(R.id.action_nav_tasks_to_nav_task, bundle)
+        }
 
-
+        /* Category */
         categories.firstOrNull { it.name == task.category }?.let {
             view.taskCategory.text = it.name
             view.taskCategoryLayout.backgroundTintList = ColorStateList.valueOf(
@@ -43,15 +49,14 @@ class TasksAdapter(
             )
         }
 
-        view.taskTime.text = task.finishedAt
-        view.taskCardView.setOnClickListener {
-            val bundle = bundleOf("task" to task)
-            findNavController(view.root).navigate(R.id.action_nav_tasks_to_nav_task, bundle)
+        /* Background depends on task status */
+        view.taskCheckbox.isChecked = task.status == 1
+        view.taskCheckbox.setOnCheckedChangeListener { _, b ->
+            val newTask = task.copy(status = if(b) 1 else 0)
+            tasksViewModel.updateTask(newTask)
         }
-
-        if(task.status == 1) {
-            view.taskCardView.setBackgroundColor(context.getColor(R.color.primary_variant))
-        }
+        if(task.status == 1) view.taskSurface.setBackgroundColor(context.getColor(R.color.surface_alt))
+        else view.taskSurface.setBackgroundColor(context.getColor(R.color.surface))
     }
 
     fun submitTasks(newTasks: List<Task>) {
