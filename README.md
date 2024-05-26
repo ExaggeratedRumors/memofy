@@ -8,6 +8,11 @@
 
 App organizing your tasks and memos.
 
+## TODO
+- Handle attachments
+- Add notification
+- Add search
+
 ## Release
 
 `

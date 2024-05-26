@@ -1,7 +1,9 @@
 package com.ertools.memofy.utils
 
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import java.io.ByteArrayOutputStream
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Locale

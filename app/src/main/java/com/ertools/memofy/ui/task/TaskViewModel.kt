@@ -2,7 +2,6 @@ package com.ertools.memofy.ui.task
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.fragment.app.Fragment
@@ -11,9 +10,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import android.provider.OpenableColumns
 import com.ertools.memofy.model.annexes.Annex
 import com.ertools.memofy.model.annexes.AnnexRepository
 import com.ertools.memofy.model.tasks.Task
+import com.ertools.memofy.utils.BitmapConverter
 import com.ertools.memofy.utils.Utils
 import kotlinx.coroutines.launch
 import java.io.File
@@ -49,7 +50,8 @@ class TaskViewModel(
     fun saveAnnexes() = viewModelScope.launch {
         _selectedAnnexes.value?.forEach { annex ->
             annexRepository.insert(annex)
-            saveFileToExternalStorage(Uri.parse(annex.sourcePath))
+            println("TEST SAVE ANNEX: ${annex.name}, ${annex.sourcePath}")
+            saveFileToExternalStorage(annex)
         }
     }
 
@@ -62,11 +64,34 @@ class TaskViewModel(
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val selectedFileUri = data?.data
-                selectedFileUri?.let {
-                    val annexes = _selectedAnnexes.value?.toMutableList()
-                    annexes?.add(Annex(it.lastPathSegment, it.path, selectedTask.value?.id))
-                    _selectedAnnexes.setValue(annexes)
+
+
+                var filename: String? = null
+                fragment.requireActivity().contentResolver.query(
+                    selectedFileUri!!, null, null, null, null
+                )?.use { cursor ->
+                    val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    cursor.moveToFirst()
+                    filename = cursor.getString(nameIndex)
                 }
+
+                val icon = fragment.requireActivity().contentResolver.loadThumbnail(
+                    selectedFileUri, android.util.Size(100, 100), null
+                )
+                val thumbnail = BitmapConverter.bitmapToString(icon)
+
+                val sourcePath: String? = selectedFileUri.path
+                val destinationPath = android.os.Environment.getExternalStorageDirectory().path +
+                        File.separator +
+                        Utils.ATTACHMENTS_DIRECTORY +
+                        File.separator +
+                        filename
+
+                val annexes = _selectedAnnexes.value?.toMutableList()
+                annexes?.add(
+                    Annex(filename, sourcePath, destinationPath, selectedTask.value?.id, thumbnail)
+                )
+                _selectedAnnexes.setValue(annexes)
             }
         }
     }
@@ -79,15 +104,10 @@ class TaskViewModel(
         filerLauncher?.launch(intent)
     }
 
-    private fun saveFileToExternalStorage(uri: Uri) {
+    private fun saveFileToExternalStorage(annex: Annex) {
         try {
-            val sourceFile = File(uri.path!!)
-            val destinationFilename = android.os.Environment.getExternalStorageDirectory().path +
-                    File.separator +
-                    Utils.ATTACHMENTS_DIRECTORY +
-                    File.separator +
-                    uri.lastPathSegment
-            val destinationFile = File(destinationFilename)
+            val sourceFile = File(annex.sourcePath!!)
+            val destinationFile = File(annex.currentPath!!)
 
             val sourceChannel = FileInputStream(sourceFile).channel
             val destinationChannel = FileOutputStream(destinationFile).channel

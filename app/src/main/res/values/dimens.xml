@@ -14,6 +14,8 @@
     <dimen name="list_card_height">100dp</dimen>
     <dimen name="list_checkbox_size">80dp</dimen>
     <dimen name="menu_icon_size">80dp</dimen>
+    <dimen name="annex_icon_size">64dp</dimen>
+    <dimen name="annex_icon_margin">8dp</dimen>
     <dimen name="list_delete_size">36dp</dimen>
     <dimen name="category_color_preview_size">64dp</dimen>
     <dimen name="form_padding">10dp</dimen>

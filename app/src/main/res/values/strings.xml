@@ -47,4 +47,5 @@
     <string name="item_color_value_template">0</string>
     <string name="action_delete">Delete</string>
     <string name="tasks_tab_cd">Task filter</string>
+    <string name="item_annex_icon_cd">Annex thumbnail</string>
 </resources>

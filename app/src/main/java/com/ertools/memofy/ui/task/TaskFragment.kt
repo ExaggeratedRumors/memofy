@@ -14,17 +14,12 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ertools.memofy.R
 import com.ertools.memofy.model.tasks.Task
 import com.ertools.memofy.databinding.FragmentTaskBinding
-import com.ertools.memofy.model.MemofyApplication
-import com.ertools.memofy.ui.categories.CategoriesViewModel
-import com.ertools.memofy.ui.categories.CategoriesViewModelFactory
 import com.ertools.memofy.ui.tasks.TasksViewModel
-import com.ertools.memofy.ui.tasks.TasksViewModelFactory
 import com.ertools.memofy.utils.serializable
 import com.ertools.memofy.utils.timestampToTime
 import java.time.LocalDate
@@ -118,7 +113,7 @@ class TaskFragment : Fragment() {
         /** Recycler view **/
         binding.taskFilesRecycler.layoutManager = LinearLayoutManager(requireContext())
         taskViewModel.annexes.observe(viewLifecycleOwner) {
-            val annexAdapter = AnnexAdapter(requireContext(), taskViewModel, it)
+            val annexAdapter = AnnexesRecyclerAdapter(requireContext(), taskViewModel, it)
             binding.taskFilesRecycler.adapter = annexAdapter
             binding.taskFilesRecycler.isNestedScrollingEnabled = false
             if(it.isNotEmpty()) {

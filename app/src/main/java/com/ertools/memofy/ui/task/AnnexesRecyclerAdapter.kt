@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ertools.memofy.databinding.ItemAnnexBinding
 import com.ertools.memofy.model.annexes.Annex
+import com.ertools.memofy.utils.BitmapConverter
 
-class AnnexAdapter(
+class AnnexesRecyclerAdapter(
     private val context: Context,
     private val viewModel: TaskViewModel,
     private var annexes: List<Annex>
-) : RecyclerView.Adapter<AnnexAdapter.ItemAnnexHolder>() {
+) : RecyclerView.Adapter<AnnexesRecyclerAdapter.ItemAnnexHolder>() {
 
     inner class ItemAnnexHolder(var view: ItemAnnexBinding)
         : RecyclerView.ViewHolder(view.root)
@@ -26,6 +27,10 @@ class AnnexAdapter(
     override fun onBindViewHolder(holder: ItemAnnexHolder, position: Int) {
         val annex: Annex = annexes[position]
         val view = holder.view
+
+        annex.thumbnail?.let {
+            view.annexIcon.setImageBitmap(BitmapConverter.stringToBitmap(it))
+        }
 
         view.annexName.text = annex.name
 

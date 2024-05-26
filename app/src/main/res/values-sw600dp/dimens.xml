@@ -5,8 +5,18 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">32dp</dimen>
+    <dimen name="text_min_small">10sp</dimen>
+    <dimen name="text_max_small">16sp</dimen>
     <dimen name="text_min_medium">20dp</dimen>
     <dimen name="text_max_medium">28dp</dimen>
     <dimen name="text_min_big">28dp</dimen>
     <dimen name="text_max_big">36dp</dimen>
+    <dimen name="list_card_height">100dp</dimen>
+    <dimen name="list_checkbox_size">80dp</dimen>
+    <dimen name="menu_icon_size">80dp</dimen>
+    <dimen name="annex_icon_size">64dp</dimen>
+    <dimen name="list_delete_size">36dp</dimen>
+    <dimen name="category_color_preview_size">64dp</dimen>
+    <dimen name="form_padding">10dp</dimen>
+    <dimen name="form_margin">16dp</dimen>
 </resources>
