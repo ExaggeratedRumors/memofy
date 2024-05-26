@@ -10,4 +10,7 @@ object Utils {
 
     /** Externals **/
     const val ATTACHMENTS_DIRECTORY = "attachments"
+
+    /** Bundle **/
+    const val BUNDLE_STATUS_FILTER = "status_filter"
 }

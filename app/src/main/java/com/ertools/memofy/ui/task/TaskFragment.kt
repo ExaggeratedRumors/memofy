@@ -185,8 +185,7 @@ class TaskFragment : Fragment() {
             return false
         }
 
-        val isUpdate = task != null
-        task = Task(
+        val newTask = Task(
             title,
             timestampToTime(System.currentTimeMillis()),
             date,
@@ -195,11 +194,12 @@ class TaskFragment : Fragment() {
             switch,
             category
         )
+        task?.id?.let { newTask.id = it }
 
         taskViewModel.saveAnnexes()
 
-        if(isUpdate) tasksViewModel.updateTask(task!!)
-        else tasksViewModel.insertTask(task!!)
+        if(task != null) tasksViewModel.updateTask(newTask)
+        else tasksViewModel.insertTask(newTask)
         findNavController().navigate(R.id.action_nav_task_to_nav_tasks)
         return true
     }

@@ -8,11 +8,32 @@
     tools:context=".ui.tasks.TasksFragment"
     >
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/tasks_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tasks_tab_layout"
+        android:contentDescription="@string/tasks_tab_cd"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:tabSelectedTextAppearance="@style/MediumText"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="1.0"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/tasks_view_pager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="1.0"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.9"
+        app:layout_constraintTop_toBottomOf="@id/tasks_tab_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

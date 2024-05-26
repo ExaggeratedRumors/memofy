@@ -12,25 +12,25 @@ import com.ertools.memofy.databinding.ItemTaskBinding
 import com.ertools.memofy.model.categories.Category
 import com.ertools.memofy.model.tasks.Task
 
-class TasksAdapter(
+class TasksRecyclerAdapter(
     private val context: Context,
     private val tasksViewModel: TasksViewModel
-) : RecyclerView.Adapter<TasksAdapter.ItemTaskListHolder>() {
+) : RecyclerView.Adapter<TasksRecyclerAdapter.ItemTaskHolder>() {
     private var tasks: List<Task> = emptyList()
     private var categories: List<Category> = emptyList()
 
-    inner class ItemTaskListHolder(var view: ItemTaskBinding)
+    inner class ItemTaskHolder(var view: ItemTaskBinding)
         : RecyclerView.ViewHolder(view.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemTaskListHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemTaskHolder {
         val binding = ItemTaskBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return ItemTaskListHolder(binding)
+        return ItemTaskHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ItemTaskListHolder, position: Int) {
-        var task: Task = tasks[position]
+    override fun onBindViewHolder(holder: ItemTaskHolder, position: Int) {
+        val task: Task = tasks[position]
         val view = holder.view
 
         /* Labels */

@@ -37,6 +37,7 @@ class CategoriesFragment : Fragment() {
 
     private fun configureCategoryAdapter(categoriesViewModel: CategoriesViewModel) {
         categoriesViewModel.categories.observe(viewLifecycleOwner) {
+            println("Test: 7")
             val categoriesAdapter = CategoriesAdapter(requireContext(), categoriesViewModel, it)
             binding.categoriesRecycler.adapter = categoriesAdapter
         }

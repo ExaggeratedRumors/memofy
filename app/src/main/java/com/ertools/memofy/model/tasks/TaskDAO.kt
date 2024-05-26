@@ -23,4 +23,8 @@ interface TaskDAO {
     fun count(): Int
     @Query("select * from tasks where category = :category order by finishedAt asc")
     fun selectByCategory(category: String): Flow<List<Task>>
+    @Query("select * from tasks where status = :status order by finishedAt asc")
+    fun selectByStatus(status: Int): Flow<List<Task>>
+    @Query("select * from tasks where status = :status and category = :category order by finishedAt asc")
+    fun selectByStatusAndCategory(status: Int, category: String): Flow<List<Task>>
 }

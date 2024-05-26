@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ertools.memofy.R
 import com.ertools.memofy.databinding.FragmentTasksBinding
 import com.ertools.memofy.model.MemofyApplication
+import com.google.android.material.tabs.TabLayoutMediator
 
 class TasksFragment : Fragment() {
     private var _binding: FragmentTasksBinding? = null
@@ -32,7 +33,6 @@ class TasksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTasksBinding.inflate(inflater, container, false)
-        binding.tasksRecycler.layoutManager = LinearLayoutManager(requireContext())
 
         val taskRepository = (requireContext().applicationContext as MemofyApplication).taskRepository
         val categoryRepository = (requireContext().applicationContext as MemofyApplication).categoryRepository
@@ -41,11 +41,10 @@ class TasksFragment : Fragment() {
         )[TasksViewModel::class.java]
 
         configureMenu()
-        configureTasksAdapter(tasksViewModel)
+        configurePager()
         configureAddTaskButton()
         return binding.root
     }
-
 
     private fun configureMenu() {
         requireActivity().addMenuProvider(object: MenuProvider {
@@ -79,15 +78,17 @@ class TasksFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-    private fun configureTasksAdapter(tasksViewModel: TasksViewModel) {
-        val tasksAdapter = TasksAdapter(requireContext())
-        binding.tasksRecycler.adapter = tasksAdapter
-        tasksViewModel.tasks.observe(viewLifecycleOwner) {
-            tasksAdapter.submitTasks(it)
-        }
-        tasksViewModel.categories.observe(viewLifecycleOwner) {
-            tasksAdapter.submitCategories(it)
-        }
+    private fun configurePager() {
+        val pagerAdapter = TasksPageAdapter(requireActivity())
+        binding.tasksViewPager.adapter = pagerAdapter
+
+        TabLayoutMediator(binding.tasksTabLayout, binding.tasksViewPager) { tab, position ->
+            tab.text = when(position) {
+                0 -> "Uncompleted"
+                1 -> "All tasks"
+                else -> "Completed"
+            }
+        }.attach()
     }
 
     private fun configureAddTaskButton() {

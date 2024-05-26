@@ -1,6 +1,7 @@
 package com.ertools.memofy.model.tasks
 
 import androidx.annotation.WorkerThread
+import com.ertools.memofy.model.categories.Category
 import kotlinx.coroutines.flow.Flow
 
 class TaskRepository(private val taskDao: TaskDAO) {
@@ -22,8 +23,13 @@ class TaskRepository(private val taskDao: TaskDAO) {
     }
 
     @WorkerThread
-    fun selectAll() = taskDao.select()
+    fun selectByCategory(category: String) = taskDao.selectByCategory(category)
 
     @WorkerThread
-    fun selectByCategory(category: String) = taskDao.selectByCategory(category)
+    fun selectByStatus(status: Int) = taskDao.selectByStatus(status)
+
+    @WorkerThread
+    fun selectByStatusAndCategory(status: Int, category: String) =
+        taskDao.selectByStatusAndCategory(status, category)
+
 }

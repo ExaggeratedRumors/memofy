@@ -17,9 +17,18 @@ class TasksViewModel(
 ) : ViewModel() {
     private val selectedCategory = MutableLiveData<String?>()
     val categories = categoryRepository.categories.asLiveData()
-    val tasks = selectedCategory.switchMap {
+
+    val allTasks = selectedCategory.switchMap {
         if(it == null) taskRepository.tasks.asLiveData()
         else taskRepository.selectByCategory(it).asLiveData()
+    }
+    private val completedTasks = selectedCategory.switchMap {
+        if(it == null) taskRepository.selectByStatus(1).asLiveData()
+        else taskRepository.selectByStatusAndCategory(1, it).asLiveData()
+    }
+    private val uncompletedTasks = selectedCategory.switchMap {
+        if(it == null) taskRepository.selectByStatus(0).asLiveData()
+        else taskRepository.selectByStatusAndCategory(0, it).asLiveData()
     }
 
     fun insertTask(task: Task) = viewModelScope.launch {
@@ -36,6 +45,12 @@ class TasksViewModel(
 
     fun changeSelectedCategory(category: String?) {
         selectedCategory.value = category
+    }
+
+    fun getDataByStatus(status: Int?) = when(status) {
+        0 -> uncompletedTasks
+        1 -> completedTasks
+        else -> allTasks
     }
 }
 

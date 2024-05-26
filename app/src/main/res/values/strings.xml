@@ -46,4 +46,5 @@
     <string name="item_color_name_template">C</string>
     <string name="item_color_value_template">0</string>
     <string name="action_delete">Delete</string>
+    <string name="tasks_tab_cd">Task filter</string>
 </resources>
