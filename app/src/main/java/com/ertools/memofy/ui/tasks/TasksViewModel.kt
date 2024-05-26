@@ -21,12 +21,12 @@ class TasksViewModel(
     private val allTasks = taskRepository.tasks.asLiveData()
 
     private val completedTasks = selectedCategory.switchMap {
-        if(it.isEmpty()) taskRepository.selectByStatus(1).asLiveData()
-        else taskRepository.selectByStatusAndCategory(1, it).asLiveData()
+        if(it.isEmpty()) taskRepository.selectByStatus(true).asLiveData()
+        else taskRepository.selectByStatusAndCategory(true, it).asLiveData()
     }
     private val uncompletedTasks = selectedCategory.switchMap {
-        if(it.isEmpty()) taskRepository.selectByStatus(0).asLiveData()
-        else taskRepository.selectByStatusAndCategory(0, it).asLiveData()
+        if(it.isEmpty()) taskRepository.selectByStatus(false).asLiveData()
+        else taskRepository.selectByStatusAndCategory(false, it).asLiveData()
     }
 
     fun insertTask(task: Task) = viewModelScope.launch {

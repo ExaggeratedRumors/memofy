@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.ertools.memofy.R
 import com.ertools.memofy.model.annexes.Annex
 import com.ertools.memofy.model.annexes.AnnexDAO
 import com.ertools.memofy.model.categories.Category
@@ -64,7 +63,7 @@ abstract class MemofyDatabase : RoomDatabase() {
                 "2023-01-01",
                 "2024-01-01",
                 "null",
-                0,
+                false,
                 null,
                 "Work"
             ))
@@ -73,90 +72,90 @@ abstract class MemofyDatabase : RoomDatabase() {
                 "2021-01-02",
                 "2021-01-03",
                 "Clear room",
-                0,
-                false,
-                "Work"
+                completed = false,
+                notification = false,
+                category = "Work"
             ))
             taskDao.insert(Task(
                 "Write CV",
                 "2021-01-04",
                 "2021-01-05",
                 "Just send CV",
-                1,
-                false,
-                "Work"
+                completed = true,
+                notification = false,
+                category = "Work"
             ))
             taskDao.insert(Task(
                 "Buy milk",
                 "2021-01-06",
                 "2021-01-07",
                 "Buy milk",
-                0,
-                false,
-                "Work"
+                completed = false,
+                notification = false,
+                category = "Work"
             ))
             taskDao.insert(Task(
                 "Buy bread",
                 "2021-01-08",
                 "2021-01-09",
                 "Buy bread",
-                0,
-                false,
-                "Study"
+                completed = false,
+                notification = false,
+                category = "Study"
             ))
             taskDao.insert(Task(
                 "Buy eggs",
                 "2021-01-10",
                 "2021-01-11",
                 "Buy eggs",
-                0,
-                false,
-                "Work"
+                completed = false,
+                notification = false,
+                category = "Work"
             ))
             taskDao.insert(Task(
                 "Buy butter",
                 "2021-01-12",
                 "2021-01-13",
                 "Buy butter",
-                0,
-                false,
-                "Work"
+                completed= false,
+                notification = false,
+                category = "Work"
             ))
             taskDao.insert(Task(
                 "Buy cheese",
                 "2021-01-14",
                 "2021-01-15",
                 "Buy cheese",
-                0,
-                false,
-                "Work"
+                completed = false,
+                notification = false,
+                category = "Work"
             ))
             taskDao.insert(Task(
                 "Buy ham",
                 "2021-01-16",
                 "2021-01-17",
                 "Buy ham",
-                0,
-                false,
-                "Study"
+                completed = false,
+                notification = false,
+                category = "Study"
             ))
             taskDao.insert(Task(
                 "Buy sausage",
                 "2021-01-18",
                 "2021-01-19",
                 "Buy sausage",
-                0,
-                false,
-                "Study"
+                completed = false,
+                notification = false,
+                category = "Study"
             ))
             taskDao.insert(Task(
                 "Buy bacon",
                 "2021-01-20",
                 "2021-01-21",
                 "Buy bacon",
-                0,
-                false,
-                "Work"
+                completed = false,
+                notification = false,
+                category = "Work"
             ))
         }
 

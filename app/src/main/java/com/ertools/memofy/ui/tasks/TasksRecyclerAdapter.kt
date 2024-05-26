@@ -36,6 +36,7 @@ class TasksRecyclerAdapter(
         /* Labels */
         view.taskName.text = task.title
         view.taskTime.text = task.finishedAt
+        view.taskDescription.text = task.description
         view.taskCardView.setOnClickListener {
             val bundle = bundleOf("task" to task)
             findNavController(view.root).navigate(R.id.action_nav_tasks_to_nav_task, bundle)
@@ -49,13 +50,13 @@ class TasksRecyclerAdapter(
             )
         }
 
-        /* Background depends on task status */
-        view.taskCheckbox.isChecked = task.status == 1
-        view.taskCheckbox.setOnCheckedChangeListener { _, b ->
-            val newTask = task.copy(status = if(b) 1 else 0)
-            tasksViewModel.updateTask(newTask)
+        /* Task status */
+        view.taskCheckbox.setOnCheckedChangeListener(null)
+        view.taskCheckbox.isChecked = task.completed ?: false
+        view.taskCheckbox.setOnCheckedChangeListener { button, _ ->
+            tasksViewModel.updateTask(task.clone(completed = (button.isChecked)))
         }
-        if(task.status == 1) view.taskSurface.setBackgroundColor(context.getColor(R.color.surface_alt))
+        if(task.completed == true) view.taskSurface.setBackgroundColor(context.getColor(R.color.surface_alt))
         else view.taskSurface.setBackgroundColor(context.getColor(R.color.surface))
     }
 

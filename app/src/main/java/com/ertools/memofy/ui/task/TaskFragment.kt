@@ -38,7 +38,6 @@ class TaskFragment : Fragment() {
 
     private val taskViewModel: TaskViewModel by activityViewModels()
     private val tasksViewModel: TasksViewModel by activityViewModels()
-    private val categoriesViewModel: CategoriesViewModel by activityViewModels()
     private var task: Task? = null
 
     override fun onCreateView(
@@ -175,7 +174,7 @@ class TaskFragment : Fragment() {
             timestampToTime(System.currentTimeMillis()),
             date,
             description,
-            0,
+            false,
             switch,
             category
         )

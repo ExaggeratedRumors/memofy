@@ -19,7 +19,6 @@ class TasksPageFragment : Fragment() {
 
     companion object {
         fun newInstance(status: Int? = null): TasksPageFragment {
-            println("Test: 1")
             val fragment = TasksPageFragment()
             if(status != null) {
                 val args = Bundle()
@@ -51,13 +50,10 @@ class TasksPageFragment : Fragment() {
         binding.tasksRecycler.adapter = tasksRecyclerAdapter
 
         tasksViewModel.getDataByStatus(taskStatusCode).observe(viewLifecycleOwner) {
-            println("Test: 51, ${it.size}")
             tasksRecyclerAdapter.submitTasks(it)
         }
 
         tasksViewModel.categories.observe(viewLifecycleOwner) {
-            println("Test: 52, ${it.size}")
-            println("Test: 53, ${tasksRecyclerAdapter.itemCount}")
             tasksRecyclerAdapter.submitCategories(it)
         }
     }

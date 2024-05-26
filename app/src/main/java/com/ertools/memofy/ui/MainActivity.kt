@@ -19,6 +19,7 @@ import com.ertools.memofy.ui.task.TaskViewModel
 import com.ertools.memofy.ui.task.TaskViewModelFactory
 import com.ertools.memofy.ui.tasks.TasksViewModel
 import com.ertools.memofy.ui.tasks.TasksViewModelFactory
+import com.ertools.memofy.utils.Utils
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //this.deleteDatabase(Utils.DATABASE_NAME)
+        this.deleteDatabase(Utils.DATABASE_NAME)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -48,6 +48,16 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/task_description"
+                android:textAppearance="@style/SmallText"
+                android:text="@string/template"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/task_time"
+                app:layout_constraintStart_toEndOf="@+id/task_checkbox" />
+
+            <TextView
                 android:id="@+id/task_time"
                 android:textAppearance="@style/SmallText"
                 android:text="@string/template"
