@@ -12,22 +12,19 @@ import android.widget.SeekBar
 import android.widget.Toast
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ertools.memofy.R
 import com.ertools.memofy.databinding.FragmentCategoryBinding
-import com.ertools.memofy.model.MemofyApplication
 import com.ertools.memofy.model.categories.Category
 import com.ertools.memofy.ui.categories.CategoriesViewModel
-import com.ertools.memofy.ui.categories.CategoriesViewModelFactory
 
 class CategoryFragment : Fragment() {
     private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var categoryViewModel: CategoryViewModel
-    private lateinit var categoriesViewModel: CategoriesViewModel
+    private val categoriesViewModel: CategoriesViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,12 +32,6 @@ class CategoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
-        categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
-
-        val categoryRepository = (requireContext().applicationContext as MemofyApplication).categoryRepository
-        categoriesViewModel = ViewModelProvider(
-            this, CategoriesViewModelFactory(categoryRepository)
-        )[CategoriesViewModel::class.java]
 
         configureMenu()
         configureColorPicker()

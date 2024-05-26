@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -35,9 +36,9 @@ class TaskFragment : Fragment() {
     private var _binding: FragmentTaskBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var taskViewModel: TaskViewModel
-    private lateinit var tasksViewModel: TasksViewModel
-    private lateinit var categoriesViewModel: CategoriesViewModel
+    private val taskViewModel: TaskViewModel by activityViewModels()
+    private val tasksViewModel: TasksViewModel by activityViewModels()
+    private val categoriesViewModel: CategoriesViewModel by activityViewModels()
     private var task: Task? = null
 
     override fun onCreateView(
@@ -46,22 +47,6 @@ class TaskFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTaskBinding.inflate(inflater, container, false)
-
-        val taskRepository = (requireContext().applicationContext as MemofyApplication).taskRepository
-        val categoryRepository = (requireContext().applicationContext as MemofyApplication).categoryRepository
-        val annexRepository = (requireContext().applicationContext as MemofyApplication).annexesRepository
-
-        taskViewModel = ViewModelProvider(
-                this, TaskViewModelFactory(annexRepository)
-        )[TaskViewModel::class.java]
-
-        tasksViewModel = ViewModelProvider(
-            this, TasksViewModelFactory(taskRepository, categoryRepository)
-        )[TasksViewModel::class.java]
-
-        categoriesViewModel = ViewModelProvider(
-            this, CategoriesViewModelFactory(categoryRepository)
-        )[CategoriesViewModel::class.java]
 
         fillDataByTask()
         configureMenu()

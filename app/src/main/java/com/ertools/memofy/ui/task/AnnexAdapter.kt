@@ -24,7 +24,6 @@ class AnnexAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemAnnexHolder, position: Int) {
-        println("ANNEX TEST, position: $position")
         val annex: Annex = annexes[position]
         val view = holder.view
 

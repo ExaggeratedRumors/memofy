@@ -12,20 +12,18 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.ertools.memofy.R
 import com.ertools.memofy.databinding.FragmentTasksBinding
-import com.ertools.memofy.model.MemofyApplication
 import com.google.android.material.tabs.TabLayoutMediator
 
 class TasksFragment : Fragment() {
     private var _binding: FragmentTasksBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var tasksViewModel: TasksViewModel
+    private val tasksViewModel: TasksViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,12 +31,6 @@ class TasksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTasksBinding.inflate(inflater, container, false)
-
-        val taskRepository = (requireContext().applicationContext as MemofyApplication).taskRepository
-        val categoryRepository = (requireContext().applicationContext as MemofyApplication).categoryRepository
-        tasksViewModel = ViewModelProvider(
-            this, TasksViewModelFactory(taskRepository, categoryRepository)
-        )[TasksViewModel::class.java]
 
         configureMenu()
         configurePager()
@@ -63,7 +55,7 @@ class TasksFragment : Fragment() {
                     spinner.adapter = adapter
                     spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                            if(position == 0) tasksViewModel.changeSelectedCategory(null)
+                            if(position == 0) tasksViewModel.changeSelectedCategory(String())
                             else tasksViewModel.changeSelectedCategory(spinner.selectedItem.toString())
                         }
 

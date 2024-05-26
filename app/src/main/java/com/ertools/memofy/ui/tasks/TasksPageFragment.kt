@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ertools.memofy.databinding.FragmentTasksPageBinding
 import com.ertools.memofy.model.MemofyApplication
@@ -14,7 +14,7 @@ import com.ertools.memofy.utils.Utils
 class TasksPageFragment : Fragment() {
     private var _binding: FragmentTasksPageBinding? = null
     private val binding get() = _binding!!
-    private lateinit var tasksViewModel: TasksViewModel
+    private val tasksViewModel: TasksViewModel by activityViewModels()
     private var taskStatusCode: Int? = null
 
     companion object {
@@ -41,12 +41,6 @@ class TasksPageFragment : Fragment() {
         arguments?.let {
             taskStatusCode = it.getInt(Utils.BUNDLE_STATUS_FILTER, 0)
         }
-
-        val taskRepository = (requireContext().applicationContext as MemofyApplication).taskRepository
-        val categoryRepository = (requireContext().applicationContext as MemofyApplication).categoryRepository
-        tasksViewModel = ViewModelProvider(
-            this, TasksViewModelFactory(taskRepository, categoryRepository)
-        )[TasksViewModel::class.java]
 
         configureTasksRecyclerAdapter()
         return binding.root

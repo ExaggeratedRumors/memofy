@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.ertools.memofy.model.MemofyApplication
 class CategoriesFragment : Fragment() {
     private var _binding: FragmentCategoriesBinding? = null
     private val binding get() = _binding!!
+    private val categoriesViewModel: CategoriesViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,11 +26,6 @@ class CategoriesFragment : Fragment() {
         _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
         binding.categoriesRecycler.layoutManager = LinearLayoutManager(requireContext())
 
-        val categoryRepository = (requireContext().applicationContext as MemofyApplication).categoryRepository
-        val categoriesViewModel = ViewModelProvider(
-            this, CategoriesViewModelFactory(categoryRepository)
-        )[CategoriesViewModel::class.java]
-
         configureCategoryAdapter(categoriesViewModel)
         configureAddCategoryButton()
 
@@ -37,7 +34,6 @@ class CategoriesFragment : Fragment() {
 
     private fun configureCategoryAdapter(categoriesViewModel: CategoriesViewModel) {
         categoriesViewModel.categories.observe(viewLifecycleOwner) {
-            println("Test: 7")
             val categoriesAdapter = CategoriesAdapter(requireContext(), categoriesViewModel, it)
             binding.categoriesRecycler.adapter = categoriesAdapter
         }
