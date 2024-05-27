@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ertools.memofy.databinding.ItemAnnexBinding
-import com.ertools.memofy.model.annexes.Annex
+import com.ertools.memofy.database.annexes.Annex
 import com.ertools.memofy.utils.BitmapConverter
 
 class AnnexesRecyclerAdapter(

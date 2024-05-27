@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.ertools.memofy.model.categories.Category
-import com.ertools.memofy.model.categories.CategoryRepository
+import com.ertools.memofy.database.categories.Category
+import com.ertools.memofy.database.categories.CategoryRepository
 import kotlinx.coroutines.launch
 
 class CategoriesViewModel(

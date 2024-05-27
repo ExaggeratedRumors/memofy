@@ -1,4 +1,4 @@
-package com.ertools.memofy.model.tasks
+package com.ertools.memofy.database.tasks
 
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.flow.Flow

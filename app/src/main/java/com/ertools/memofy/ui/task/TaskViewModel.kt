@@ -12,12 +12,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import android.provider.OpenableColumns
-import com.ertools.memofy.model.annexes.*
-import com.ertools.memofy.model.tasks.Task
+import com.ertools.memofy.database.annexes.*
+import com.ertools.memofy.database.tasks.Task
 import com.ertools.memofy.utils.*
 import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -39,28 +38,36 @@ class TaskViewModel(
 
     /** Manage annexes in application **/
 
-    fun setTask(task: Task) = viewModelScope.launch {
+    fun setTask(task: Task?) {
         selectedTask.value = task
-        val newAnnexes = ArrayList<Annex>()
-        annexRepository.getByTaskId(task.id!!).collect { list ->
-            list.forEach { annex ->
-                newAnnexes.add(annex)
+        if(task == null) return
+        viewModelScope.launch {
+            annexRepository.getByTaskId(task.id!!).collect { list ->
+                val newAnnexes = ArrayList<Annex>()
+                list.forEach { annex ->
+                    newAnnexes.add(annex)
+                }
+                _annexes.setValue(newAnnexes)
             }
         }
-        _annexes.setValue(newAnnexes)
     }
 
-    fun saveAnnexes(fragment: Fragment) = viewModelScope.launch {
+    fun saveAnnexes(fragment: Fragment) {
         _annexes.value?.forEach { annex ->
-
-            annexRepository.insert(annex)
             saveFileToExternalStorage(annex, fragment)
+        }
+
+        viewModelScope.launch {
+            _annexes.value?.forEach { annex ->
+                annexRepository.insert(annex)
+            }
         }
     }
 
     fun deleteAnnex(annex: Annex) {
         _annexes.value = _annexes.value?.filter { it.id != annex.id }
         if(selectedTask.value != null) {
+            deleteFromExternalStorage(annex)
             viewModelScope.launch {
                 annexRepository.delete(annex)
             }
@@ -72,7 +79,12 @@ class TaskViewModel(
     }
 
     fun deleteAnnexesFromTask() = viewModelScope.launch {
-        selectedTask.value?.id?.let { annexRepository.deleteByTaskId(it) }
+        selectedTask.value?.id?.let {
+            _annexes.value?.forEach { annex ->
+                deleteFromExternalStorage(annex)
+            }
+            annexRepository.deleteByTaskId(it)
+        }
     }
 
 
@@ -104,12 +116,16 @@ class TaskViewModel(
                 println(selectedFileUri.fragment)
                 println(selectedFileUri.pathSegments)
                 println(selectedFileUri.host)
+
                 /** Paths **/
-                val sourcePath: String? = selectedFileUri.path
                 val destinationPath = Environment
                     .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-                    .path + File.separator + Utils.ATTACHMENTS_DIRECTORY + File.separator
-                println("TEST PATH\n$sourcePath\n$destinationPath")
+                    .path +
+                        File.separator +
+                        Utils.ATTACHMENTS_DIRECTORY +
+                        File.separator +
+                        selectedTask.value?.id +
+                        File.separator
 
                 /** Update annexes **/
                 val newAnnex = Annex(filename, destinationPath, selectedTask.value?.id, thumbnail)
@@ -131,7 +147,10 @@ class TaskViewModel(
 
     private fun saveFileToExternalStorage(annex: Annex, fragment: Fragment) {
         try {
-            val destinationFile = File(annex.currentPath!!, annex.name!!)
+            if(annex.currentPath == null || annex.sourceUri == null || annex.name == null) return
+            val destinationPath = File(annex.currentPath)
+            if(!destinationPath.exists()) destinationPath.mkdirs()
+            val destinationFile = File(annex.currentPath, annex.name)
             val sourceStream: InputStream? = fragment
                 .requireActivity()
                 .contentResolver
@@ -141,6 +160,16 @@ class TaskViewModel(
                     input.copyTo(output)
                 }
             }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun deleteFromExternalStorage(annex: Annex) {
+        try {
+            if(annex.currentPath == null || annex.name == null) return
+            val file = File(annex.currentPath, annex.name)
+            if(file.exists()) file.delete()
         } catch (e: IOException) {
             e.printStackTrace()
         }

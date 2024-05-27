@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ertools.memofy.databinding.FragmentTasksPageBinding
-import com.ertools.memofy.model.MemofyApplication
 import com.ertools.memofy.utils.Utils
 
 class TasksPageFragment : Fragment() {

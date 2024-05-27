@@ -1,4 +1,4 @@
-package com.ertools.memofy.model.annexes
+package com.ertools.memofy.database.annexes
 
 import android.net.Uri
 import androidx.room.Entity

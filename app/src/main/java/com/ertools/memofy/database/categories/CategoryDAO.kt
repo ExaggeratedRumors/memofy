@@ -1,4 +1,4 @@
-package com.ertools.memofy.model.categories
+package com.ertools.memofy.database.categories
 
 import androidx.room.Dao
 import androidx.room.Insert

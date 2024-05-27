@@ -17,7 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.ertools.memofy.R
 import com.ertools.memofy.databinding.FragmentCategoryBinding
-import com.ertools.memofy.model.categories.Category
+import com.ertools.memofy.database.categories.Category
 import com.ertools.memofy.ui.categories.CategoriesViewModel
 
 class CategoryFragment : Fragment() {

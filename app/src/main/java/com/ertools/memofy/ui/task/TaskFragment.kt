@@ -17,13 +17,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ertools.memofy.R
-import com.ertools.memofy.model.tasks.Task
+import com.ertools.memofy.database.tasks.Task
 import com.ertools.memofy.databinding.FragmentTaskBinding
 import com.ertools.memofy.ui.tasks.TasksViewModel
 import com.ertools.memofy.utils.serializable
 import com.ertools.memofy.utils.timestampToTime
 import java.time.LocalDate
-import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
@@ -52,6 +51,8 @@ class TaskFragment : Fragment() {
 
     private fun fillDataByTask() {
         task = arguments?.serializable<Task>("task")
+        taskViewModel.setTask(task)
+        if(task == null) return
         task?.let { taskViewModel.setTask(it) } ?: return
 
         binding.taskTitleInput.editText?.setText(task?.title)

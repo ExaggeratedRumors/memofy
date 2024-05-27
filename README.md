@@ -9,8 +9,8 @@
 App organizing your tasks and memos.
 
 ## TODO
-- Handle attachments
 - Add notification
+- Settings notification
 - Add search
 - Calendar
 

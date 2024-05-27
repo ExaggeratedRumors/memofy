@@ -1,5 +1,9 @@
-package com.ertools.memofy.ui
+package com.ertools.memofy
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
@@ -10,9 +14,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.ertools.memofy.R
 import com.ertools.memofy.databinding.ActivityMainBinding
-import com.ertools.memofy.model.MemofyApplication
+import com.ertools.memofy.database.MemofyApplication
 import com.ertools.memofy.ui.categories.CategoriesViewModel
 import com.ertools.memofy.ui.categories.CategoriesViewModelFactory
 import com.ertools.memofy.ui.task.TaskViewModel
@@ -34,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //this.deleteDatabase(Utils.DATABASE_NAME)
+        this.deleteDatabase(Utils.DATABASE_NAME)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -85,5 +88,17 @@ class MainActivity : AppCompatActivity() {
             this,
             CategoriesViewModelFactory((applicationContext as MemofyApplication).categoryRepository)
         )[CategoriesViewModel::class.java]
+    }
+
+    private fun configureNotificationChannel() {
+        val name = "Task Notifications"
+        val descriptionText = "Notifications for tasks"
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel(Utils.NOTIFICATION_CHANNEL_TASK, name, importance).apply {
+            description = descriptionText
+        }
+        val notificationManager: NotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
     }
 }
