@@ -11,11 +11,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import android.provider.OpenableColumns
-import com.ertools.memofy.model.annexes.Annex
-import com.ertools.memofy.model.annexes.AnnexRepository
+import com.ertools.memofy.model.annexes.*
 import com.ertools.memofy.model.tasks.Task
-import com.ertools.memofy.utils.BitmapConverter
-import com.ertools.memofy.utils.Utils
+import com.ertools.memofy.utils.*
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileInputStream
@@ -26,38 +24,56 @@ class TaskViewModel(
     private val annexRepository: AnnexRepository,
 ): ViewModel() {
     private val selectedTask = MutableLiveData<Task?>()
-    private val _selectedAnnexes: MutableLiveData<List<Annex>> by lazy {
+    private val _annexes: MutableLiveData<List<Annex>> by lazy {
         MutableLiveData<List<Annex>>()
     }
-    val annexes: LiveData<List<Annex>> = _selectedAnnexes
+    val annexes: LiveData<List<Annex>> = _annexes
     private var filerLauncher: ActivityResultLauncher<Intent>? = null
 
     init {
-        _selectedAnnexes.value = ArrayList()
+        _annexes.value = ArrayList()
     }
+
+
+    /** Manage annexes in application **/
 
     fun setTask(task: Task) = viewModelScope.launch {
         selectedTask.value = task
-        val annexes = ArrayList<Annex>()
+        val newAnnexes = ArrayList<Annex>()
         annexRepository.getByTaskId(task.id!!).collect { list ->
             list.forEach { annex ->
-                annexes.add(annex)
+                newAnnexes.add(annex)
             }
         }
-        _selectedAnnexes.setValue(annexes)
+        _annexes.setValue(newAnnexes)
     }
 
     fun saveAnnexes() = viewModelScope.launch {
-        _selectedAnnexes.value?.forEach { annex ->
+        _annexes.value?.forEach { annex ->
             annexRepository.insert(annex)
-            println("TEST SAVE ANNEX: ${annex.name}, ${annex.sourcePath}")
             saveFileToExternalStorage(annex)
         }
     }
 
-    fun cancelAnnex(annex: Annex) {
-        _selectedAnnexes.value = _selectedAnnexes.value?.filter { it.id != annex.id }
+    fun deleteAnnex(annex: Annex) {
+        _annexes.value = _annexes.value?.filter { it.id != annex.id }
+        if(selectedTask.value != null) {
+            viewModelScope.launch {
+                annexRepository.delete(annex)
+            }
+        }
     }
+
+    fun cancelAnnexes() {
+        _annexes.value = ArrayList()
+    }
+
+    fun deleteAnnexesFromTask() = viewModelScope.launch {
+        selectedTask.value?.id?.let { annexRepository.deleteByTaskId(it) }
+    }
+
+
+    /** Manage files **/
 
     fun configureSelectFileLauncher(fragment: Fragment) {
         filerLauncher = fragment.registerForActivityResult(StartActivityForResult()) { result ->
@@ -65,7 +81,7 @@ class TaskViewModel(
                 val data: Intent? = result.data
                 val selectedFileUri = data?.data
 
-
+                /** File name **/
                 var filename: String? = null
                 fragment.requireActivity().contentResolver.query(
                     selectedFileUri!!, null, null, null, null
@@ -75,11 +91,13 @@ class TaskViewModel(
                     filename = cursor.getString(nameIndex)
                 }
 
+                /** Thumbnail **/
                 val icon = fragment.requireActivity().contentResolver.loadThumbnail(
                     selectedFileUri, android.util.Size(100, 100), null
                 )
                 val thumbnail = BitmapConverter.bitmapToString(icon)
 
+                /** Paths **/
                 val sourcePath: String? = selectedFileUri.path
                 val destinationPath = android.os.Environment.getExternalStorageDirectory().path +
                         File.separator +
@@ -87,11 +105,12 @@ class TaskViewModel(
                         File.separator +
                         filename
 
-                val annexes = _selectedAnnexes.value?.toMutableList()
+                /** Update annexes **/
+                val annexes = _annexes.value?.toMutableList()
                 annexes?.add(
                     Annex(filename, sourcePath, destinationPath, selectedTask.value?.id, thumbnail)
                 )
-                _selectedAnnexes.setValue(annexes)
+                _annexes.setValue(annexes)
             }
         }
     }

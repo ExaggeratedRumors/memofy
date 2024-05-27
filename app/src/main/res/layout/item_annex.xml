@@ -35,7 +35,7 @@
 
             <TextView
                 android:id="@+id/annex_name"
-                android:textAppearance="@style/MediumText"
+                android:textAppearance="@style/SmallText"
                 android:text="@string/template"
                 android:gravity="start|center_vertical"
                 android:layout_width="0dp"
@@ -51,6 +51,7 @@
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.Material3.Button.IconButton"
+                android:contentDescription="@string/item_annex_button_cd"
                 android:id="@+id/annex_delete_button"
                 app:icon="@drawable/ic_delete"
                 app:iconTint="@color/on_surface"

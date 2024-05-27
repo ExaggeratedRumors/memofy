@@ -14,6 +14,8 @@ interface AnnexDAO {
     suspend fun insert(annex: Annex)
     @Query("delete from annexes where id = :id")
     suspend fun delete(id: Int)
+    @Query("delete from annexes where taskId = :taskId")
+    suspend fun deleteByTaskId(taskId: Int)
     @Update
     suspend fun update(annex: Annex)
     @Query("delete from annexes")

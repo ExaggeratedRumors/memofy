@@ -43,10 +43,16 @@ class TasksRecyclerAdapter(
         }
 
         /* Category */
-        categories.firstOrNull { it.name == task.category }?.let {
-            view.taskCategory.text = it.name
+        val category = categories.firstOrNull { it.name == task.category }
+        if(category == null) {
+            view.taskCategory.text = context.getString(R.string.template)
             view.taskCategoryLayout.backgroundTintList = ColorStateList.valueOf(
-                it.color!!
+                context.getColor(R.color.surface)
+            )
+        } else {
+            view.taskCategory.text = category.name
+            view.taskCategoryLayout.backgroundTintList = ColorStateList.valueOf(
+                category.color!!
             )
         }
 

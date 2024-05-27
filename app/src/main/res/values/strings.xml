@@ -48,4 +48,5 @@
     <string name="action_delete">Delete</string>
     <string name="tasks_tab_cd">Task filter</string>
     <string name="item_annex_icon_cd">Annex thumbnail</string>
+    <string name="item_annex_button_cd">Delete item</string>
 </resources>

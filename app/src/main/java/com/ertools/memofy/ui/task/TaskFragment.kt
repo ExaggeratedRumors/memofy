@@ -47,7 +47,6 @@ class TaskFragment : Fragment() {
         configureCategory()
         configureTimePicker()
         configureAnnexes()
-        configureAnnexes()
         return binding.root
     }
 
@@ -62,10 +61,11 @@ class TaskFragment : Fragment() {
 
         /** Fill time/data picker **/
         if(task?.finishedAt == null || task?.finishedAt!!.length < 10) return
+        println("String: ${task?.finishedAt}, year: ${task?.finishedAt?.substring(0, 4)}, month: ${task?.finishedAt?.substring(5, 7)}, day: ${task?.finishedAt?.substring(8, 10)}")
         binding.taskDateInput.updateDate(
-            task?.finishedAt?.substring(0, 4)?.toInt() ?: 0,
-            (task?.finishedAt?.substring(6, 7)?.toInt() ?: 1) - 1,
-            task?.finishedAt?.substring(9, 10)?.toInt() ?: 0
+            (task?.finishedAt?.substring(0, 4)?.toInt() ?: 0),
+            (task?.finishedAt?.substring(5, 7)?.toInt() ?: 1) - 1,
+            task?.finishedAt?.substring(8, 10)?.toInt() ?: 0
         )
         if(task?.finishedAt == null || task?.finishedAt!!.length < 16) return
         binding.taskTimeInput.hour = task?.finishedAt?.substring(11, 13)?.toInt() ?: 0
@@ -110,6 +110,8 @@ class TaskFragment : Fragment() {
     }
 
     private fun configureAnnexes() {
+        taskViewModel.cancelAnnexes()
+
         /** Recycler view **/
         binding.taskFilesRecycler.layoutManager = LinearLayoutManager(requireContext())
         taskViewModel.annexes.observe(viewLifecycleOwner) {
@@ -154,13 +156,14 @@ class TaskFragment : Fragment() {
             date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
         ).atStartOfDay(ZoneId.of(ZoneOffset.UTC.id)).toInstant().toEpochMilli()
 
+        println("Timestamp: $timestamp Current: ${System.currentTimeMillis()}")
         if(timestamp < System.currentTimeMillis()) {
-            Toast.makeText(requireContext(), "Invalid date", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Date cannot be earlier than now", Toast.LENGTH_SHORT).show()
             return false
         }
 
         if(title.isEmpty()) {
-            Toast.makeText(requireContext(), "Invalid title", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "You must enter title", Toast.LENGTH_SHORT).show()
             return false
         }
 
@@ -184,6 +187,7 @@ class TaskFragment : Fragment() {
     }
 
     private fun removeTask(): Boolean {
+        taskViewModel.deleteAnnexesFromTask()
         tasksViewModel.removeTask(task!!)
         findNavController().navigate(R.id.action_nav_task_to_nav_tasks)
         return true

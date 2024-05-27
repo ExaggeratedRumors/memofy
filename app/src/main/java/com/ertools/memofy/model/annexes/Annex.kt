@@ -1,8 +1,8 @@
 package com.ertools.memofy.model.annexes
 
-import android.graphics.Bitmap
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+
 @Entity(tableName="annexes")
 data class Annex (
     val name: String?,

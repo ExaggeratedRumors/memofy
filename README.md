@@ -12,6 +12,7 @@ App organizing your tasks and memos.
 - Handle attachments
 - Add notification
 - Add search
+- Calendar
 
 ## Release
 

@@ -20,4 +20,15 @@ class AnnexRepository(private val annexDao: AnnexDAO) {
     fun getByTaskId(id: Int): Flow<List<Annex>> {
         return annexDao.selectByTaskId(id)
     }
+
+    @WorkerThread
+    suspend fun delete(annex: Annex) {
+        annex.id?.let { annexDao.delete(it) }
+    }
+
+    @WorkerThread
+    suspend fun deleteByTaskId(id: Int) {
+        annexDao.deleteByTaskId(id)
+    }
+
 }
