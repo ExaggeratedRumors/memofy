@@ -177,7 +177,7 @@ class TaskFragment : Fragment() {
         )
         task?.id?.let { newTask.id = it }
 
-        taskViewModel.saveAnnexes()
+        taskViewModel.saveAnnexes(this)
 
         if(task != null) tasksViewModel.updateTask(newTask)
         else tasksViewModel.insertTask(newTask)
