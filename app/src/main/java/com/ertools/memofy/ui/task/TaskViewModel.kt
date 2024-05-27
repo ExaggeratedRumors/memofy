@@ -2,6 +2,7 @@ package com.ertools.memofy.ui.task
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Environment
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.InputStream
 
 class TaskViewModel(
     private val annexRepository: AnnexRepository,
@@ -48,10 +50,11 @@ class TaskViewModel(
         _annexes.setValue(newAnnexes)
     }
 
-    fun saveAnnexes() = viewModelScope.launch {
+    fun saveAnnexes(fragment: Fragment) = viewModelScope.launch {
         _annexes.value?.forEach { annex ->
+
             annexRepository.insert(annex)
-            saveFileToExternalStorage(annex)
+            saveFileToExternalStorage(annex, fragment)
         }
     }
 
@@ -97,20 +100,23 @@ class TaskViewModel(
                 )
                 val thumbnail = BitmapConverter.bitmapToString(icon)
 
+                println(selectedFileUri.encodedPath)
+                println(selectedFileUri.fragment)
+                println(selectedFileUri.pathSegments)
+                println(selectedFileUri.host)
                 /** Paths **/
                 val sourcePath: String? = selectedFileUri.path
-                val destinationPath = android.os.Environment.getExternalStorageDirectory().path +
-                        File.separator +
-                        Utils.ATTACHMENTS_DIRECTORY +
-                        File.separator +
-                        filename
+                val destinationPath = Environment
+                    .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+                    .path + File.separator + Utils.ATTACHMENTS_DIRECTORY + File.separator
+                println("TEST PATH\n$sourcePath\n$destinationPath")
 
                 /** Update annexes **/
-                val annexes = _annexes.value?.toMutableList()
-                annexes?.add(
-                    Annex(filename, sourcePath, destinationPath, selectedTask.value?.id, thumbnail)
-                )
-                _annexes.setValue(annexes)
+                val newAnnex = Annex(filename, destinationPath, selectedTask.value?.id, thumbnail)
+                newAnnex.sourceUri = selectedFileUri
+                val newAnnexes = _annexes.value?.toMutableList()
+                newAnnexes?.add(newAnnex)
+                _annexes.setValue(newAnnexes)
             }
         }
     }
@@ -123,16 +129,18 @@ class TaskViewModel(
         filerLauncher?.launch(intent)
     }
 
-    private fun saveFileToExternalStorage(annex: Annex) {
+    private fun saveFileToExternalStorage(annex: Annex, fragment: Fragment) {
         try {
-            val sourceFile = File(annex.sourcePath!!)
-            val destinationFile = File(annex.currentPath!!)
-
-            val sourceChannel = FileInputStream(sourceFile).channel
-            val destinationChannel = FileOutputStream(destinationFile).channel
-            destinationChannel.transferFrom(sourceChannel, 0, sourceChannel.size())
-            sourceChannel.close()
-            destinationChannel.close()
+            val destinationFile = File(annex.currentPath!!, annex.name!!)
+            val sourceStream: InputStream? = fragment
+                .requireActivity()
+                .contentResolver
+                .openInputStream(annex.sourceUri!!)
+            sourceStream?.use { input ->
+                FileOutputStream(destinationFile).use { output ->
+                    input.copyTo(output)
+                }
+            }
         } catch (e: IOException) {
             e.printStackTrace()
         }

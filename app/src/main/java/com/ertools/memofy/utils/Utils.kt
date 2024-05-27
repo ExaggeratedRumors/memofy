@@ -9,7 +9,7 @@ object Utils {
     const val PICK_FILE_REQUEST_CODE = 100
 
     /** Externals **/
-    const val ATTACHMENTS_DIRECTORY = "attachments"
+    const val ATTACHMENTS_DIRECTORY = "MemofyAttachments"
 
     /** Bundle **/
     const val BUNDLE_STATUS_FILTER = "status_filter"

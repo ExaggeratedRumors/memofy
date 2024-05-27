@@ -61,7 +61,6 @@ class TaskFragment : Fragment() {
 
         /** Fill time/data picker **/
         if(task?.finishedAt == null || task?.finishedAt!!.length < 10) return
-        println("String: ${task?.finishedAt}, year: ${task?.finishedAt?.substring(0, 4)}, month: ${task?.finishedAt?.substring(5, 7)}, day: ${task?.finishedAt?.substring(8, 10)}")
         binding.taskDateInput.updateDate(
             (task?.finishedAt?.substring(0, 4)?.toInt() ?: 0),
             (task?.finishedAt?.substring(5, 7)?.toInt() ?: 1) - 1,
@@ -152,11 +151,11 @@ class TaskFragment : Fragment() {
         val minute = "%02d".format(binding.taskTimeInput.minute)
         val date = "$year-$month-$day $hour:$minute"
 
-        val timestamp = LocalDate.parse(
-            date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-        ).atStartOfDay(ZoneId.of(ZoneOffset.UTC.id)).toInstant().toEpochMilli()
+        val timestamp = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+            .atTime(binding.taskTimeInput.hour - 2, binding.taskTimeInput.minute)
+            .toInstant(ZoneOffset.UTC)
+            .toEpochMilli()
 
-        println("Timestamp: $timestamp Current: ${System.currentTimeMillis()}")
         if(timestamp < System.currentTimeMillis()) {
             Toast.makeText(requireContext(), "Date cannot be earlier than now", Toast.LENGTH_SHORT).show()
             return false
