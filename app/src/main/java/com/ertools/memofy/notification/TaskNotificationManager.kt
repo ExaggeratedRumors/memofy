@@ -49,7 +49,7 @@ class TaskNotificationManager {
     private fun calculateNotificationDelay(finishedAt: String?, minutesBefore: Int): Long {
         if (finishedAt.isNullOrEmpty()) return 0L
 
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH-mm", Locale.getDefault())
+        val sdf = SimpleDateFormat(Utils.DATE_FORMAT, Locale.getDefault())
         val finishDate = sdf.parse(finishedAt) ?: return 0L
         val notificationTime = Calendar.getInstance().apply {
             time = finishDate

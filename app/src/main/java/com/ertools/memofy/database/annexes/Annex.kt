@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 data class Annex (
     val name: String?,
     val currentPath: String?,
-    val taskId: Int?,
+    var taskId: Int?,
     val thumbnail: String?
 ) {
     @PrimaryKey(autoGenerate = true)

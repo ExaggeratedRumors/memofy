@@ -16,7 +16,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 
-class AnnexesFileManager {
+class AnnexFileManager {
     private var fileLauncher: ActivityResultLauncher<Intent>? = null
     fun configureSelectFileLauncher(fragment: Fragment, taskViewModel: TaskViewModel) {
         fileLauncher = fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -66,22 +66,21 @@ class AnnexesFileManager {
         fileLauncher?.launch(intent)
     }
 
-    fun saveFileToExternalStorage(annex: Annex, fragment: Fragment) {
+    fun saveFileToExternalStorage(activity: Activity, annex: Annex) {
         try {
             if(annex.currentPath == null || annex.sourceUri == null || annex.name == null) return
             val destinationPath = File(annex.currentPath)
             if(!destinationPath.exists()) destinationPath.mkdirs()
             val destinationFile = File(annex.currentPath, annex.name)
-            val sourceStream: InputStream? = fragment
-                .requireActivity()
+            val sourceStream: InputStream? = activity
                 .contentResolver
                 .openInputStream(annex.sourceUri!!)
             sourceStream?.use { input ->
-                FileOutputStream(destinationFile).use { output ->
-                    input.copyTo(output)
-                }
+                FileOutputStream(destinationFile).use { output -> input.copyTo(output) }
             }
         } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }

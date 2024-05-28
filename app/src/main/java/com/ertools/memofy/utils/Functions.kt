@@ -14,6 +14,6 @@ inline fun <reified T : Serializable> Bundle.serializable(key: String): T? = whe
 fun timestampToTime(timestamp: Long): String {
     val timeInMs = timestamp * 1000
     val date = java.util.Date(timeInMs)
-    val sdf = SimpleDateFormat("EEEE dd/MM/yyyy HH:mm", Locale.ENGLISH)
+    val sdf = SimpleDateFormat(Utils.DATE_FORMAT, Locale.ENGLISH)
     return sdf.format(date)
 }

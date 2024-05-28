@@ -19,7 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ertools.memofy.R
 import com.ertools.memofy.database.tasks.Task
 import com.ertools.memofy.databinding.FragmentTaskBinding
-import com.ertools.memofy.ui.tasks.TasksViewModel
+import com.ertools.memofy.ui.categories.CategoriesViewModel
+import com.ertools.memofy.utils.Utils
 import com.ertools.memofy.utils.serializable
 import com.ertools.memofy.utils.timestampToTime
 import java.time.LocalDate
@@ -31,7 +32,7 @@ class TaskFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val taskViewModel: TaskViewModel by activityViewModels()
-    private val tasksViewModel: TasksViewModel by activityViewModels()
+    private val categoriesViewModel: CategoriesViewModel by activityViewModels()
     private var task: Task? = null
 
     override fun onCreateView(
@@ -96,7 +97,7 @@ class TaskFragment : Fragment() {
     }
 
     private fun configureCategory() {
-        tasksViewModel.categories.observe(viewLifecycleOwner) {
+        categoriesViewModel.categories.observe(viewLifecycleOwner) {
             val names = it.map { category -> category.name }.toMutableList()
             if(names.size > 0) binding.taskCategoryInput.setText(names[0], false)
             val adapter = ArrayAdapter(
@@ -152,8 +153,8 @@ class TaskFragment : Fragment() {
         val minute = "%02d".format(binding.taskTimeInput.minute)
         val date = "$year-$month-$day $hour:$minute"
 
-        val timestamp = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
-            .atTime(binding.taskTimeInput.hour - 2, binding.taskTimeInput.minute)
+        val timestamp = LocalDate.parse(date, DateTimeFormatter.ofPattern(Utils.DATE_FORMAT))
+            .atTime(binding.taskTimeInput.hour, binding.taskTimeInput.minute)
             .toInstant(ZoneOffset.UTC)
             .toEpochMilli()
 
@@ -176,19 +177,20 @@ class TaskFragment : Fragment() {
             switch,
             category
         )
-        task?.id?.let { newTask.id = it }
 
-        taskViewModel.saveAnnexes(this)
 
-        if(task != null) tasksViewModel.updateTask(newTask)
-        else tasksViewModel.insertTask(newTask)
+        task?.id?.let {
+            newTask.id = it
+            taskViewModel.updateTaskData(requireActivity())
+        } ?: taskViewModel.addTask(requireActivity(), newTask)
+
         findNavController().navigate(R.id.action_nav_task_to_nav_tasks)
         return true
     }
 
     private fun removeTask(): Boolean {
-        taskViewModel.deleteAnnexesFromTask()
-        tasksViewModel.removeTask(task!!)
+        taskViewModel.removeTask()
+
         findNavController().navigate(R.id.action_nav_task_to_nav_tasks)
         return true
     }

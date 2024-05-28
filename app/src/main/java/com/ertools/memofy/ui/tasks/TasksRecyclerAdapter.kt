@@ -60,7 +60,7 @@ class TasksRecyclerAdapter(
         view.taskCheckbox.setOnCheckedChangeListener(null)
         view.taskCheckbox.isChecked = task.completed ?: false
         view.taskCheckbox.setOnCheckedChangeListener { button, _ ->
-            tasksViewModel.updateTask(task.clone(completed = (button.isChecked)))
+            tasksViewModel.changeTaskStatus(task, button.isChecked)
         }
         if(task.completed == true) view.taskSurface.setBackgroundColor(context.getColor(R.color.surface_alt))
         else view.taskSurface.setBackgroundColor(context.getColor(R.color.surface))

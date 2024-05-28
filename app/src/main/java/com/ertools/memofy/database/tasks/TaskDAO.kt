@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TaskDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(task: Task)
+    suspend fun insert(task: Task): Long
     @Query("delete from tasks where id = :id")
     suspend fun delete(id: Int)
     @Update

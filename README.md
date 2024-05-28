@@ -9,9 +9,9 @@
 App organizing your tasks and memos.
 
 ## TODO
-- Add notification
+- Delete task after save
+- Cancel task notification
 - Settings notification
-- Add search
 - Calendar
 
 ## Release

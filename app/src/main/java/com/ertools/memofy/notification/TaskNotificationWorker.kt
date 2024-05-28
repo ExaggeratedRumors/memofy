@@ -22,7 +22,7 @@ class TaskNotificationWorker(context: Context, params: WorkerParameters) : Worke
         )
 
         if (!finishedAt.isNullOrEmpty()) {
-            val sdf = SimpleDateFormat("yyyy-MM-dd HH-mm", Locale.getDefault())
+            val sdf = SimpleDateFormat(Utils.DATE_FORMAT, Locale.getDefault())
             val finishDate = sdf.parse(finishedAt) ?: return Result.failure()
             val notificationTime = Calendar.getInstance().apply {
                 time = finishDate

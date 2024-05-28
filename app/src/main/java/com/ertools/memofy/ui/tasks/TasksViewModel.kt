@@ -61,6 +61,9 @@ class TasksViewModel(
         fetchTasks(query, category, false)
     }
 
+
+    /** Live data **/
+
     private fun fetchTasks(
         query: String,
         category: String,
@@ -83,16 +86,10 @@ class TasksViewModel(
         return taskRepository.searchByStatusAndCategory(query, completed, category).asLiveData()
     }
 
-    fun insertTask(task: Task) = viewModelScope.launch {
-        taskRepository.insert(task)
-    }
-
-    fun updateTask(task: Task) = viewModelScope.launch {
-        taskRepository.update(task)
-    }
-
-    fun removeTask(task: Task) = viewModelScope.launch {
-        taskRepository.delete(task)
+    fun getDataByStatus(status: Int?) = when(status) {
+        0 -> uncompletedTasks
+        1 -> completedTasks
+        else -> allTasks
     }
 
     fun changeSelectedCategory(category: String) {
@@ -103,10 +100,11 @@ class TasksViewModel(
         enteredQuery.value = query
     }
 
-    fun getDataByStatus(status: Int?) = when(status) {
-        0 -> uncompletedTasks
-        1 -> completedTasks
-        else -> allTasks
+    /** Database **/
+    fun changeTaskStatus(task: Task, completed: Boolean) {
+        viewModelScope.launch {
+            taskRepository.update(task.copy(completed = completed))
+        }
     }
 }
 

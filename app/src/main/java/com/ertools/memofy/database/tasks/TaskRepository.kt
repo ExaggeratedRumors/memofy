@@ -1,16 +1,13 @@
 package com.ertools.memofy.database.tasks
 
 import androidx.annotation.WorkerThread
-import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 class TaskRepository(private val taskDao: TaskDAO) {
     var tasks: Flow<List<Task>> = taskDao.select()
 
     @WorkerThread
-    suspend fun insert(task: Task) {
-        taskDao.insert(task)
-    }
+    suspend fun insert(task: Task): Long = taskDao.insert(task)
 
     @WorkerThread
     suspend fun update(task: Task) {

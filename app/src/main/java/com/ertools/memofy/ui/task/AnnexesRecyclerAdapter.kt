@@ -35,7 +35,7 @@ class AnnexesRecyclerAdapter(
         view.annexName.text = annex.name
 
         view.annexDeleteButton.setOnClickListener {
-            viewModel.deleteAnnex(annex)
+            viewModel.removeAnnex(annex)
         }
     }
 

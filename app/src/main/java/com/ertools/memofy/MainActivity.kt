@@ -83,7 +83,10 @@ class MainActivity : AppCompatActivity() {
 
         taskViewModel = ViewModelProvider(
             this,
-            TaskViewModelFactory((applicationContext as MemofyApplication).annexesRepository)
+            TaskViewModelFactory(
+                (applicationContext as MemofyApplication).taskRepository,
+                (applicationContext as MemofyApplication).annexesRepository
+            )
         )[TaskViewModel::class.java]
 
         categoriesViewModel = ViewModelProvider(
