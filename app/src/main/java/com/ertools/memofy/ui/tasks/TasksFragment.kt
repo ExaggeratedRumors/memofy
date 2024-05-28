@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -42,6 +43,8 @@ class TasksFragment : Fragment() {
         requireActivity().addMenuProvider(object: MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.tasks, menu)
+
+                /* Filter spinner */
                 val filterItem = menu.findItem(R.id.action_filter)
                 val spinner = filterItem.actionView as Spinner
                 tasksViewModel.categories.observe(viewLifecycleOwner) {
@@ -62,6 +65,12 @@ class TasksFragment : Fragment() {
                         override fun onNothingSelected(parent: AdapterView<*>?) {}
                     }
                 }
+
+                /* Search view */
+                val searchItem = menu.findItem(R.id.action_search)
+                val searchView = searchItem.actionView as? SearchView
+                searchView?.isSubmitButtonEnabled = true
+                searchView?.setOnQueryTextListener(TasksSearchListener(tasksViewModel))
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

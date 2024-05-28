@@ -1,6 +1,7 @@
 package com.ertools.memofy.database.tasks
 
 import androidx.annotation.WorkerThread
+import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 class TaskRepository(private val taskDao: TaskDAO) {
@@ -31,4 +32,16 @@ class TaskRepository(private val taskDao: TaskDAO) {
     fun selectByStatusAndCategory(completed: Boolean, category: String) =
         taskDao.selectByStatusAndCategory(completed, category)
 
+    @WorkerThread
+    fun search(query: String) = taskDao.search(query)
+
+    @WorkerThread
+    fun searchByCategory(query: String, category: String) = taskDao.searchByCategory(query, category)
+
+    @WorkerThread
+    fun searchByStatus(query: String, completed: Boolean) = taskDao.searchByStatus(query, completed)
+
+    @WorkerThread
+    fun searchByStatusAndCategory(query: String, completed: Boolean, category: String) =
+        taskDao.searchByStatusAndCategory(query, completed, category)
 }
