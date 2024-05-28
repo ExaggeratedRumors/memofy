@@ -17,51 +17,48 @@ class TasksViewModel(
     private val taskRepository: TaskRepository,
     private val categoryRepository: CategoryRepository
 ) : ViewModel() {
-    private val enteredQuery = MutableLiveData<String>()
-    private val selectedCategory = MutableLiveData<String>()
+    private val enteredQuery = MutableLiveData<String>().apply {
+        value = String()
+    }
+    private val selectedCategory = MutableLiveData<String>().apply {
+        value = String()
+    }
     val categories = categoryRepository.categories.asLiveData()
-    private val _allTasks = MediatorLiveData<List<Task>>()
-    private val allTasks: LiveData<List<Task>> get() = _allTasks
-    private val _completedTasks = MediatorLiveData<List<Task>>()
-    private val completedTasks: LiveData<List<Task>> get() = _completedTasks
-    private val _uncompletedTasks = MediatorLiveData<List<Task>>()
-    private val uncompletedTasks: LiveData<List<Task>> get() = _uncompletedTasks
 
-
-    /*private val allTasks = selectedCategory.switchMap {
-        if(it.isEmpty()) taskRepository.tasks.asLiveData()
-        else taskRepository.selectByCategory(it).asLiveData()
+    private val _allTasks = MediatorLiveData<Pair<String, String>>().apply {
+        addSource(enteredQuery) {
+            value = it to selectedCategory.value!!
+        }
+        addSource(selectedCategory) {
+            value = enteredQuery.value!! to it
+        }
+    }
+    private val allTasks: LiveData<List<Task>> = _allTasks.switchMap { (query, category) ->
+        fetchTasks(query, category, null)
     }
 
-    private val completedTasks = selectedCategory.switchMap {
-        if(it.isEmpty()) taskRepository.selectByStatus(true).asLiveData()
-        else taskRepository.selectByStatusAndCategory(true, it).asLiveData()
+    private val _completedTasks = MediatorLiveData<Pair<String, String>>().apply {
+        addSource(enteredQuery) {
+            value = it to selectedCategory.value!!
+        }
+        addSource(selectedCategory) {
+            value = enteredQuery.value!! to it
+        }
+    }
+    private val completedTasks: LiveData<List<Task>> = _completedTasks.switchMap { (query, category) ->
+        fetchTasks(query, category, true)
     }
 
-    private val uncompletedTasks = selectedCategory.switchMap {
-        if(it.isEmpty()) taskRepository.selectByStatus(false).asLiveData()
-        else taskRepository.selectByStatusAndCategory(false, it).asLiveData()
-    }*/
-
-    init {
-        _allTasks.addSource(enteredQuery) { query ->
-            _allTasks.value = fetchTasks(query, selectedCategory.value ?: String(), null).value
+    private val _uncompletedTasks = MediatorLiveData<Pair<String, String>>().apply {
+        addSource(enteredQuery) {
+            value = it to selectedCategory.value!!
         }
-        _allTasks.addSource(selectedCategory) { category ->
-            _allTasks.value = fetchTasks(enteredQuery.value ?: String(), category, null).value
+        addSource(selectedCategory) {
+            value = enteredQuery.value!! to it
         }
-        _completedTasks.addSource(enteredQuery) { query ->
-            _completedTasks.value = fetchTasks(query, selectedCategory.value ?: String(), true).value
-        }
-        _completedTasks.addSource(selectedCategory) { category ->
-            _completedTasks.value = fetchTasks(enteredQuery.value ?: String(), category, true).value
-        }
-        _uncompletedTasks.addSource(enteredQuery) { query ->
-            _uncompletedTasks.value = fetchTasks(query, selectedCategory.value ?: String(), false).value
-        }
-        _uncompletedTasks.addSource(selectedCategory) { category ->
-            _uncompletedTasks.value = fetchTasks(enteredQuery.value ?: String(), category, false).value
-        }
+    }
+    private val uncompletedTasks: LiveData<List<Task>> = _uncompletedTasks.switchMap { (query, category) ->
+        fetchTasks(query, category, false)
     }
 
     private fun fetchTasks(

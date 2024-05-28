@@ -27,12 +27,12 @@ interface TaskDAO {
     fun selectByStatus(completed: Boolean): Flow<List<Task>>
     @Query("select * from tasks where completed = :completed and category = :category order by finishedAt asc")
     fun selectByStatusAndCategory(completed: Boolean, category: String): Flow<List<Task>>
-    @Query("select * from tasks where title like :query order by finishedAt asc")
+    @Query("select * from tasks where title like '%' || :query || '%' order by finishedAt asc")
     fun search(query: String): Flow<List<Task>>
-    @Query("select * from tasks where category = :category and title like :query order by finishedAt asc")
+    @Query("select * from tasks where category = :category and title like '%' || :query || '%' order by finishedAt asc")
     fun searchByCategory(query: String, category: String): Flow<List<Task>>
-    @Query("select * from tasks where completed = :completed and title like :query order by finishedAt asc")
+    @Query("select * from tasks where completed = :completed and title like '%' || :query || '%' order by finishedAt asc")
     fun searchByStatus(query: String, completed: Boolean): Flow<List<Task>>
-    @Query("select * from tasks where completed = :completed and category = :category and title like :query order by finishedAt asc")
+    @Query("select * from tasks where completed = :completed and category = :category and title like '%' || :query || '%' order by finishedAt asc")
     fun searchByStatusAndCategory(query: String, completed: Boolean, category: String): Flow<List<Task>>
 }

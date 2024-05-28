@@ -5,4 +5,7 @@
     android:padding="16dp"
     android:gravity="center"
     android:maxLines="1"
-    android:textAppearance="@style/MediumText" />
+    android:textAppearance="@style/MediumText"
+    android:background="@color/primary"
+    android:textColor="@color/on_primary"
+    />

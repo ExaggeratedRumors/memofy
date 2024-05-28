@@ -11,15 +11,11 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tasks_tab_layout"
         android:contentDescription="@string/tasks_tab_cd"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:tabSelectedTextAppearance="@style/MediumText"
         app:tabMode="fixed"
         app:tabGravity="fill"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="1.0"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         />

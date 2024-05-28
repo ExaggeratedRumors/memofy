@@ -132,7 +132,7 @@ class TaskFragment : Fragment() {
         }
 
         /** Attach button **/
-        taskViewModel.configureSelectFileLauncher(this)
+        taskViewModel.configureFileManager(this)
         binding.taskAttachButton.setOnClickListener {
             taskViewModel.selectFile()
         }

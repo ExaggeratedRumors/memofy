@@ -4,10 +4,7 @@ object Utils {
     /** Database **/
     const val DATABASE_NAME = "memofy.db"
     const val DATABASE_VERSION = 7
-    const val DATABASE_TASKS_NAMESPACE = "tasks"
-
-    /** Codes **/
-    const val PICK_FILE_REQUEST_CODE = 100
+    const val DATABASE_TASK_TABLE = "tasks"
 
     /** Externals **/
     const val ATTACHMENTS_DIRECTORY = "MemofyAttachments"

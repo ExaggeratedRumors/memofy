@@ -48,6 +48,8 @@ class TasksPageFragment : Fragment() {
         val tasksRecyclerAdapter = TasksRecyclerAdapter(requireContext(), tasksViewModel)
         binding.tasksRecycler.adapter = tasksRecyclerAdapter
 
+        println("Im in configure")
+
         tasksViewModel.getDataByStatus(taskStatusCode).observe(viewLifecycleOwner) {
             tasksRecyclerAdapter.submitTasks(it)
         }
