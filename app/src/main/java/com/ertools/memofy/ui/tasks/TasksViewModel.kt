@@ -101,10 +101,8 @@ class TasksViewModel(
     }
 
     /** Database **/
-    fun changeTaskStatus(task: Task, completed: Boolean) {
-        viewModelScope.launch {
-            taskRepository.update(task.copy(completed = completed))
-        }
+    fun changeTaskStatus(task: Task, completed: Boolean) = viewModelScope.launch {
+        taskRepository.update(task.clone(completed = completed))
     }
 }
 

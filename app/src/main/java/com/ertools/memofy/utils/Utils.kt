@@ -22,7 +22,7 @@ object Utils {
     const val NOTIFICATION_DATA_DESCRIPTION = "description"
     const val NOTIFICATION_DATA_FINISH_TIME = "finishedAt"
     const val NOTIFICATION_DATA_FINISH_DELAY = "minutesBefore"
-    const val NOTIFICATION_TIME_DEFAULT = 5
+    const val NOTIFICATION_TIME_DEFAULT = 1
 
     /** Date **/
     const val DATE_FORMAT = "yyyy-MM-dd HH:mm"
