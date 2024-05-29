@@ -20,4 +20,6 @@
     <dimen name="category_color_preview_size">64dp</dimen>
     <dimen name="form_padding">10dp</dimen>
     <dimen name="form_margin">16dp</dimen>
+    <dimen name="form_surface_padding">64dp</dimen>
+    <dimen name="form_space_height">32dp</dimen>
 </resources>

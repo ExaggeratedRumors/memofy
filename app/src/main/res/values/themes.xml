@@ -32,5 +32,8 @@
 
     <style name="Theme.Memofy.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.Memofy.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.Memofy.PopupOverlay" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@color/primary</item>
+        <item name="android:textColor">@color/on_primary</item>
+    </style>
 </resources>

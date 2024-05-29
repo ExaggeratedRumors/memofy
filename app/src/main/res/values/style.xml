@@ -20,6 +20,4 @@
         <item name="android:autoSizeMaxTextSize">@dimen/text_max_big</item>
         <item name="android:textColor">@color/on_surface</item>
     </style>
-
-
 </resources>

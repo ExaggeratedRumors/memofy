@@ -5,6 +5,10 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_tasks">
 
+    <action
+        android:id="@+id/action_global_to_nav_settings"
+        app:destination="@id/nav_settings" />
+
     <fragment
         android:id="@+id/nav_tasks"
         android:name="com.ertools.memofy.ui.tasks.TasksFragment"
@@ -50,7 +54,13 @@
             android:id="@+id/action_nav_category_to_nav_categories"
             app:destination="@id/nav_categories"
             app:popUpTo="@id/nav_categories" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.ertools.memofy.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" >
     </fragment>
 
 </navigation>

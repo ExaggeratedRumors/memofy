@@ -11,10 +11,11 @@
     <string name="action_settings">Settings</string>
 
     <!-- Menu items -->
-    <string name="menu_categories">Categories</string>
+    <string name="menu_settings">Settings</string>
     <string name="menu_tasks">Tasks</string>
     <string name="menu_task">Create new task</string>
     <string name="menu_category">Create new category</string>
+    <string name="menu_categories">Categories</string>
 
     <!-- Direction -->
     <string name="direction_task">TaskFragment</string>
@@ -49,4 +50,8 @@
     <string name="tasks_tab_cd">Task filter</string>
     <string name="item_annex_icon_cd">Annex thumbnail</string>
     <string name="item_annex_button_cd">Delete item</string>
+    <string name="settings_delay_hint">Time in minutes before notify</string>
+
+    <!-- Snackbar/Toast -->
+    <string name="error_settings_delay">Entered advance is incorrect.</string>
 </resources>

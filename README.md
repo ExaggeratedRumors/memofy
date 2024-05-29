@@ -10,9 +10,6 @@ App organizing your tasks and memos.
 
 ## TODO
 - Delete task after save
-- Cancel task notification
-- Settings notification
-- Calendar
 
 ## Release
 

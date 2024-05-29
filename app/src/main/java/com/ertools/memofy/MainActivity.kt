@@ -2,8 +2,12 @@ package com.ertools.memofy
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuProvider
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,6 +19,7 @@ import com.ertools.memofy.database.MemofyApplication
 import com.ertools.memofy.notification.TaskNotificationManager
 import com.ertools.memofy.ui.categories.CategoriesViewModel
 import com.ertools.memofy.ui.categories.CategoriesViewModelFactory
+import com.ertools.memofy.ui.settings.SettingsViewModel
 import com.ertools.memofy.ui.task.TaskViewModel
 import com.ertools.memofy.ui.task.TaskViewModelFactory
 import com.ertools.memofy.ui.tasks.TasksViewModel
@@ -30,11 +35,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tasksViewModel: TasksViewModel
     private lateinit var taskViewModel: TaskViewModel
     private lateinit var categoriesViewModel: CategoriesViewModel
+    private lateinit var settingsViewModel: SettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        this.deleteDatabase(Utils.DATABASE_NAME)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -49,9 +53,24 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                findNavController(R.id.nav_host_fragment_content_main)
+                    .navigate(R.id.action_global_to_nav_settings)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun deleteDatabase() {
+        this.deleteDatabase(Utils.DATABASE_NAME)
     }
 
     private fun configureNavigation() {
@@ -93,5 +112,7 @@ class MainActivity : AppCompatActivity() {
             this,
             CategoriesViewModelFactory((applicationContext as MemofyApplication).categoryRepository)
         )[CategoriesViewModel::class.java]
+
+        settingsViewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
     }
 }

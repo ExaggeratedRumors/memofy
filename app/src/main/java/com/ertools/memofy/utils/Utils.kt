@@ -18,11 +18,11 @@ object Utils {
 
     /** Notifications **/
     const val NOTIFICATION_CHANNEL_TASK = "task_channel"
-    const val NOTIFICATION_DATA_TITLE = "title"
-    const val NOTIFICATION_DATA_DESCRIPTION = "description"
-    const val NOTIFICATION_DATA_FINISH_TIME = "finishedAt"
-    const val NOTIFICATION_DATA_FINISH_DELAY = "minutesBefore"
     const val NOTIFICATION_TIME_DEFAULT = 1
+
+    /** Shared preferences **/
+    const val SHARED_PREFERENCES_NAME = "memofy_preferences"
+    const val SHARED_PREFERENCES_DELAY = "sp_delay"
 
     /** Date **/
     const val DATE_FORMAT = "yyyy-MM-dd HH:mm"

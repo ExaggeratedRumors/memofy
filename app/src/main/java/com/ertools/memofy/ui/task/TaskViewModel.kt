@@ -12,7 +12,7 @@ import com.ertools.memofy.database.annexes.Annex
 import com.ertools.memofy.database.annexes.AnnexRepository
 import com.ertools.memofy.database.tasks.Task
 import com.ertools.memofy.database.tasks.TaskRepository
-import com.ertools.memofy.files.AnnexFileManager
+import com.ertools.memofy.storage.AnnexFileManager
 import com.ertools.memofy.notification.TaskNotificationManager
 import com.ertools.memofy.utils.Utils
 import kotlinx.coroutines.launch
@@ -58,20 +58,21 @@ class TaskViewModel(
         }
     }
 
-    fun removeTask() {
+    fun removeTask(context: Context) {
         val task = selectedTask.value ?: return
-        cancelTaskNotification(selectedTask.value!!)
+        cancelTaskNotification(context, selectedTask.value!!)
         removeAnnexFiles(annexes.value!!)
         deleteAnnexesFromTask(selectedTask.value!!)
         deleteTask(task)
     }
 
-    fun updateTaskData(activity: Activity) {
-        val task = selectedTask.value ?: return
+    fun updateTaskData(activity: Activity, task: Task) {
+        if(selectedTask.value == null) return
         insertAnnexes(annexes.value!!)
         removeAnnexFiles(annexes.value!!)
         saveAnnexFiles(activity, annexes.value!!)
         updateTask(task)
+        updateNotifications(activity, task)
     }
 
     fun addAnnex(newAnnex: Annex) {
@@ -155,8 +156,18 @@ class TaskViewModel(
         notificationManager.scheduleTaskNotification(context, task, Utils.NOTIFICATION_TIME_DEFAULT)
     }
 
-    private fun cancelTaskNotification(task: Task) {
+    private fun updateNotifications(context: Context, task: Task) {
+        val oldTask = selectedTask.value ?: return
+        if(oldTask.finishedAt.equals(task.finishedAt) &&
+            oldTask.notification == task.notification) return
+        cancelTaskNotification(context, oldTask)
+        if(task.notification == true)
+            scheduleTaskNotification(context, task)
+    }
 
+    private fun cancelTaskNotification(context: Context, task: Task) {
+        if(task.notification != true || task.finishedAt == null) return
+        notificationManager.cancelTaskNotification(context, task)
     }
 }
 

@@ -102,7 +102,7 @@ class TaskFragment : Fragment() {
             if(names.size > 0) binding.taskCategoryInput.setText(names[0], false)
             val adapter = ArrayAdapter(
                 requireContext(),
-                R.layout.item_dropdown_menu,
+                R.layout.item_dropdown_surface,
                 names
             )
             val autoCompleteTextView = binding.taskCategoryInput
@@ -178,10 +178,9 @@ class TaskFragment : Fragment() {
             category
         )
 
-
         task?.id?.let {
             newTask.id = it
-            taskViewModel.updateTaskData(requireActivity())
+            taskViewModel.updateTaskData(requireActivity(), newTask)
         } ?: taskViewModel.addTask(requireActivity(), newTask)
 
         findNavController().navigate(R.id.action_nav_task_to_nav_tasks)
@@ -189,7 +188,7 @@ class TaskFragment : Fragment() {
     }
 
     private fun removeTask(): Boolean {
-        taskViewModel.removeTask()
+        taskViewModel.removeTask(requireContext())
 
         findNavController().navigate(R.id.action_nav_task_to_nav_tasks)
         return true

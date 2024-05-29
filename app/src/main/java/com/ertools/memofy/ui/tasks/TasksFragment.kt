@@ -52,7 +52,7 @@ class TasksFragment : Fragment() {
                     categories.add(0, "Filter")
                     val adapter = ArrayAdapter(
                         requireContext(),
-                        R.layout.item_dropdown_menu,
+                        R.layout.item_dropdown_primary,
                         categories
                     )
                     spinner.adapter = adapter

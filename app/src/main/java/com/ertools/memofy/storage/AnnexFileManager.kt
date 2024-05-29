@@ -1,4 +1,4 @@
-package com.ertools.memofy.files
+package com.ertools.memofy.storage
 
 import android.app.Activity
 import android.content.Intent
