@@ -8,9 +8,6 @@
 
 App organizing your tasks and memos.
 
-## TODO
-- Delete task after save
-
 ## Release
 
 `

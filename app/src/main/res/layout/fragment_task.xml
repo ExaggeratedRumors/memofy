@@ -22,7 +22,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="@dimen/form_padding"
             android:background="@drawable/rounded_surface"
             >
 
@@ -99,21 +99,49 @@
                     android:text="@string/task_notification_text"
                     android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                     android:checked="true"
-                    android:padding="16dp"
+                    android:padding="@dimen/form_padding"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toTopOf="@id/task_date_input"
+                    app:layout_constraintBottom_toTopOf="@id/task_date_label"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/task_category_layout" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/task_date_label"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:text="@string/task_date_text"
+                    android:padding="@dimen/form_padding"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/task_notification_switch"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/task_date_input"
+                    />
 
                 <DatePicker
                     android:id="@+id/task_date_input"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:datePickerMode="spinner"
-                    android:calendarViewShown="false"
-                    app:layout_constraintTop_toBottomOf="@id/task_notification_switch"
+                    android:datePickerMode="calendar"
+                    android:calendarViewShown="true"
+                    app:layout_constraintTop_toBottomOf="@id/task_date_label"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/task_time_label"
+                    />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/task_time_label"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:text="@string/task_time_text"
+                    android:padding="@dimen/form_padding"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/task_date_input"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/task_time_input"
@@ -124,7 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:timePickerMode="spinner"
-                    app:layout_constraintTop_toBottomOf="@id/task_date_input"
+                    app:layout_constraintTop_toBottomOf="@id/task_time_label"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/task_attachments_label"
@@ -134,6 +162,7 @@
                     android:id="@+id/task_attachments_label"
                     android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                     android:text="@string/task_attachments_text"
+                    android:padding="@dimen/form_padding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/task_time_input"
@@ -144,7 +173,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/task_files_recycler"
-                    android:padding="16dp"
+                    android:padding="@dimen/form_padding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/task_attachments_label"
@@ -162,7 +191,7 @@
                 android:layout_gravity="bottom|end"
                 android:importantForAccessibility="no"
                 android:contentDescription="@string/app_task_button_cd"
-                android:layout_margin="16dp"
+                android:layout_margin="@dimen/form_padding"
                 app:srcCompat="@drawable/ic_attachment"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
