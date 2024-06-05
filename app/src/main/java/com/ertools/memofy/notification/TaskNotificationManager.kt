@@ -39,6 +39,7 @@ class TaskNotificationManager {
             putExtra(Utils.INTENT_TASK_TITLE, task.title)
             putExtra(Utils.INTENT_TASK_DESCRIPTION, task.description)
         }
+
         val pendingIntent = PendingIntent.getBroadcast(
             context,
             0,

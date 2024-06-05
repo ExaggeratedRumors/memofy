@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import androidx.navigation.NavDeepLinkBuilder
 import com.ertools.memofy.R
 import com.ertools.memofy.utils.Utils
 
@@ -13,10 +14,17 @@ class TaskNotificationReceiver : BroadcastReceiver() {
         val title = intent.getStringExtra(Utils.INTENT_TASK_TITLE)
         val description = intent.getStringExtra(Utils.INTENT_TASK_DESCRIPTION)
 
+        val deepLink = NavDeepLinkBuilder(context)
+            .setGraph(R.navigation.mobile_navigation)
+            .setDestination(R.id.nav_tasks)
+            .createPendingIntent()
+
         val builder = NotificationCompat.Builder(context, Utils.NOTIFICATION_CHANNEL_TASK)
             .setSmallIcon(R.drawable.logo)
             .setContentTitle(title)
             .setContentText(description)
+            .setContentIntent(deepLink)
+            .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
