@@ -2,11 +2,15 @@ package com.ertools.memofy.storage
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Picture
 import android.os.Environment
 import android.provider.OpenableColumns
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import com.ertools.memofy.R
 import com.ertools.memofy.database.annexes.Annex
 import com.ertools.memofy.ui.task.TaskViewModel
 import com.ertools.memofy.utils.BitmapConverter
@@ -15,6 +19,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
+
 
 class AnnexFileManager {
     private var fileLauncher: ActivityResultLauncher<Intent>? = null
@@ -35,9 +40,14 @@ class AnnexFileManager {
                 }
 
                 /** Thumbnail **/
-                val icon = fragment.requireActivity().contentResolver.loadThumbnail(
-                    selectedFileUri, android.util.Size(100, 100), null
-                )
+                val icon: Bitmap = if(selectedFileUri.toString().contains("/image%")) {
+                    fragment.requireActivity().contentResolver.loadThumbnail(
+                        selectedFileUri, android.util.Size(100, 100), null
+                    )
+                } else {
+                    BitmapFactory.decodeResource(fragment.requireContext().resources, R.drawable.logo)
+                }
+
                 val thumbnail = BitmapConverter.bitmapToString(icon)
 
                 /** Paths **/
