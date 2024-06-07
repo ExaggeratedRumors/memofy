@@ -17,9 +17,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ertools.memofy.R
+import com.ertools.memofy.database.MemofyApplication
 import com.ertools.memofy.database.tasks.Task
 import com.ertools.memofy.databinding.FragmentTaskBinding
 import com.ertools.memofy.ui.categories.CategoriesViewModel
+import com.ertools.memofy.ui.categories.CategoriesViewModelFactory
 import com.ertools.memofy.utils.Utils
 import com.ertools.memofy.utils.serializable
 import com.ertools.memofy.utils.timestampToTime
@@ -31,8 +33,17 @@ class TaskFragment : Fragment() {
     private var _binding: FragmentTaskBinding? = null
     private val binding get() = _binding!!
 
-    private val taskViewModel: TaskViewModel by activityViewModels()
-    private val categoriesViewModel: CategoriesViewModel by activityViewModels()
+    private val taskViewModel: TaskViewModel by activityViewModels {
+        TaskViewModelFactory(
+            (requireActivity().applicationContext as MemofyApplication).taskRepository,
+            (requireActivity().applicationContext as MemofyApplication).annexesRepository
+        )
+    }
+    private val categoriesViewModel: CategoriesViewModel by activityViewModels {
+        CategoriesViewModelFactory(
+            (requireActivity().applicationContext as MemofyApplication).categoryRepository
+        )
+    }
     private var task: Task? = null
 
     override fun onCreateView(
@@ -51,7 +62,7 @@ class TaskFragment : Fragment() {
     }
 
     private fun fillDataByTask() {
-        task = arguments?.serializable<Task>("task")
+        task = arguments?.serializable<Task>(Utils.BUNDLE_TASK)
         taskViewModel.setTask(task)
         if(task == null) return
         task?.let { taskViewModel.setTask(it) } ?: return

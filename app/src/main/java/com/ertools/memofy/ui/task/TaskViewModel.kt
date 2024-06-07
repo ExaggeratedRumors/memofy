@@ -21,7 +21,9 @@ class TaskViewModel(
     private val taskRepository: TaskRepository,
     private val annexRepository: AnnexRepository
 ): ViewModel() {
-    private val _selectedTask = MutableLiveData<Task?>()
+    private val _selectedTask = MutableLiveData<Task?>().apply {
+        value = null
+    }
     val selectedTask: LiveData<Task?> = _selectedTask
     private val _annexes: MutableLiveData<List<Annex>> = MutableLiveData<List<Annex>>().apply {
         value = ArrayList()

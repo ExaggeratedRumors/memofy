@@ -2,20 +2,17 @@ package com.ertools.memofy
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.MenuProvider
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.ertools.memofy.databinding.ActivityMainBinding
 import com.ertools.memofy.database.MemofyApplication
+import com.ertools.memofy.databinding.ActivityMainBinding
 import com.ertools.memofy.notification.TaskNotificationManager
 import com.ertools.memofy.ui.categories.CategoriesViewModel
 import com.ertools.memofy.ui.categories.CategoriesViewModelFactory
@@ -43,16 +40,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        createViewModels()
         configureNavigation()
         configureNotifications()
-        createViewModels()
     }
 
+    /** Create menu **/
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
+    /** Service menu **/
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
@@ -64,13 +63,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** Handle navigation **/
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
-    private fun deleteDatabase() {
-        this.deleteDatabase(Utils.DATABASE_NAME)
     }
 
     private fun configureNavigation() {
@@ -114,5 +110,9 @@ class MainActivity : AppCompatActivity() {
         )[CategoriesViewModel::class.java]
 
         settingsViewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
+    }
+
+    private fun deleteDatabase() {
+        this.deleteDatabase(Utils.DATABASE_NAME)
     }
 }

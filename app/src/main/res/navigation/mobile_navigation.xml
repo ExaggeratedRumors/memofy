@@ -18,7 +18,6 @@
             android:id="@+id/action_nav_tasks_to_nav_task"
             app:destination="@id/nav_task"
             app:popUpTo="@id/nav_tasks" />
-
     </fragment>
 
     <fragment

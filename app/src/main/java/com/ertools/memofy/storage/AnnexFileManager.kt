@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Picture
 import android.os.Environment
 import android.provider.OpenableColumns
 import androidx.activity.result.ActivityResultLauncher
