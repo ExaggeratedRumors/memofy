@@ -17,7 +17,6 @@ class TaskNotificationReceiver : BroadcastReceiver() {
 
         val args = Bundle()
         args.putSerializable(Utils.BUNDLE_TASK, task)
-        println("TaskNotificationReceiver: ${task.id}")
 
         val deepLink = NavDeepLinkBuilder(context)
             .setGraph(R.navigation.mobile_navigation)
