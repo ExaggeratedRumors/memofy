@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
             this,
             TaskViewModelFactory(
                 (applicationContext as MemofyApplication).taskRepository,
-                (applicationContext as MemofyApplication).annexesRepository
+                (applicationContext as MemofyApplication).annexRepository
             )
         )[TaskViewModel::class.java]
 

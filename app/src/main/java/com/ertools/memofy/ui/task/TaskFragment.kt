@@ -36,7 +36,7 @@ class TaskFragment : Fragment() {
     private val taskViewModel: TaskViewModel by activityViewModels {
         TaskViewModelFactory(
             (requireActivity().applicationContext as MemofyApplication).taskRepository,
-            (requireActivity().applicationContext as MemofyApplication).annexesRepository
+            (requireActivity().applicationContext as MemofyApplication).annexRepository
         )
     }
     private val categoriesViewModel: CategoriesViewModel by activityViewModels {

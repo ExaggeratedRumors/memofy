@@ -20,25 +20,25 @@ class TaskRepository(private val taskDao: TaskDAO) {
     }
 
     @WorkerThread
-    fun selectByCategory(category: String) = taskDao.selectByCategory(category)
+    fun findByCategory(category: String) = taskDao.selectByCategory(category)
 
     @WorkerThread
-    fun selectByStatus(completed: Boolean) = taskDao.selectByStatus(completed)
+    fun findByStatus(completed: Boolean) = taskDao.selectByStatus(completed)
 
     @WorkerThread
-    fun selectByStatusAndCategory(completed: Boolean, category: String) =
+    fun findByStatusCategory(completed: Boolean, category: String) =
         taskDao.selectByStatusAndCategory(completed, category)
 
     @WorkerThread
-    fun search(query: String) = taskDao.search(query)
+    fun findByQuery(query: String) = taskDao.search(query)
 
     @WorkerThread
-    fun searchByCategory(query: String, category: String) = taskDao.searchByCategory(query, category)
+    fun findByQueryCategory(query: String, category: String) = taskDao.searchByCategory(query, category)
 
     @WorkerThread
-    fun searchByStatus(query: String, completed: Boolean) = taskDao.searchByStatus(query, completed)
+    fun findByStatusQuery(query: String, completed: Boolean) = taskDao.searchByStatus(query, completed)
 
     @WorkerThread
-    fun searchByStatusAndCategory(query: String, completed: Boolean, category: String) =
+    fun findByStatusQueryCategory(query: String, completed: Boolean, category: String) =
         taskDao.searchByStatusAndCategory(query, completed, category)
 }
