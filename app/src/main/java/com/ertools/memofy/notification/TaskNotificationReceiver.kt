@@ -13,10 +13,11 @@ import com.ertools.memofy.utils.Utils
 
 class TaskNotificationReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        val task = intent.getSerializableExtra(Utils.INTENT_TASK_ID) as Task
+        val task = intent.getSerializableExtra(Utils.INTENT_TASK) as Task
 
         val args = Bundle()
         args.putSerializable(Utils.BUNDLE_TASK, task)
+        println("TaskNotificationReceiver: ${task.id}")
 
         val deepLink = NavDeepLinkBuilder(context)
             .setGraph(R.navigation.mobile_navigation)

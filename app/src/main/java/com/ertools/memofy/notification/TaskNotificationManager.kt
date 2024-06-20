@@ -36,7 +36,7 @@ class TaskNotificationManager {
             throw IllegalStateException("ERROR: Notification permissions not granted.")
 
         val intent = Intent(context, TaskNotificationReceiver::class.java).apply {
-            putExtra(Utils.INTENT_TASK_ID, task)
+            putExtra(Utils.INTENT_TASK, task)
         }
 
         val pendingIntent = PendingIntent.getBroadcast(

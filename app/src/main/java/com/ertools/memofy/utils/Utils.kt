@@ -12,7 +12,7 @@ object Utils {
     /** Intent **/
     const val INTENT_TASK_TITLE = "task_title"
     const val INTENT_TASK_DESCRIPTION = "task_description"
-    const val INTENT_TASK_ID = "task_id"
+    const val INTENT_TASK = "task_id"
 
     /** Bundle **/
     const val BUNDLE_STATUS_FILTER = "status_filter"

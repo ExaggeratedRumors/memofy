@@ -39,6 +39,8 @@ class TaskViewModel(
         _selectedTask.value = task
         if(task == null) return
         viewModelScope.launch {
+            if(task.id == null) println("Task id null")
+            println("Task id: ${task.id}")
             annexRepository.getByTaskId(task.id!!).collect { list ->
                 val newAnnexes = ArrayList<Annex>()
                 list.forEach { annex ->
@@ -56,6 +58,7 @@ class TaskViewModel(
             }
             insertAnnexes(annexes.value!!)
             saveAnnexFiles(activity, annexes.value!!)
+            task.id = taskId.toInt()
             scheduleTaskNotification(activity, task)
         }
     }
