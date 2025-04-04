@@ -57,7 +57,7 @@ class TaskViewModel(
             insertAnnexes(annexes.value!!)
             saveAnnexFiles(activity, annexes.value!!)
             task.id = taskId.toInt()
-            scheduleTaskNotification(activity, task)
+            if(task.notification == true) scheduleTaskNotification(activity, task)
         }
     }
 
