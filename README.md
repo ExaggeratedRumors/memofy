@@ -38,5 +38,5 @@ v1.0
 ## Preview
 
 <p align="center">
-    <img src="images/preview.gif" width="300" alt="logo"/> 
+    <img src="images/preview.gif" width="300" alt="preview"/> 
 </p>
